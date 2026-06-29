@@ -22,6 +22,14 @@ export const LORE: Record<string, LoreDef> = {
     id: "the-frozen-wardens", title: "The Frozen Wardens",
     text: "A cache beneath the ice: cloaks of the Oath, frozen mid-stride, and a journal. 'We came to burn out the rot at its eastern edge,' the last entry reads, 'but the cold here is older than the Hollowing and does not care which of us it takes. If you find this, do not mourn us. Finish the work. — Capt. Ilse Varn.' Their leader's blade, Winter's Edge, lies beneath them still keen.",
   },
+  "the-blightfen": {
+    id: "the-blightfen", title: "The Blightfen",
+    text: "South and west of Greyhollow the ground gives up being ground and becomes the Blightfen — a drowned country of black pools and pale fungus, where the Hollowing did not so much kill the land as compost it. The rot here is patient and green-grey and almost gentle, and it grows things: caps and veils and crowns of mushroom that turn, slowly, to follow the warmth of the living. The fen-folk are long gone. What walks the causeways now wears their faces like soft caps of mold.",
+  },
+  "the-lost-herbalist": {
+    id: "the-lost-herbalist", title: "The Lost Herbalist",
+    text: "Among the reeds, a flooded stillroom and a swollen journal. 'I came to find a cure in the rot itself,' the last legible page reads, 'for surely what fights the Hollowing must be born of it. I have grown such things. I have eaten of them, to be certain. If I am not back by the new moon, do not come looking — or if you must, come with fire. — M.W.' A ring of dried blightcaps still hangs above the bench, and beneath it, Mother Wyste's good silver shears.",
+  },
   "the-grey-crown": {
     id: "the-grey-crown", title: "The Grey Crown",
     text: "Cold iron, beaten thin, set with no jewel — a pauper's crown for the proudest king. They say he forged it himself in his last madness, to 'hold the kingdom together when I am gone.' It holds, after a fashion. It holds everything it touches in grey, patient quiet.",

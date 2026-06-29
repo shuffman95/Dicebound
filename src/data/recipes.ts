@@ -11,6 +11,7 @@ export const RECIPES: Record<string, RecipeDef> = {
   "alc-smoke": { id: "alc-smoke", name: "Smoke Bomb", station: "alchemy", description: "Pack emberdust into a smoke charge.", inputs: [{ defId: "mat-emberdust", qty: 1 }], output: { defId: "smoke-bomb", qty: 1 } },
   "alc-wartonic": { id: "alc-wartonic", name: "War Tonic", station: "alchemy", description: "A bracing battle draught.", inputs: [{ defId: "mat-emberdust", qty: 1 }, { defId: "mat-bone-charm", qty: 1 }], output: { defId: "war-tonic", qty: 1 } },
   "alc-phoenix": { id: "alc-phoenix", name: "Phoenix Tear", station: "alchemy", description: "Bind life into a single, precious tear.", inputs: [{ defId: "mat-moonherb", qty: 2 }, { defId: "mat-bone-charm", qty: 1 }], goldCost: 20, output: { defId: "phoenix-tear", qty: 1 } },
+  "alc-cleanse": { id: "alc-cleanse", name: "Cleansing Brew", station: "alchemy", description: "Temper a blightcap with moonherb into a cure that mends as it cleanses.", inputs: [{ defId: "mat-blightcap", qty: 1 }, { defId: "mat-moonherb", qty: 1 }], output: { defId: "potion-cleanse", qty: 1 } },
 
   // ---- Smithing ----
   "smith-bloodstone": { id: "smith-bloodstone", name: "Bloodstone", station: "smithing", description: "Set a bloodstone trinket (+12 HP).", inputs: [{ defId: "mat-iron-scrap", qty: 2 }, { defId: "mat-bone-charm", qty: 1 }], output: { defId: "trk-bloodstone", qty: 1 } },

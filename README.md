@@ -21,7 +21,9 @@ wrapped from an HTML5/TypeScript game with [Capacitor](https://capacitorjs.com/)
   rogue), Warden (healer/support), each with abilities that unlock as they level.
 - **Attributes** — Might, Agility, Wits, Spirit drive attacks, defense, checks and Focus.
 - **A full adventure** — a town hub with a shop and inn, linked areas, branching
-  dice-check choices, treasure, three bosses, XP, leveling, loot, inventory & equipment.
+  dice-check choices, treasure, a main campaign of story bosses plus two optional
+  regions (the Rimewood and the Blightfen) with their own mini-bosses, XP, leveling,
+  loot, crafting, inventory & equipment.
 - **Saves** — autosaves to local storage; Continue from the title.
 
 ## Project layout

@@ -128,6 +128,7 @@ export const NODES: Record<string, StoryNode> = {
       { text: "Visit the apothecary (Shop)", shop: true },
       { text: "Rest at the stable — heal the party (20 gold)", rest: true },
       { text: "Brave the Rimewood (optional)", goto: "rime_enter" },
+      { text: "Descend into the Blightfen (optional)", goto: "fen_enter" },
       { text: "Travel to the Drowned Chapel", goto: "chapel1" },
     ],
   },
@@ -344,6 +345,97 @@ export const NODES: Record<string, StoryNode> = {
     choices: [
       { text: "Return to Greyhollow", goto: "town2" },
     ],
+  },
+
+  // ===================== Optional region: The Blightfen =====================
+  fen_enter: {
+    id: "fen_enter",
+    title: "The Blightfen — Edge",
+    art: "🪵",
+    text:
+      "The track west sinks into a country of black water and pale fungus. At a hummock of dry peat, an old cutter named Sedge tends a smudge-fire against the spores. 'Mother Wyste set my fever once, years back — good woman,' he says, not looking up. 'She went in there a season past, chasing a cure for the grey rot. Now there's a thing in a crown of mushrooms keeps her garden. If she's still in there somewhere, the kindest thing is to put it down.'",
+    onEnter: { startQuest: "blighted-roots", unlockLore: "the-blightfen" },
+    choices: [
+      { text: "Ask Sedge what he knows", goto: "fen_sedge" },
+      { text: "Wade into the fen", goto: "fen_path" },
+      { text: "Return to Greyhollow", goto: "town2" },
+    ],
+  },
+  fen_sedge: {
+    id: "fen_sedge",
+    title: "Sedge's Telling",
+    art: "🔥",
+    text:
+      "'She weren't mad, whatever they say. She had a notion the cure for the rot had to be made of rot — that you fight a poison with a smaller poison. Reckon she was right and reckon it ate her anyway.' He pokes the smudge-fire. 'The crowned thing don't like flame. Stands to reason — fire's the one thing that ever cleaned this fen. Take a torch to it, if you've the wit.'",
+    choices: [{ text: "Step into the fen", goto: "fen_path" }],
+  },
+  fen_path: {
+    id: "fen_path",
+    title: "The Sunken Causeway",
+    art: "🌫️",
+    text:
+      "A causeway of half-drowned logs threads the pools. Reeds taller than a man crowd one side; on the other, the roofline of a flooded stillroom breaks the water — Mother Wyste's, perhaps, and worth a look.",
+    choices: [
+      { text: "Pick along the sunken causeway (Agility, DC 13)", check: { attr: "agility", dc: 13, successNode: "fen_pools", failNode: "fen_hurt" } },
+      { text: "Force a path through the reeds (Might, DC 13)", check: { attr: "might", dc: 13, successNode: "fen_pools", failNode: "fen_hurt" } },
+      { text: "Search the flooded stillroom (Wits, DC 14)", check: { attr: "wits", dc: 14, successNode: "fen_secret", failNode: "fen_pools" } },
+    ],
+  },
+  fen_hurt: {
+    id: "fen_hurt",
+    title: "Into the Mire",
+    art: "🩹",
+    text: "A log rolls underfoot and someone goes in to the chest, coming up coughing and slick with rot before you haul them clear. You press on, fouled and shaken.",
+    onEnter: { healPercent: -12 },
+    choices: [{ text: "Press deeper", goto: "fen_pools" }],
+  },
+  fen_secret: {
+    id: "fen_secret",
+    title: "The Drowned Stillroom",
+    art: "🧪",
+    text:
+      "The stillroom stands to its windows in black water, jars furred green on their shelves. You take what the fen can't use: coin in a tin, Mother Wyste's good silver shears — and her journal, which tells you what she became.",
+    onEnter: { gold: 40, giveItems: ["mat-silver-ingot", "treasure-gilded-idol"], unlockLore: "the-lost-herbalist" },
+    choices: [{ text: "Press deeper", goto: "fen_pools" }],
+  },
+  fen_pools: {
+    id: "fen_pools",
+    title: "The Spore Pools",
+    art: "🍄",
+    text: "The causeway opens onto a basin of still pools lit by drifting clouds of spores. Pale shapes uncurl from the muck and the air itself seems to turn toward the warmth of the living.",
+    choices: [
+      { text: "Cut a way through", combat: { enemies: ["mire-spore", "mire-spore", "blight-hound"], victoryNode: "fen_deep" } },
+    ],
+  },
+  fen_deep: {
+    id: "fen_deep",
+    title: "Where the Reeds Drown",
+    art: "🌾",
+    text:
+      "The reeds thin to a ring of dead willows hung with fat blightcaps, and beyond them a hummock crowned with mushroom and a kneeling shape. Her thralls rise from the water first, to keep the vigil a moment longer.",
+    choices: [
+      { text: "Harvest blightcaps from the dead willows", gather: true, effects: { giveItems: ["mat-blightcap", "mat-moonherb"], setFlag: "gather_fen" }, hideIfFlag: "gather_fen" },
+      { text: "Approach the crowned figure", combat: { enemies: ["plague-thrall", "plague-thrall", "rot-shaman"], victoryNode: "fen_boss" } },
+    ],
+  },
+  fen_boss: {
+    id: "fen_boss",
+    title: "The Rotcrowned",
+    art: "👑",
+    text:
+      "On the hummock kneels a figure in a gown of moss and bog-cotton, a crown of pale mushrooms ringing her brow — Mother Wyste, who walked into the fen to wring a cure from the rot and let the rot answer instead. She lifts a face soft with grey spores and smiles, almost kindly. 'I found it,' she breathes. 'I found the cure. It only costs everything.'",
+    choices: [
+      { text: "Give her the ending she sought (bring fire)", combat: { enemies: ["the-rotcrowned"], victoryNode: "fen_clear" } },
+    ],
+  },
+  fen_clear: {
+    id: "fen_clear",
+    title: "The Fen Quiets",
+    art: "🌅",
+    text:
+      "The crown of mushrooms blackens and falls, and Mother Wyste with it — only an old woman again, at the last, and at rest. The Mirecrown Scepter she carried still hums with the half-thing she nearly made. The spore-light thins; somewhere a frog, the first living thing in a season, dares to call. Sedge will want to know.",
+    onEnter: { xp: 45, completeQuest: "blighted-roots" },
+    choices: [{ text: "Return to Greyhollow", goto: "town2" }],
   },
 
   ending_victory: {

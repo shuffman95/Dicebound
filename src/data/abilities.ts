@@ -214,6 +214,11 @@ export const ABILITIES: Record<string, Ability> = {
   "frost-bite": { id: "frost-bite", element: "ice", name: "Frostbite", kind: "attack", target: "enemy", description: "1d6 ice + Chill.", focusCost: 0, cooldown: 1, attackAttr: "wits", damage: "1d6", applyStatus: { kind: "chill", turns: 2, magnitude: 2 } },
   "ice-shard": { id: "ice-shard", element: "ice", name: "Ice Shard", kind: "attack", target: "enemy", description: "1d8 ice.", focusCost: 0, cooldown: 0, attackAttr: "wits", damage: "1d8" },
   "frost-nova": { id: "frost-nova", element: "ice", name: "Frost Nova", kind: "attack", target: "all-enemies", description: "1d6 ice + Chill to all heroes.", focusCost: 0, cooldown: 3, attackAttr: "wits", damage: "1d6", applyStatus: { kind: "chill", turns: 2, magnitude: 2 } },
+
+  // ---- Blightfen (poison) enemy abilities ----
+  "blight-spit": { id: "blight-spit", element: "poison", name: "Blight Spit", kind: "attack", target: "enemy", description: "1d6 + Agility and lingering Poison.", focusCost: 0, cooldown: 1, attackAttr: "agility", damage: "1d6", applyStatus: { kind: "poison", turns: 3, magnitude: 3 } },
+  "corrosive-touch": { id: "corrosive-touch", element: "poison", name: "Corrosive Touch", kind: "attack", target: "enemy", description: "1d8 + Might; rot eats at armor (Weaken).", focusCost: 0, cooldown: 2, attackAttr: "might", damage: "1d8", applyStatus: { kind: "weaken", turns: 2, magnitude: 2 } },
+  miasma: { id: "miasma", element: "poison", name: "Miasma", kind: "attack", target: "all-enemies", description: "1d6 + Wits and Poison to all heroes.", focusCost: 0, cooldown: 3, attackAttr: "wits", damage: "1d6", applyStatus: { kind: "poison", turns: 3, magnitude: 3 } },
 };
 
 export function getAbility(id: string): Ability {

@@ -2,6 +2,33 @@
 
 All notable changes to Dicebound: The Hollow Crown.
 
+## [0.12.0] — The Blightfen (Content fill: second optional region)
+
+### Added
+- **A second optional region — the Blightfen**, reachable from Greyhollow: an NPC
+  (Old Sedge) who gives the side quest **Blighted Roots**, a branching sunken
+  causeway with Agility/Might/Wits checks, a **hidden drowned stillroom** (Wits
+  check) with loot and lore, two combat encounters, a gathering spot, and a
+  **multi-phase mini-boss, the Rotcrowned** (Mother Wyste — poison, weak to fire,
+  phases into a spore cloud with a poison aura). Built so poison-stackers + a
+  fire-user can trigger **Ignite** for big bursts, mirroring the Rimewood's
+  Chill/Shatter design.
+- **New blight enemies** (Mire Spore, Blight Hound, Rot Shaman, Plague Thrall) and
+  abilities (Blight Spit, Corrosive Touch, Miasma) that lean on Poison/Weaken.
+- **New reward gear**: Mirecrown Scepter (caster weapon) from the boss, and the
+  Witch's Phylactery (trinket) from the quest; both join the loot/shop pool.
+- **A new consumable, the Cleansing Brew** (heals and cures Poison/Burn) plus a
+  **new material, the Blightcap**, with an alchemy recipe (Blightcap + Moonherb →
+  Cleansing Brew). The Brew is also stocked by the apothecary.
+- **Two codex entries** (the Blightfen, the Lost Herbalist).
+
+### Tests
+- The parameterized content/story/quest/crafting integrity checks now cover the new
+  region, enemies, items, recipe, quest and lore, plus a dedicated **Blightfen
+  suite** (hub wiring, a full quest playthrough, and the boss's design contract) —
+  **52 tests total**, all passing; `tsc --noEmit` clean and the Playwright smoke run
+  reports zero runtime errors.
+
 ## [0.11.0] — The Rimewood (World & story milestone 2)
 
 ### Added

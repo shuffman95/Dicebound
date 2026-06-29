@@ -24,6 +24,12 @@ export const QUESTS: Record<string, QuestDef> = {
     objective: "Defeat the Hoarfrost Knight in the Rimewood.",
     reward: { gold: 70, xp: 60, items: ["trk-rimeheart"] },
   },
+  "blighted-roots": {
+    id: "blighted-roots", name: "Blighted Roots", type: "side",
+    summary: "Old Sedge at the fen's edge speaks of Mother Wyste, a healer who walked into the Blightfen a season past to wring a cure for the Hollowing out of the rot itself — and of a crowned thing that now tends the fen where she vanished. Lay her to rest.",
+    objective: "Defeat the Rotcrowned in the Blightfen.",
+    reward: { gold: 75, xp: 60, items: ["trk-witch-phylactery"] },
+  },
   "silver-of-the-keep": {
     id: "silver-of-the-keep", name: "Silver of the Keep", type: "side",
     summary: "The smith at Greyhollow swears the Ashen Keep is full of candle-silver worth a fortune. Gather what you can on the way to the throne.",

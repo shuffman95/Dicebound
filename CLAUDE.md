@@ -54,8 +54,8 @@ roadmap item below, build it to completion as above, commit/push, and report.
 - `src/main.ts` — screen controller / all DOM UI and input.
 - `test/` — engine + content + smoke tests.
 
-## Status (as of v0.11.0)
-**Done & tested (48 tests):**
+## Status (as of v0.12.0)
+**Done & tested (52 tests):**
 - Foundation: character creation (race/class/background/point-buy/traits), save
   slots + import/export, procedural audio + settings, loot (rarity/affixes/sets/
   durability/repair), talent trees + ultimates, 8 classes, crafting + gathering.
@@ -63,8 +63,9 @@ roadmap item below, build it to completion as above, commit/push, and report.
   reactions (Shatter/Ignite + Chill), multi-phase bosses, boss auras, per-enemy
   AI personalities.
 - World & story: quest + journal + lore codex; the main campaign (Sunken Road →
-  Drowned Chapel → Ashen Keep → Hollow King) plus the optional **Rimewood**
-  region (Frozen Vigil quest, Hoarfrost Knight mini-boss).
+  Drowned Chapel → Ashen Keep → Hollow King) plus **two** optional regions — the
+  **Rimewood** (Frozen Vigil quest, Hoarfrost Knight mini-boss) and the
+  **Blightfen** (Blighted Roots quest, the Rotcrowned mini-boss, poison/Ignite).
 
 ## Roadmap (continue here, in order)
 1. **Content fill** — expand toward the larger spec: more enemies/abilities/items

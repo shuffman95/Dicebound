@@ -32,6 +32,11 @@ export const ITEMS: Record<string, ItemDef> = {
     description: "Revives a fallen ally at 50% HP.",
     consumable: { reviveHpPercent: 50 },
   },
+  "potion-cleanse": {
+    id: "potion-cleanse", name: "Cleansing Brew", kind: "consumable", price: 28,
+    description: "Restores 2d6 HP and cures Poison and Burn from one ally.",
+    consumable: { heal: "2d6", cureStatus: ["poison", "burn"] },
+  },
   "war-tonic": {
     id: "war-tonic", name: "War Tonic", kind: "consumable", price: 35,
     description: "Grants an ally Rally (+2 attack & damage) for 3 turns.",
@@ -84,6 +89,8 @@ export const ITEMS: Record<string, ItemDef> = {
   "wpn-kingsbane": { id: "wpn-kingsbane", name: "Kingsbane", kind: "weapon", slot: "weapon", price: 320, itemLevel: 8, description: "+6 attack, +6 damage, +1 Might.", attackBonus: 6, damageBonus: 6, attrBonus: { might: 1 } },
   "wpn-winters-edge": { id: "wpn-winters-edge", name: "Winter's Edge", kind: "weapon", slot: "weapon", price: 170, itemLevel: 6, description: "+4 attack, +4 damage, +1 Agility.", attackBonus: 4, damageBonus: 4, attrBonus: { agility: 1 } },
   "trk-rimeheart": { id: "trk-rimeheart", name: "Rimeheart", kind: "trinket", slot: "trinket", price: 130, itemLevel: 6, description: "+2 Defense, +14 HP.", defenseBonus: 2, hpBonus: 14 },
+  "wpn-mirecrown-scepter": { id: "wpn-mirecrown-scepter", name: "Mirecrown Scepter", kind: "weapon", slot: "weapon", price: 165, itemLevel: 6, description: "+3 attack, +3 damage, +1 Wits.", attackBonus: 3, damageBonus: 3, attrBonus: { wits: 1 } },
+  "trk-witch-phylactery": { id: "trk-witch-phylactery", name: "Witch's Phylactery", kind: "trinket", slot: "trinket", price: 130, itemLevel: 6, description: "+1 Spirit, +8 Focus.", attrBonus: { spirit: 1 }, focusBonus: 8 },
 
   // ---------------- Materials & treasures (sellable / for future crafting) ----------------
   "mat-iron-scrap": { id: "mat-iron-scrap", name: "Iron Scrap", kind: "material", price: 8, description: "Salvaged metal. Useful to a smith." },
@@ -91,6 +98,7 @@ export const ITEMS: Record<string, ItemDef> = {
   "mat-moonherb": { id: "mat-moonherb", name: "Moonherb", kind: "material", price: 12, description: "A pale herb that glows faintly. Alchemists prize it." },
   "mat-emberdust": { id: "mat-emberdust", name: "Emberdust", kind: "material", price: 18, description: "Warm to the touch, never cooling." },
   "mat-bone-charm": { id: "mat-bone-charm", name: "Bone Charm", kind: "material", price: 15, description: "A carved talisman taken from the Hollowed." },
+  "mat-blightcap": { id: "mat-blightcap", name: "Blightcap", kind: "material", price: 16, description: "A pale fen mushroom slick with rot. Alchemists distill it into cures — carefully." },
   "treasure-ancient-coin": { id: "treasure-ancient-coin", name: "Ancient Coin", kind: "material", price: 40, description: "Currency of a kingdom older than Aldermoor." },
   "treasure-gilded-idol": { id: "treasure-gilded-idol", name: "Gilded Idol", kind: "material", price: 70, description: "A small idol of beaten gold. Worth a great deal." },
 };
@@ -103,15 +111,15 @@ export function getItem(id: string): ItemDef {
 
 // Consumables the shop always stocks (sold as stacks at fixed price).
 export const SHOP_CONSUMABLES: string[] = [
-  "potion-minor", "potion-major", "potion-focus", "antidote", "phoenix-tear", "war-tonic", "smoke-bomb",
+  "potion-minor", "potion-major", "potion-focus", "antidote", "potion-cleanse", "phoenix-tear", "war-tonic", "smoke-bomb",
 ];
 
 // Base equipment that can drop or be generated for the shop, by slot.
 export const BASE_GEAR: Record<EquipSlot, string[]> = {
-  weapon: ["wpn-broadsword", "wpn-twin-daggers", "wpn-aether-rod", "wpn-bramble-staff", "wpn-starsteel-blade", "wpn-stormrod", "wpn-shadowfang", "wpn-lifebough", "wpn-vigil-glaive", "wpn-ember-brand", "wpn-winters-edge", "wpn-kingsbane"],
+  weapon: ["wpn-broadsword", "wpn-twin-daggers", "wpn-aether-rod", "wpn-bramble-staff", "wpn-starsteel-blade", "wpn-stormrod", "wpn-shadowfang", "wpn-lifebough", "wpn-vigil-glaive", "wpn-ember-brand", "wpn-winters-edge", "wpn-mirecrown-scepter", "wpn-kingsbane"],
   armor: ["arm-leather", "arm-chain", "arm-robe", "arm-warded-plate", "arm-runed-vest", "arm-nightcloak", "arm-vigil-mail", "arm-ember-weave"],
-  trinket: ["trk-iron-band", "trk-bloodstone", "trk-focus-lens", "trk-warding-eye", "trk-titan-seal", "trk-vigil-seal", "trk-ember-eye", "trk-rimeheart"],
+  trinket: ["trk-iron-band", "trk-bloodstone", "trk-focus-lens", "trk-warding-eye", "trk-titan-seal", "trk-vigil-seal", "trk-ember-eye", "trk-rimeheart", "trk-witch-phylactery"],
 };
 
 // Materials/treasures enemies may drop as loot.
-export const TREASURE_DROPS = ["mat-iron-scrap", "mat-silver-ingot", "mat-moonherb", "mat-emberdust", "mat-bone-charm", "treasure-ancient-coin", "treasure-gilded-idol"];
+export const TREASURE_DROPS = ["mat-iron-scrap", "mat-silver-ingot", "mat-moonherb", "mat-emberdust", "mat-bone-charm", "mat-blightcap", "treasure-ancient-coin", "treasure-gilded-idol"];

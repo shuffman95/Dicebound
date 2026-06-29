@@ -81,6 +81,37 @@ export const ENEMIES: Record<string, EnemyDef> = {
     lootTable: [{ itemId: "wpn-winters-edge", chance: 1 }],
   },
 
+  // ---- Optional region: The Blightfen (poison) ----
+  "mire-spore": {
+    id: "mire-spore", resist: { fire: 1.5, holy: 1.5, poison: 0.25 }, ai: "default", name: "Mire Spore", attributes: { might: 7, agility: 13, wits: 12, spirit: 9 },
+    maxHP: 16, baseDefense: 13, abilities: ["blight-spit"], xpReward: 22, goldReward: 9,
+    lootTable: [{ itemId: "mat-blightcap", chance: 0.3 }],
+  },
+  "blight-hound": {
+    id: "blight-hound", resist: { fire: 1.25, holy: 1.5, poison: 0.5 }, ai: "aggressive", name: "Blight Hound", attributes: { might: 14, agility: 14, wits: 8, spirit: 8 },
+    maxHP: 30, baseDefense: 13, abilities: ["claw", "corrosive-touch"], xpReward: 30, goldReward: 15,
+    lootTable: [{ itemId: "potion-major", chance: 0.2 }],
+  },
+  "rot-shaman": {
+    id: "rot-shaman", resist: { fire: 1.25, holy: 1.5, poison: 0.25, dark: 0.5 }, ai: "tactician", name: "Rot Shaman", attributes: { might: 8, agility: 11, wits: 16, spirit: 13 },
+    maxHP: 30, baseDefense: 13, abilities: ["plague", "hex", "drain-life"], xpReward: 36, goldReward: 18,
+    lootTable: [{ itemId: "potion-focus", chance: 0.3 }, { itemId: "mat-blightcap", chance: 0.25 }],
+  },
+  "plague-thrall": {
+    id: "plague-thrall", resist: { fire: 1.5, holy: 1.25, poison: 0.5, dark: 0.5 }, ai: "berserker", name: "Plague Thrall", attributes: { might: 15, agility: 9, wits: 9, spirit: 9 },
+    maxHP: 38, baseDefense: 12, abilities: ["gnash", "blight-spit"], xpReward: 36, goldReward: 18,
+    lootTable: [{ itemId: "mat-blightcap", chance: 0.25 }],
+  },
+  "the-rotcrowned": {
+    id: "the-rotcrowned", resist: { fire: 1.75, holy: 1.5, poison: 0.25, dark: 0.5 }, ai: "tactician",
+    phase: { atHpPercent: 50, message: "The Rotcrowned's crown bursts into a cloud of spores!", addAbilities: ["miasma"], selfBuff: { kind: "rally", turns: 6, magnitude: 3 }, healPercent: 14 },
+    aura: { afterPhaseOnly: true, applyStatus: { kind: "poison", turns: 2, magnitude: 3 }, chance: 0.5, message: "Drifting spores settle into the party's wounds." },
+    name: "The Rotcrowned", attributes: { might: 14, agility: 12, wits: 18, spirit: 17 },
+    maxHP: 125, baseDefense: 16, abilities: ["plague", "drain-life", "hex", "corrosive-touch"],
+    xpReward: 150, goldReward: 110, isBoss: true,
+    lootTable: [{ itemId: "wpn-mirecrown-scepter", chance: 1 }],
+  },
+
   "the-hollow-king": {
     id: "the-hollow-king", aura: { afterPhaseOnly: true, element: "dark", damage: 4, message: "The Hollowing gnaws at the party." }, ai: "tactician", resist: { holy: 1.5, dark: 0.25, poison: 0.5, ice: 0.75 }, phase: { atHpPercent: 50, message: "The grey crown blazes — the Hollow King unleashes its full power!", selfBuff: { kind: "rally", turns: 6, magnitude: 4 }, healPercent: 20 }, name: "The Hollow King", attributes: { might: 19, agility: 13, wits: 17, spirit: 16 },
     maxHP: 150, baseDefense: 17, abilities: ["crown-smite", "hollow-burst", "dark-mend", "wail"],
