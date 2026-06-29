@@ -1,0 +1,9 @@
+{
+  "appId": "com.dicebound.hollowcrown",
+  "appName": "Dicebound",
+  "webDir": "www",
+  "android": {
+    "allowMixedContent": false
+  },
+  "backgroundColor": "#0e0b14"
+}

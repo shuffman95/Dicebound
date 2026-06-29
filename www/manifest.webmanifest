@@ -1,0 +1,17 @@
+{
+  "name": "Dicebound: The Hollow Crown",
+  "short_name": "Dicebound",
+  "description": "An original turn-based dice RPG. Lead a party of four through the fallen kingdom of Aldermoor.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0e0b14",
+  "theme_color": "#0e0b14",
+  "categories": ["games", "entertainment"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

@@ -1,0 +1,124 @@
+import { chromium } from "playwright-core";
+import { fileURLToPath } from "url";
+import path from "path";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const url = "file://" + path.join(__dirname, "..", "www", "index.html");
+const shotDir = path.join(__dirname, "..", "shots");
+import fs from "fs";
+fs.mkdirSync(shotDir, { recursive: true });
+
+// Resolve a preinstalled Chromium across environments (the version dir varies),
+// falling back to Playwright's own default if none is found.
+function findChromium() {
+  const base = process.env.PLAYWRIGHT_BROWSERS_PATH || "/opt/pw-browsers";
+  try {
+    for (const d of fs.readdirSync(base).filter((x) => x.startsWith("chromium-")).sort()) {
+      const p = path.join(base, d, "chrome-linux", "chrome");
+      if (fs.existsSync(p)) return p;
+    }
+  } catch { /* fall through */ }
+  return undefined;
+}
+
+const errors = [];
+const exe = findChromium();
+const browser = await chromium.launch(exe ? { executablePath: exe } : {});
+const page = await browser.newPage({ viewport: { width: 412, height: 820 }, deviceScaleFactor: 2 });
+page.on("console", (m) => { if (m.type() === "error") errors.push("console.error: " + m.text()); });
+page.on("pageerror", (e) => errors.push("pageerror: " + e.message));
+
+const log = (...a) => console.log("•", ...a);
+async function clickText(text) {
+  const el = page.locator(`button:has-text(${JSON.stringify(text)})`).first();
+  await el.waitFor({ state: "visible", timeout: 5000 });
+  await el.click();
+}
+async function settle(ms = 700) { await page.waitForTimeout(ms); }
+async function skipDice() {
+  // tap the dice overlay if visible to speed things up
+  for (let i = 0; i < 6; i++) {
+    const visible = await page.locator("#dice-layer:not(.hidden)").count();
+    if (!visible) break;
+    await page.locator("#dice-layer").click({ force: true }).catch(() => {});
+    await page.waitForTimeout(120);
+  }
+}
+
+await page.goto(url);
+await settle(400);
+await page.screenshot({ path: path.join(shotDir, "01-title.png") });
+log("title loaded");
+
+await clickText("New Adventure");
+await settle(300);
+await page.screenshot({ path: path.join(shotDir, "02-setup.png") });
+log("setup screen");
+
+await clickText("Begin the Adventure");
+await settle(300);
+await clickText("Begin the journey");
+await settle(300);
+await page.screenshot({ path: path.join(shotDir, "03-town.png") });
+log("reached town");
+
+// open party panel to exercise that UI, then close
+await page.locator('[data-act="open-party"]').click();
+await settle(300);
+await page.screenshot({ path: path.join(shotDir, "04-party.png") });
+await page.locator('[data-act="close-modal"]').first().click();
+await settle(200);
+
+// open shop, buy nothing, leave
+await clickText("Visit the apothecary");
+await settle(300);
+await page.screenshot({ path: path.join(shotDir, "05-shop.png") });
+await page.locator('[data-act="close-modal"]').first().click();
+await settle(200);
+
+// head into the first fight
+await clickText("Take the Sunken Road south");
+await settle(400);
+await clickText("Stand and fight");
+await settle(700);
+await skipDice();
+await page.screenshot({ path: path.join(shotDir, "06-combat.png") });
+log("combat started");
+
+// Auto-battle: keep using the first enabled ability and targeting until resolved.
+let combatGuard = 0;
+let result = "unknown";
+while (combatGuard++ < 120) {
+  await skipDice();
+  // victory?
+  if (await page.locator('[data-act="victory-continue"]').count()) { result = "victory"; break; }
+  // defeat / ending node?
+  if (await page.locator('[data-act="to-title"]').count()) { result = "ending"; break; }
+  // back on a story node (fled or finished)?
+  if (await page.locator('[data-act="choice"]').count()) { result = "story"; break; }
+
+  // if a target prompt is up, click a highlighted unit
+  const targetable = page.locator(".unit.targetable, .unit.heal-target").first();
+  if (await targetable.count()) { await targetable.click({ force: true }); await settle(500); continue; }
+
+  // otherwise pick the first usable ability
+  const ability = page.locator(".ability-btn:not([disabled])").first();
+  if (await ability.count()) { await ability.click(); await settle(500); continue; }
+
+  await settle(400); // enemy turn animating
+}
+log("combat ended with:", result, "after", combatGuard, "iterations");
+await page.screenshot({ path: path.join(shotDir, "07-after-combat.png") });
+
+await browser.close();
+
+if (errors.length) {
+  console.error("\n❌ Runtime errors detected:");
+  for (const e of errors) console.error("   " + e);
+  process.exit(1);
+}
+if (!["victory", "story", "ending"].includes(result)) {
+  console.error("\n❌ Combat did not resolve (got:", result, ")");
+  process.exit(1);
+}
+console.log("\n✅ Smoke test passed — no runtime errors, combat resolved:", result);

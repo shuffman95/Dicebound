@@ -1,0 +1,212 @@
+# Changelog
+
+All notable changes to Dicebound: The Hollow Crown.
+
+## [0.11.0] — The Rimewood (World & story milestone 2)
+
+### Added
+- **A new optional region — the Rimewood**, reachable from Greyhollow: an NPC
+  (Old Hesken) who gives the side quest **The Frozen Vigil**, a branching frozen
+  trail with Agility/Might/Wits checks, a **hidden Warden's cache** (Wits check)
+  with loot and lore, two combat encounters, a gathering spot, and a **mini-boss,
+  the Hoarfrost Knight** (frost, weak to fire, phases into a blizzard with an
+  ice aura).
+- **New frost enemies** (Frost Wisp, Rime Stalker, Frozen Thrall) and abilities
+  (Frostbite, Ice Shard, Frost Nova) that lean on Chill/Shatter.
+- **New reward gear**: Winter's Edge (weapon) from the boss, and Rimeheart
+  (trinket) from the quest; both join the loot/shop pool.
+- **Two codex entries** (the Rimewood, the Frozen Wardens).
+
+### Tests
+- Extended content integrity (enemy loot & phase-ability ids resolve); story and
+  quest reachability checks cover the new region — 48 tests total, all passing.
+
+> Note: this version was developed in the original sandbox and handed off as a
+> clean project; it is the first version intended to live in its own repository.
+
+## [0.10.0] — Quests, journal & codex (World & story milestone 1)
+
+### Added
+- **Quest system** — a tracked main quest (*The Hollow Crown*) plus side quests
+  (*Echoes of the Warden*, *The Drowned Faithful*, *Silver of the Keep*) that
+  start and complete through the story and pay out gold/XP/loot on completion.
+- **Journal** (topbar) listing active and completed quests with summaries and
+  objectives, plus a **Codex** of unlockable lore entries (the Hollowing, the
+  Wardens' Oath, the Pale Bishop, the Grey Crown).
+- **Toast notifications** (now stacking, non-interactive) announce quest starts,
+  completions, and codex updates as you explore.
+- Story choices/nodes can now start/complete quests and unlock lore via effects.
+
+### Tests
+- Quest suite (reward-once, story-driven start/complete via onEnter, save/load
+  roundtrip, and integrity checks that every referenced quest/lore id exists and
+  every quest is reachable) — 47 tests total, all passing.
+
+## [0.9.0] — Combat depth II (Combat-depth milestone complete ✓)
+
+### Added
+- **Elemental reactions**:
+  - **Shatter** — striking a Chilled foe with a physical or ice hit deals bonus
+    damage and consumes the chill.
+  - **Ignite** — a fire hit on a Poisoned foe bursts the remaining poison into
+    instant fire damage.
+  - Frost Lance now applies **Chill** (a slow that lowers attack and sets up
+    Shatter).
+- **Boss arena auras** — the Hollow King radiates the Hollowing (party-wide dark
+  damage each round after phasing); the Pale Bishop's drowned whispers sap the
+  party with Weaken.
+- **Per-enemy AI personalities** — aggressive, tactician, support, berserker, and
+  default behaviors: healers mend wounded allies, tacticians favor AoE/debuffs
+  and target your casters, aggressors pick their hardest hit on your weakest hero.
+
+### Tests
+- Reaction/aura suite (Shatter, Ignite, Chill application, boss aura) — 42 tests
+  total, all passing.
+
+**Combat-depth milestone complete** (defend/counter, elements, reactions, phases,
+auras, AI personalities). Next milestone: world & story scale-up.
+
+## [0.8.0] — Combat depth I (Combat-depth milestone 1)
+
+### Added
+- **Defend action** — brace for −50% incoming damage until your next turn and
+  **counterattack** melee (physical) attackers.
+- **Elemental damage types** (fire/ice/lightning/poison/holy/dark) with per-enemy
+  **resistances & weaknesses**; damage scales and the log calls out "Weak!" /
+  "Resisted". Abilities now show an element badge.
+- **Multi-phase bosses** — the Warden of Thorns, Pale Bishop, and Hollow King
+  transition mid-fight (a roaring message, a self-buff, partial heal, and—where
+  fitting—new abilities) when dropped below a HP threshold.
+- **Smarter enemy AI** — favors AoE against a grouped party, targets the weakest
+  hero, and avoids walking into a defender's counter.
+
+### Tests
+- New combat-depth suite (elemental weakness vs resistance, guard reduction &
+  counters, boss phase transition, and a full mixed-class battle) — 38 tests
+  total, all passing.
+
+## [0.7.0] — Crafting & gathering (Foundation 5/5 ✓ milestone complete)
+
+### Added
+- **Crafting** at the Workshop (in the Apothecary & Smith): **Alchemy** brews
+  consumables and **Smithing** forges gear, including set pieces so a crafter can
+  complete a set. 12 recipes with material + gold costs and live have/need checks.
+- **Gathering** — flag-gated one-time gather choices during exploration (forage
+  the waystation, salvage the wagon, loot the hall, …) grant the materials that
+  feed crafting; materials also drop from combat.
+- Story choices now support flag filtering (requires/hide), enabling one-time
+  and conditional options.
+
+### Tests
+- Crafting suite (recipe validity, insufficient-material guard, consumable &
+  gear output, gold cost) and a **story-integrity** test that verifies every
+  choice's target node and granted item resolves — 34 tests total, all passing.
+
+**Foundation & systems milestone complete** (creation, saves, audio/settings,
+loot, talents, classes, crafting). Next milestone: combat depth.
+
+## [0.6.0] — Class & ability expansion (Foundation 4/5)
+
+### Added
+- **Four new playable classes**, each with a distinct kit, ability set, talent
+  tree, ultimate, and starting gear:
+  - **Berserker** (Might) — rage/lifesteal bruiser; ultimate *Ragnarok*.
+  - **Ranger** (Agility) — ranged multi-hit & control; ultimate *Rain of Arrows*.
+  - **Necromancer** (Wits) — drain/plague caster; ultimate *Apocalypse*.
+  - **Cleric** (Spirit) — holy heals, shields, smite & raise dead; ultimate
+    *Divine Judgment*.
+- **~26 new abilities** (all mechanically distinct — no renamed duplicates),
+  four new starting weapons, and four new talent trees.
+- Generalized revive (abilities specify a revive %; Cleric's Resurrection brings
+  allies back at 75% vs the Warden's 50%).
+
+### Tests
+- New content-integrity suite validates all 8 classes build, every ability/item
+  id resolves, every talent tree's ultimate is reachable and grants a real
+  ability, enemy abilities resolve, and no two abilities share a name — 29 tests
+  total, all passing.
+
+## [0.5.0] — Talent / skill trees (Foundation 3/5)
+
+### Added
+- **Per-class talent trees** (Vanguard/Arcanist/Shade/Warden), each with four
+  tiers of passive nodes, combat modifiers, and a granted **ultimate ability**
+  (Earthshaker, Singularity, Thousand Cuts, Sanctuary).
+- **Talent points** earned 1 per level; higher tiers gate on points already
+  spent in the tree. Every node has a real effect:
+  - passive stat bonuses (HP/Focus/attack/damage/defense/attributes),
+  - **crit-range** widening (crit on 19-20 / 18-20),
+  - **lifesteal** (heal a % of damage dealt).
+- Talents UI in the party panel with point counter, tier locks, and Learn
+  buttons; a points-available badge surfaces when you can spend.
+
+### Changed
+- Attack rolls support a crit threshold; combat applies talent crit & lifesteal.
+- Derived stats now fold in talent bonuses alongside gear.
+
+### Tests
+- New talent suite (point accrual, tier gating, ultimate unlock, crit/lifesteal,
+  overspend guard) — 23 tests total, all passing.
+
+## [0.4.0] — Loot system (Foundation 2/5)
+
+Items are now rolled **instances**, not static ids. Every system tested.
+
+### Added
+- **Rarity tiers** (Common→Legendary) with color coding and scaling value.
+- **Random affixes** — a pool of prefixes/suffixes (Vicious, Keen, Arcane,
+  of the Bear, of Ruin, …) whose magnitude scales with item level; affix count
+  scales with rarity. Names read like "Cruel Lifebough Staff of the Bear".
+- **Item sets** (Vigil of the Warden, Emberwrought) with 2- and 3-piece bonuses.
+- **Durability & repair** — equipped gear wears down each fight; broken gear
+  gives half stats; the smith repairs all gear for gold.
+- **Loot drops** — enemies drop rolled gear (bosses always drop rare+), plus
+  materials/treasures; the shop stocks freshly generated gear per town.
+- Inventory split into stackables (consumables/materials) and unique gear
+  instances; equip/unequip, sell gear, and a richer party & shop UI with
+  rarity colors, affix lists, durability, and set bonuses.
+
+### Tests
+- New loot test suite (affix counts, broken-gear scaling, set thresholds,
+  equip stat changes, repair cost, victory wear) — 17 tests total, all passing.
+
+## [0.3.0] — Foundation & Systems: creation, saves, audio
+
+The first installment of the "Foundation & systems" milestone toward a
+full-length RPG. Every system below is fully implemented and tested.
+
+### Added
+- **Deep character creation.** Each of the four heroes now chooses a **race**,
+  **class**, **background**, a **starting trait (feat)**, and distributes
+  **point-buy attribute points** — with a live preview of HP/Focus/Defense and
+  active traits. Per-hero tabs, randomize, and naming.
+- **Races** (6) with real mechanical effects: Aldermoorian, Sylvan Elf,
+  Stoutkin, Orcborn, Feykin, Revenant.
+- **Backgrounds** (6): Soldier, Scholar, Outlaw, Acolyte, Noble, Wanderer —
+  each grants starting gold/items and a trait.
+- **Trait system** with implemented hooks: skill-check bonuses, flat HP/Focus,
+  combat focus-regen (Mana Spring), low-HP damage (Bloodrage), once-per-battle
+  self-revive (Undying), and start-of-battle shield (Warded).
+- **Save slots** (Auto + 3 manual) with metadata (party, level, location, gold,
+  timestamp), plus **import/export** to a JSON file and robust load **validation**.
+- **Procedural audio engine** (Web Audio): six adaptive music tracks
+  (title/town/explore/battle/boss/victory) and a full SFX set, all synthesized
+  at runtime — no audio files. iOS-autoplay-safe (unlocks on first tap).
+- **Settings menu**: master/music/SFX volume sliders and mute, persisted.
+
+### Changed
+- Hero stats now fold in race + background + trait + point-buy bonuses.
+- Party panel shows race, background, and active traits.
+
+### Tests
+- Engine unit tests cover hero builds, trait/race bonuses, and save
+  serialize → validate → import roundtrips (10 passing).
+- Browser smoke test plays a full encounter to victory with zero runtime errors.
+
+## [0.2.0] — iOS/Android PWA
+- Installable PWA: manifest, icons, offline service worker, iOS standalone meta,
+  GitHub Pages deploy, single-file standalone build.
+
+## [0.1.0] — Initial game
+- Typed engine: d20 checks, 4 classes, turn-based combat, status effects,
+  leveling, items/shop, branching story; Android APK via Capacitor.

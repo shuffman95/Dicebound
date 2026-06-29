@@ -1,0 +1,22 @@
+# dependencies
+node_modules/
+
+# build output
+www/app.js
+www/app.js.map
+shots/
+
+# capacitor / android build artifacts
+android/.gradle/
+android/build/
+android/app/build/
+android/capacitor-cordova-android-plugins/
+android/local.properties
+android/.idea/
+android/app/src/main/assets/public/
+android/app/src/main/assets/capacitor.config.json
+android/app/src/main/assets/capacitor.plugins.json
+*.iml
+
+# os
+.DS_Store

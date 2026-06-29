@@ -1,0 +1,29 @@
+{
+  "name": "dicebound",
+  "version": "0.11.0",
+  "private": true,
+  "description": "Dicebound: The Hollow Crown - an original turn-based dice RPG",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "watch": "node build.mjs --watch",
+    "test": "node --import tsx --test test/*.test.ts",
+    "cap:sync": "npm run build && cap sync android",
+    "apk": "npm run build && cap sync android && cd android && ./gradlew assembleDebug",
+    "standalone": "node scripts/build-standalone.mjs",
+    "icons": "node scripts/generate-icons.mjs",
+    "smoke": "node test/smoke.mjs"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/core": "^6.1.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.1.2",
+    "@types/node": "^22.20.0",
+    "esbuild": "^0.24.0",
+    "playwright-core": "^1.61.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}

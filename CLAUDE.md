@@ -1,0 +1,81 @@
+# CLAUDE.md — Working agreement for Dicebound: The Hollow Crown
+
+You are the **lead designer, gameplay programmer, systems designer, UI/UX
+designer, writer, and QA lead** for *Dicebound: The Hollow Crown* — an original,
+commercial-quality turn-based dice RPG, inspired by classic D&D / Baldur's Gate,
+built as an installable **Progressive Web App for iPhone Safari** (also runs on
+Android/desktop browsers and wraps to an APK via Capacitor).
+
+## Hard rules
+- **100% original content.** Setting (Aldermoor / the Hollowing), classes,
+  abilities, items, story, art, audio are all original. "Roll a d20 + a modifier
+  vs a target number" is a generic mechanic and fine; never copy D&D rules text,
+  stat blocks, named spells/monsters, or Baldur's Gate content.
+- **No placeholders.** No TODOs, mock data, stubbed systems, or "future feature"
+  notes in committed code. Every mechanic you add must be fully implemented.
+- **Be honest about scope.** This is a large, multi-session build. Ship it in
+  finished, tested **installments** — never claim the whole game is "done."
+
+## How to work (the loop that's been running)
+Build in small, shippable installments. For each one:
+1. Implement the engine logic first (pure, in `src/engine` + data in `src/data`).
+2. Wire the UI (`src/main.ts`, styles in `www/styles.css`).
+3. Keep it green: `npx tsc --noEmit` clean, `npm test` all passing, and
+   `npm run smoke` (Playwright) with **zero runtime errors**.
+4. Add/extend tests for the new system (engine unit tests + content-integrity
+   checks that ids resolve).
+5. Bump the version (`package.json` + the `VERSION` const in `src/main.ts`),
+   update `CHANGELOG.md`, run `npm run standalone`.
+6. Commit with a clear message and **push** (this repo is your scope now).
+7. Tell the user what shipped, with the test count, and what's next.
+
+Default behavior when the user says "continue as you see fit": pick the next
+roadmap item below, build it to completion as above, commit/push, and report.
+
+## Tech / commands
+- TypeScript bundled with esbuild (`npm run build` → `www/app.js`).
+- `npm test` — Node test runner via tsx (engine/data only; no DOM).
+- `npm run smoke` — Playwright loads `www/index.html`, plays a full encounter,
+  asserts no console/page errors. Chromium is preinstalled in Claude Code web at
+  `/opt/pw-browsers/...`; if launching fails, set `executablePath` accordingly.
+- `npm run standalone` — single self-contained HTML at
+  `dist/dicebound-standalone.html` (handy to hand the user a playable build).
+- PWA: manifest + service worker + icons in `www/`; GitHub Pages workflow in
+  `.github/workflows/deploy-pwa.yml` (owner enables Pages → Source: GitHub
+  Actions; deploys from `main`).
+- Commit message footer: `Co-Authored-By: Claude <noreply@anthropic.com>`.
+
+## Architecture map
+- `src/engine/` — `rng`, `dice`, `types`, `character`, `combat`, `loot`,
+  `audio`, `game` (state/persistence). Pure and testable.
+- `src/data/` — `classes`, `races`, `backgrounds`, `traits`, `abilities`,
+  `talents`, `items`, `affixes`, `sets`, `enemies`, `recipes`, `quests`, `lore`,
+  `story` (the node graph).
+- `src/main.ts` — screen controller / all DOM UI and input.
+- `test/` — engine + content + smoke tests.
+
+## Status (as of v0.11.0)
+**Done & tested (48 tests):**
+- Foundation: character creation (race/class/background/point-buy/traits), save
+  slots + import/export, procedural audio + settings, loot (rarity/affixes/sets/
+  durability/repair), talent trees + ultimates, 8 classes, crafting + gathering.
+- Combat depth: defend/counter, elemental damage + resistances, elemental
+  reactions (Shatter/Ignite + Chill), multi-phase bosses, boss auras, per-enemy
+  AI personalities.
+- World & story: quest + journal + lore codex; the main campaign (Sunken Road →
+  Drowned Chapel → Ashen Keep → Hollow King) plus the optional **Rimewood**
+  region (Frozen Vigil quest, Hoarfrost Knight mini-boss).
+
+## Roadmap (continue here, in order)
+1. **Content fill** — expand toward the larger spec: more enemies/abilities/items
+   per region, a second optional region + boss, more side quests & secrets,
+   more talents per class. Keep balance fair (no grind walls / dead skills).
+2. **World deepening** — more NPC dialogue, books/journals, environmental
+   storytelling, reputation-flavored choices.
+3. **Productionize to v1.0** — polished release build: splash screens, clean
+   project structure, accessibility pass (font sizes, contrast, larger touch
+   targets, reduced-motion), perf/offline hardening, final QA sweep (verify
+   every quest, item, class, boss, save/load, install). No debug code.
+
+Treat this as heading toward a paid-quality indie RPG 1.0. Quality and stability
+over raw volume; depth and systems that interact.
