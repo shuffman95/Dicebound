@@ -10,6 +10,9 @@ export const TALENT_TREES: Record<string, TalentNode[]> = {
     { id: "v-bastion", name: "Bastion", description: "+2 Defense.", tier: 1, requiresPoints: 2, cost: 1, effect: { mods: { defenseBonus: 2 } } },
     { id: "v-secondwind", name: "Second Wind", description: "Heal for 10% of melee damage dealt.", tier: 1, requiresPoints: 2, cost: 1, effect: { lifestealPct: 0.1 } },
     { id: "v-juggernaut", name: "Juggernaut", description: "+18 max HP, +1 Might.", tier: 2, requiresPoints: 4, cost: 1, effect: { mods: { hpBonus: 18, attrBonus: { might: 1 } } } },
+    { id: "v-vitality", name: "Vital Surge", description: "+1 Might.", tier: 1, requiresPoints: 2, cost: 1, effect: { mods: { attrBonus: { might: 1 } } } },
+    { id: "v-unstoppable", name: "Unstoppable", description: "Crit on a roll of 19-20.", tier: 2, requiresPoints: 4, cost: 1, effect: { critBonus: 1 } },
+    { id: "v-crushing", name: "Crushing Blow", description: "Unlock the ability: Crushing Blow (heavy single-target strike + Weaken).", tier: 2, requiresPoints: 4, cost: 1, effect: { grantsAbility: "crushing-blow" } },
     { id: "v-earthshaker", name: "Earthshaker", description: "Unlock the ultimate: Earthshaker (AoE stun).", tier: 3, requiresPoints: 5, cost: 1, ultimate: true, effect: { grantsAbility: "earthshaker" } },
   ],
   arcanist: [
@@ -18,6 +21,9 @@ export const TALENT_TREES: Record<string, TalentNode[]> = {
     { id: "a-penetrate", name: "Penetrating Bolts", description: "+2 attack.", tier: 1, requiresPoints: 2, cost: 1, effect: { mods: { attackBonus: 2 } } },
     { id: "a-crit", name: "Critical Surge", description: "Crit on a roll of 19-20.", tier: 1, requiresPoints: 2, cost: 1, effect: { critBonus: 1 } },
     { id: "a-archmage", name: "Archmage", description: "+2 Wits, +6 Focus.", tier: 2, requiresPoints: 4, cost: 1, effect: { mods: { attrBonus: { wits: 2 }, focusBonus: 6 } } },
+    { id: "a-manashield", name: "Mana Shield", description: "+12 max HP.", tier: 1, requiresPoints: 2, cost: 1, effect: { mods: { hpBonus: 12 } } },
+    { id: "a-leech", name: "Aether Leech", description: "Heal for 10% of spell damage dealt.", tier: 2, requiresPoints: 4, cost: 1, effect: { lifestealPct: 0.1 } },
+    { id: "a-lance", name: "Aether Lance", description: "Unlock the ability: Aether Lance (single-target nuke).", tier: 2, requiresPoints: 4, cost: 1, effect: { grantsAbility: "aether-lance" } },
     { id: "a-singularity", name: "Singularity", description: "Unlock the ultimate: Singularity (massive AoE).", tier: 3, requiresPoints: 5, cost: 1, ultimate: true, effect: { grantsAbility: "singularity" } },
   ],
   shade: [
@@ -26,6 +32,9 @@ export const TALENT_TREES: Record<string, TalentNode[]> = {
     { id: "s-lethality", name: "Lethality", description: "Crit on a roll of 18-20.", tier: 1, requiresPoints: 2, cost: 1, effect: { critBonus: 2 } },
     { id: "s-vampiric", name: "Vampiric Edge", description: "Heal for 15% of damage dealt.", tier: 1, requiresPoints: 2, cost: 1, effect: { lifestealPct: 0.15 } },
     { id: "s-shadowmaster", name: "Shadowmaster", description: "+2 Agility, +2 attack.", tier: 2, requiresPoints: 4, cost: 1, effect: { mods: { attrBonus: { agility: 2 }, attackBonus: 2 } } },
+    { id: "s-fleet", name: "Fleet", description: "+1 Agility.", tier: 1, requiresPoints: 2, cost: 1, effect: { mods: { attrBonus: { agility: 1 } } } },
+    { id: "s-toxic", name: "Toxicologist", description: "+3 damage.", tier: 2, requiresPoints: 4, cost: 1, effect: { mods: { damageBonus: 3 } } },
+    { id: "s-eviscerate", name: "Eviscerate", description: "Unlock the ability: Eviscerate (big single-target finisher).", tier: 2, requiresPoints: 4, cost: 1, effect: { grantsAbility: "eviscerate" } },
     { id: "s-thousand", name: "Thousand Cuts", description: "Unlock the ultimate: Thousand Cuts (5 hits).", tier: 3, requiresPoints: 5, cost: 1, ultimate: true, effect: { grantsAbility: "thousand-cuts" } },
   ],
   warden: [
@@ -34,6 +43,9 @@ export const TALENT_TREES: Record<string, TalentNode[]> = {
     { id: "w-restoration", name: "Restoration", description: "+1 Spirit (stronger heals).", tier: 1, requiresPoints: 2, cost: 1, effect: { mods: { attrBonus: { spirit: 1 } } } },
     { id: "w-thorns", name: "Thornward", description: "+2 Defense, heal 10% of damage dealt.", tier: 1, requiresPoints: 2, cost: 1, effect: { mods: { defenseBonus: 2 }, lifestealPct: 0.1 } },
     { id: "w-hierophant", name: "Hierophant", description: "+2 Spirit, +6 Focus.", tier: 2, requiresPoints: 4, cost: 1, effect: { mods: { attrBonus: { spirit: 2 }, focusBonus: 6 } } },
+    { id: "w-mendersfocus", name: "Mender's Focus", description: "+6 max Focus.", tier: 1, requiresPoints: 2, cost: 1, effect: { mods: { focusBonus: 6 } } },
+    { id: "w-guardian", name: "Guardian Spirit", description: "+2 Defense, +10 max HP.", tier: 2, requiresPoints: 4, cost: 1, effect: { mods: { defenseBonus: 2, hpBonus: 10 } } },
+    { id: "w-entangle", name: "Entangle", description: "Unlock the ability: Entangle (AoE + Stun).", tier: 2, requiresPoints: 4, cost: 1, effect: { grantsAbility: "entangle" } },
     { id: "w-sanctuary", name: "Sanctuary", description: "Unlock the ultimate: Sanctuary (party heal + Regen).", tier: 3, requiresPoints: 5, cost: 1, ultimate: true, effect: { grantsAbility: "sanctuary" } },
   ],
   berserker: [
@@ -42,6 +54,9 @@ export const TALENT_TREES: Record<string, TalentNode[]> = {
     { id: "b-bloodthirst", name: "Bloodthirst", description: "Heal for 12% of damage dealt.", tier: 1, requiresPoints: 2, cost: 1, effect: { lifestealPct: 0.12 } },
     { id: "b-reckless", name: "Reckless", description: "Crit on a roll of 19-20.", tier: 1, requiresPoints: 2, cost: 1, effect: { critBonus: 1 } },
     { id: "b-titan", name: "Titanic", description: "+18 max HP, +1 Might.", tier: 2, requiresPoints: 4, cost: 1, effect: { mods: { hpBonus: 18, attrBonus: { might: 1 } } } },
+    { id: "b-fury", name: "Battle Fury", description: "+2 attack.", tier: 1, requiresPoints: 2, cost: 1, effect: { mods: { attackBonus: 2 } } },
+    { id: "b-frenzied", name: "Frenzied", description: "Widen your crit range by 1 (stacks with Reckless).", tier: 2, requiresPoints: 4, cost: 1, effect: { critBonus: 1 } },
+    { id: "b-bloodbath", name: "Bloodbath", description: "Unlock the ability: Bloodbath (AoE + Regen).", tier: 2, requiresPoints: 4, cost: 1, effect: { grantsAbility: "bloodbath" } },
     { id: "b-ragnarok", name: "Ragnarok", description: "Unlock the ultimate: Ragnarok (AoE + Regen).", tier: 3, requiresPoints: 5, cost: 1, ultimate: true, effect: { grantsAbility: "ragnarok" } },
   ],
   ranger: [
@@ -50,6 +65,9 @@ export const TALENT_TREES: Record<string, TalentNode[]> = {
     { id: "r-sharpshooter", name: "Sharpshooter", description: "Crit on a roll of 18-20.", tier: 1, requiresPoints: 2, cost: 1, effect: { critBonus: 2 } },
     { id: "r-evasion", name: "Evasion", description: "+2 Defense.", tier: 1, requiresPoints: 2, cost: 1, effect: { mods: { defenseBonus: 2 } } },
     { id: "r-master", name: "Master Archer", description: "+2 Agility, +2 attack.", tier: 2, requiresPoints: 4, cost: 1, effect: { mods: { attrBonus: { agility: 2 }, attackBonus: 2 } } },
+    { id: "r-survival", name: "Survivalist", description: "+10 max HP.", tier: 1, requiresPoints: 2, cost: 1, effect: { mods: { hpBonus: 10 } } },
+    { id: "r-lethal", name: "Lethal Aim", description: "+4 damage.", tier: 2, requiresPoints: 4, cost: 1, effect: { mods: { damageBonus: 4 } } },
+    { id: "r-venom", name: "Venom Arrow", description: "Unlock the ability: Venom Arrow (single-target + Poison).", tier: 2, requiresPoints: 4, cost: 1, effect: { grantsAbility: "venom-arrow" } },
     { id: "r-rain", name: "Rain of Arrows", description: "Unlock the ultimate: Rain of Arrows.", tier: 3, requiresPoints: 5, cost: 1, ultimate: true, effect: { grantsAbility: "rain-of-arrows" } },
   ],
   necromancer: [
@@ -58,6 +76,9 @@ export const TALENT_TREES: Record<string, TalentNode[]> = {
     { id: "n-leech", name: "Life Leech", description: "Heal for 15% of damage dealt.", tier: 1, requiresPoints: 2, cost: 1, effect: { lifestealPct: 0.15 } },
     { id: "n-darkmind", name: "Dark Mind", description: "+2 attack.", tier: 1, requiresPoints: 2, cost: 1, effect: { mods: { attackBonus: 2 } } },
     { id: "n-lich", name: "Lichdom", description: "+2 Wits, +6 Focus.", tier: 2, requiresPoints: 4, cost: 1, effect: { mods: { attrBonus: { wits: 2 }, focusBonus: 6 } } },
+    { id: "n-bonearmor", name: "Bone Armor", description: "+2 Defense.", tier: 1, requiresPoints: 2, cost: 1, effect: { mods: { defenseBonus: 2 } } },
+    { id: "n-ascend", name: "Dark Ascendancy", description: "+1 Wits, +3 damage.", tier: 2, requiresPoints: 4, cost: 1, effect: { mods: { attrBonus: { wits: 1 }, damageBonus: 3 } } },
+    { id: "n-soulrend", name: "Soul Rend", description: "Unlock the ability: Soul Rend (big single-target drain).", tier: 2, requiresPoints: 4, cost: 1, effect: { grantsAbility: "soul-rend" } },
     { id: "n-apocalypse", name: "Apocalypse", description: "Unlock the ultimate: Apocalypse.", tier: 3, requiresPoints: 5, cost: 1, ultimate: true, effect: { grantsAbility: "apocalypse" } },
   ],
   cleric: [
@@ -66,6 +87,9 @@ export const TALENT_TREES: Record<string, TalentNode[]> = {
     { id: "c-divine", name: "Divine Favor", description: "+1 Spirit (stronger heals & smites).", tier: 1, requiresPoints: 2, cost: 1, effect: { mods: { attrBonus: { spirit: 1 } } } },
     { id: "c-aegis", name: "Aegis", description: "+3 Defense.", tier: 1, requiresPoints: 2, cost: 1, effect: { mods: { defenseBonus: 3 } } },
     { id: "c-saint", name: "Sainthood", description: "+2 Spirit, +6 Focus.", tier: 2, requiresPoints: 4, cost: 1, effect: { mods: { attrBonus: { spirit: 2 }, focusBonus: 6 } } },
+    { id: "c-fortitude", name: "Fortitude", description: "+12 max HP.", tier: 1, requiresPoints: 2, cost: 1, effect: { mods: { hpBonus: 12 } } },
+    { id: "c-wrath", name: "Holy Wrath", description: "+3 damage.", tier: 2, requiresPoints: 4, cost: 1, effect: { mods: { damageBonus: 3 } } },
+    { id: "c-sanctify", name: "Sanctify", description: "Unlock the ability: Sanctify (party heal + Regen).", tier: 2, requiresPoints: 4, cost: 1, effect: { grantsAbility: "sanctify" } },
     { id: "c-judgment", name: "Divine Judgment", description: "Unlock the ultimate: Divine Judgment.", tier: 3, requiresPoints: 5, cost: 1, ultimate: true, effect: { grantsAbility: "divine-judgment" } },
   ],
 };

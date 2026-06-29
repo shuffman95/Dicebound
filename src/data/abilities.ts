@@ -197,6 +197,54 @@ export const ABILITIES: Record<string, Ability> = {
     applyStatus: { kind: "regen", turns: 3, magnitude: 5 },
   },
 
+  // ---------------- Talent-granted abilities ----------------
+  "crushing-blow": {
+    id: "crushing-blow", name: "Crushing Blow", kind: "attack", target: "enemy",
+    description: "A devastating overhead blow: 2d10 + Might; cracks armor (Weaken).",
+    focusCost: 3, cooldown: 3, attackAttr: "might", damage: "2d10",
+    applyStatus: { kind: "weaken", turns: 2, magnitude: 2 },
+  },
+  "aether-lance": {
+    id: "aether-lance", element: "lightning", name: "Aether Lance", kind: "attack", target: "enemy",
+    description: "A focused spear of aether for 2d8 + Wits.",
+    focusCost: 4, cooldown: 2, attackAttr: "wits", damage: "2d8",
+  },
+  eviscerate: {
+    id: "eviscerate", name: "Eviscerate", kind: "attack", target: "enemy",
+    description: "Open a foe up with a precise, brutal cut: 3d6 + Agility.",
+    focusCost: 4, cooldown: 3, attackAttr: "agility", damage: "3d6",
+  },
+  entangle: {
+    id: "entangle", name: "Entangle", kind: "attack", target: "all-enemies",
+    description: "Roots erupt beneath all foes for 1d6 + Spirit; may Stun.",
+    focusCost: 5, cooldown: 4, attackAttr: "spirit", damage: "1d6",
+    applyStatus: { kind: "stun", turns: 1, magnitude: 0 },
+  },
+  bloodbath: {
+    id: "bloodbath", name: "Bloodbath", kind: "attack", target: "all-enemies",
+    description: "Carve through every foe for 1d10 + Might; Regenerate from the carnage.",
+    focusCost: 5, cooldown: 3, attackAttr: "might", damage: "1d10",
+    selfStatus: { kind: "regen", turns: 2, magnitude: 5 },
+  },
+  "venom-arrow": {
+    id: "venom-arrow", element: "poison", name: "Venom Arrow", kind: "attack", target: "enemy",
+    description: "A poisoned shaft: 1d10 + Agility and lingering Poison.",
+    focusCost: 3, cooldown: 2, attackAttr: "agility", damage: "1d10",
+    applyStatus: { kind: "poison", turns: 3, magnitude: 4 },
+  },
+  "soul-rend": {
+    id: "soul-rend", element: "dark", name: "Soul Rend", kind: "attack", target: "enemy",
+    description: "Tear at the soul for 2d10 + Wits, mending your own grievous wounds.",
+    focusCost: 5, cooldown: 3, attackAttr: "wits", damage: "2d10",
+    selfStatus: { kind: "regen", turns: 1, magnitude: 14 },
+  },
+  sanctify: {
+    id: "sanctify", element: "holy", name: "Sanctify", kind: "heal", target: "all-allies",
+    description: "Hallow the ground: heal the party 1d6 + Spirit and grant Regeneration.",
+    focusCost: 5, cooldown: 4, heal: "1d6", ignoreDefense: true,
+    applyStatus: { kind: "regen", turns: 3, magnitude: 5 },
+  },
+
   // ---------------- Enemy abilities ----------------
   bite: { id: "bite", name: "Bite", kind: "attack", target: "enemy", description: "1d6 + Might.", focusCost: 0, cooldown: 0, attackAttr: "might", damage: "1d6" },
   claw: { id: "claw", name: "Claw", kind: "attack", target: "enemy", description: "1d8 + Might.", focusCost: 0, cooldown: 0, attackAttr: "might", damage: "1d8" },

@@ -2,6 +2,30 @@
 
 All notable changes to Dicebound: The Hollow Crown.
 
+## [0.13.0] — Deeper talent trees (Content fill: build variety)
+
+### Added
+- **Every class talent tree expanded from 6 to 9 nodes** (24 new talents total),
+  keeping all existing nodes and the point economy intact (still fully spec-able
+  by the level cap; no grind walls).
+- **Eight new talent-granted active abilities — one per class**, so talents now
+  expand a hero's kit, not just their stats: Vanguard **Crushing Blow** (heavy
+  single-target + Weaken), Arcanist **Aether Lance** (single-target nuke), Shade
+  **Eviscerate** (finisher), Warden **Entangle** (its first AoE crowd control),
+  Berserker **Bloodbath** (sustaining AoE), Ranger **Venom Arrow** (poison, an
+  Ignite enabler), Necromancer **Soul Rend** (big drain), Cleric **Sanctify**
+  (party heal + Regen).
+- **New passive/combat build axes** per class — e.g. a crit path for the Vanguard,
+  spell-vamp for the Arcanist, a second crit stack for the Berserker, and extra
+  survivability for the casters — all with real, implemented effects.
+
+### Tests
+- Extended the talent suite to assert every tree is deepened, exposes a
+  non-ultimate ability talent that resolves, and that learning it actually adds
+  the active to the hero's kit; the parameterized "full-spec" checks cover the
+  larger trees — **54 tests total**, all passing; `tsc --noEmit` clean and the
+  Playwright smoke run reports zero runtime errors.
+
 ## [0.12.0] — The Blightfen (Content fill: second optional region)
 
 ### Added

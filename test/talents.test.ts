@@ -1,6 +1,9 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createHero, learnTalent, canLearnTalent, talentPointsAvailable, talentPointsSpent, talentCritBonus, talentLifesteal } from "../src/engine/character.js";
+import { CLASS_LIST } from "../src/data/classes.js";
+import { TALENT_TREES } from "../src/data/talents.js";
+import { getAbility } from "../src/data/abilities.js";
 
 function vanguard(level: number) {
   return createHero({ classId: "vanguard", raceId: "aldermoorian", backgroundId: "soldier", name: "V", allocations: {} }, level);
@@ -51,4 +54,23 @@ test("cannot overspend talent points", () => {
   const v = vanguard(2); // 1 point
   assert.ok(learnTalent(v, "v-toughened"));
   assert.ok(!learnTalent(v, "v-edge"), "no points left");
+});
+
+test("every class tree is deepened and grants a non-ultimate ability talent", () => {
+  for (const cls of CLASS_LIST) {
+    const tree = TALENT_TREES[cls.id];
+    assert.ok(tree.length >= 9, `${cls.id} tree should be deepened (>=9 nodes)`);
+    // a non-ultimate talent grants a brand-new active ability
+    const abilityTalents = tree.filter((n) => !n.ultimate && n.effect.grantsAbility);
+    assert.ok(abilityTalents.length >= 1, `${cls.id} should have a non-ultimate ability talent`);
+    for (const n of abilityTalents) assert.ok(getAbility(n.effect.grantsAbility!), `${cls.id} ${n.id} grants a real ability`);
+  }
+});
+
+test("learning an ability talent adds that active to the hero's kit", () => {
+  // Necromancer's Soul Rend (tier-2, needs 4 spent): reachable by level 6 (5 points)
+  const n = createHero({ classId: "necromancer", raceId: "aldermoorian", backgroundId: "wanderer", name: "N", allocations: {} }, 6);
+  assert.ok(!n.abilities.includes("soul-rend"), "not known before specing");
+  for (const id of ["n-power", "n-focus", "n-leech", "n-darkmind", "n-soulrend"]) assert.ok(learnTalent(n, id), `learn ${id}`);
+  assert.ok(n.abilities.includes("soul-rend"), "Soul Rend granted by the talent");
 });

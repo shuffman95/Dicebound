@@ -54,11 +54,12 @@ roadmap item below, build it to completion as above, commit/push, and report.
 - `src/main.ts` — screen controller / all DOM UI and input.
 - `test/` — engine + content + smoke tests.
 
-## Status (as of v0.12.0)
-**Done & tested (52 tests):**
+## Status (as of v0.13.0)
+**Done & tested (54 tests):**
 - Foundation: character creation (race/class/background/point-buy/traits), save
   slots + import/export, procedural audio + settings, loot (rarity/affixes/sets/
-  durability/repair), talent trees + ultimates, 8 classes, crafting + gathering.
+  durability/repair), deep talent trees (9 nodes/class, ultimates + talent-granted
+  actives), 8 classes, crafting + gathering.
 - Combat depth: defend/counter, elemental damage + resistances, elemental
   reactions (Shatter/Ignite + Chill), multi-phase bosses, boss auras, per-enemy
   AI personalities.
