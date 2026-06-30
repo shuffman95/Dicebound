@@ -2,6 +2,23 @@
 
 All notable changes to Dicebound: The Hollow Crown.
 
+## [1.6.0] — Russian: party, shop & workshop UI (language stage 3d)
+
+### Added
+- **The party panel, talent trees, equipment screen, shop and workshop now read in
+  Russian:** stat labels (ОЗ/Фокус/Опыт, СИЛ/ЛОВ/РАЗ/ДУХ/Защ), equipment slots,
+  Provisions/Spare Gear/Materials, the talent tree (Изучить/Изучено/Ярус/points),
+  equip & unequip, and the shop/workshop (Купить/Продать/Починить/Создать,
+  Алхимия/Кузнечное дело), plus the in-combat and out-of-combat item-use modals.
+- This completes the **interactive UI chrome** — menus, creation, combat, party,
+  shop and journal are all in Russian. (A few transient combat feedback toasts and
+  the lore/story prose remain for the final stages.)
+
+### Tests
+- **101 tests**, all passing; `tsc --noEmit` clean and the smoke run (full
+  encounter, accessibility + language toggle, commons/journal) reports zero
+  runtime errors.
+
 ## [1.5.0] — Russian: combat & journal UI (language stage 3c)
 
 ### Added

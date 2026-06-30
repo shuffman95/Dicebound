@@ -131,7 +131,7 @@ function renderTitle() {
     </div>`);
 }
 
-const VERSION = "1.5.0";
+const VERSION = "1.6.0";
 
 function renderHowTo() {
   openModal(t("how.title"), `
@@ -335,7 +335,7 @@ function openLore(id: string) {
 
 function partyStrip(): string {
   return `<div class="row" style="gap:6px;justify-content:center">` + game.party.map((m) =>
-    `<div class="tag" style="${m.alive ? "" : "opacity:.4"}">${CLASS_EMOJI[m.classId!]} ${esc(m.name)} · L${m.level} · ${m.hp}/${m.maxHP}</div>`
+    `<div class="tag" style="${m.alive ? "" : "opacity:.4"}">${CLASS_EMOJI[m.classId!]} ${esc(m.name)} · ${t("stat.lvlShort")}${m.level} · ${m.hp}/${m.maxHP}</div>`
   ).join("") + `</div>`;
 }
 
@@ -618,10 +618,10 @@ function itemValidTarget(c: Combatant): boolean {
 }
 function openCombatItems() {
   const consumables = Object.keys(game.stacks).map(getItem).filter((it) => it.consumable);
-  if (consumables.length === 0) { toast("No usable items."); return; }
+  if (consumables.length === 0) { toast(t("items.noUsable")); return; }
   const list = consumables.map((it) => `<div class="li"><div class="grow"><span class="iname">${esc(it.name)}</span> <span class="dim">×${game.stacks[it.id]}</span><div class="idesc">${esc(it.description)}</div></div>
-    <button class="btn small" data-act="combat-item-pick" data-item="${it.id}">Use</button></div>`).join("");
-  openModal("Use an Item", `<div class="list">${list}</div><div class="row center" style="margin-top:10px"><button class="btn ghost small" data-act="close-modal">Back</button></div>`);
+    <button class="btn small" data-act="combat-item-pick" data-item="${it.id}">${t("common.use")}</button></div>`).join("");
+  openModal(t("items.useAnItem"), `<div class="list">${list}</div><div class="row center" style="margin-top:10px"><button class="btn ghost small" data-act="close-modal">${t("common.back")}</button></div>`);
 }
 async function useCombatItem(itemId: string, target: Combatant) {
   closeModal();
@@ -711,36 +711,36 @@ function openShop() {
     const it = getItem(id);
     const afford = game.gold >= it.price;
     return `<div class="li"><div class="grow"><span class="iname">${esc(it.name)}</span><div class="idesc">${esc(it.description)}</div></div>
-      <div style="text-align:right"><div class="price">${it.price}g</div><button class="btn small ${afford ? "primary" : ""}" data-act="buy-consumable" data-id="${id}" ${afford ? "" : "disabled"}>Buy</button></div></div>`;
+      <div style="text-align:right"><div class="price">${it.price}${t("u.goldShort")}</div><button class="btn small ${afford ? "primary" : ""}" data-act="buy-consumable" data-id="${id}" ${afford ? "" : "disabled"}>${t("shop.buy")}</button></div></div>`;
   }).join("");
   const gearWares = shopGear!.items.length ? shopGear!.items.map((inst) => {
     const cost = buyValue(inst);
     const afford = game.gold >= cost;
-    return gearCard(inst, `<div style="text-align:right"><div class="price">${cost}g</div><button class="btn small ${afford ? "primary" : ""}" data-act="buy-gear" data-uid="${inst.uid}" ${afford ? "" : "disabled"}>Buy</button></div>`);
-  }).join("") : `<div class="dim">Sold out for now.</div>`;
+    return gearCard(inst, `<div style="text-align:right"><div class="price">${cost}${t("u.goldShort")}</div><button class="btn small ${afford ? "primary" : ""}" data-act="buy-gear" data-uid="${inst.uid}" ${afford ? "" : "disabled"}>${t("shop.buy")}</button></div>`);
+  }).join("") : `<div class="dim">${t("shop.soldOut")}</div>`;
 
   const sellStacks = Object.keys(game.stacks).filter((id) => (getItem(id).price || 0) > 0).map((id) => {
     const it = getItem(id);
     return `<div class="li"><div class="grow"><span class="iname">${esc(it.name)}</span> <span class="dim">×${game.stacks[id]}</span></div>
-      <button class="btn small ghost" data-act="sell-stack" data-id="${id}">Sell ${Math.max(1, Math.floor((it.price || 2) / 2))}g</button></div>`;
+      <button class="btn small ghost" data-act="sell-stack" data-id="${id}">${t("shop.sellFor", { n: Math.max(1, Math.floor((it.price || 2) / 2)), g: t("u.goldShort") })}</button></div>`;
   }).join("");
-  const sellGear = game.gear.map((inst) => gearCard(inst, `<button class="btn small ghost" data-act="sell-gear" data-uid="${inst.uid}">Sell ${sellValue(inst)}g</button>`)).join("");
-  const sellBlock = (sellStacks + sellGear) || `<div class="dim">Nothing to sell.</div>`;
+  const sellGear = game.gear.map((inst) => gearCard(inst, `<button class="btn small ghost" data-act="sell-gear" data-uid="${inst.uid}">${t("shop.sellFor", { n: sellValue(inst), g: t("u.goldShort") })}</button>`)).join("");
+  const sellBlock = (sellStacks + sellGear) || `<div class="dim">${t("shop.nothingToSell")}</div>`;
 
   const repCost = game.repairAllCost();
 
-  openModal(`Apothecary & Smith — ⦿ ${game.gold}g`, `
+  openModal(`${t("shop.title")} — ⦿ ${game.gold}${t("u.goldShort")}`, `
     <div class="row" style="justify-content:space-between;align-items:center;margin-bottom:6px">
-      <button class="btn small ghost" data-act="open-crafting">🛠 Workshop</button>
-      <button class="btn small ${repCost > 0 && game.gold >= repCost ? "primary" : ""}" data-act="repair-all" ${repCost > 0 && game.gold >= repCost ? "" : "disabled"}>${repCost > 0 ? `Repair all — ${repCost}g` : "All gear repaired"}</button>
+      <button class="btn small ghost" data-act="open-crafting">${t("shop.workshop")}</button>
+      <button class="btn small ${repCost > 0 && game.gold >= repCost ? "primary" : ""}" data-act="repair-all" ${repCost > 0 && game.gold >= repCost ? "" : "disabled"}>${repCost > 0 ? t("shop.repairAll", { n: repCost, g: t("u.goldShort") }) : t("shop.allRepaired")}</button>
     </div>
-    <h3 style="color:var(--gold)">Equipment</h3>
+    <h3 style="color:var(--gold)">${t("shop.equipment")}</h3>
     <div class="list">${gearWares}</div>
-    <h3 style="color:var(--gold);margin-top:14px">Provisions</h3>
+    <h3 style="color:var(--gold);margin-top:14px">${t("party.provisions")}</h3>
     <div class="list">${consumables}</div>
-    <h3 style="color:var(--gold);margin-top:14px">Sell</h3>
+    <h3 style="color:var(--gold);margin-top:14px">${t("shop.sellHeading")}</h3>
     <div class="list">${sellBlock}</div>
-    <div class="row center" style="margin-top:14px"><button class="btn primary small" data-act="close-modal">Leave</button></div>
+    <div class="row center" style="margin-top:14px"><button class="btn primary small" data-act="close-modal">${t("shop.leave")}</button></div>
   `);
 }
 
@@ -755,27 +755,27 @@ function recipeRow(r: RecipeDef): string {
     const ok = have >= inp.qty;
     return `<span style="color:${ok ? "var(--ink-dim)" : "var(--bad)"}">${esc(getItem(inp.defId).name)} ${have}/${inp.qty}</span>`;
   }).join(" · ");
-  const gold = r.goldCost ? ` · <span style="color:${game.gold >= r.goldCost ? "var(--ink-dim)" : "var(--bad)"}">${r.goldCost}g</span>` : "";
-  const outName = out.slot ? `<span style="color:${RARITY.common.color}">${esc(out.name)}</span> <span class="tag">${out.slot}</span>` : esc(out.name);
+  const gold = r.goldCost ? ` · <span style="color:${game.gold >= r.goldCost ? "var(--ink-dim)" : "var(--bad)"}">${r.goldCost}${t("u.goldShort")}</span>` : "";
+  const outName = out.slot ? `<span style="color:${RARITY.common.color}">${esc(out.name)}</span> <span class="tag">${t(`slot.${out.slot}`)}</span>` : esc(out.name);
   return `<div class="li"><div class="grow">
       <div class="iname">${outName}${r.output.qty > 1 ? ` ×${r.output.qty}` : ""}</div>
       <div class="idesc">${esc(r.description)}</div>
-      <div class="idesc">Needs: ${inputs}${gold}</div>
+      <div class="idesc">${t("craft.needs")} ${inputs}${gold}</div>
     </div>
-    <button class="btn small ${can ? "primary" : ""}" data-act="craft" data-recipe="${r.id}" ${can ? "" : "disabled"}>Craft</button></div>`;
+    <button class="btn small ${can ? "primary" : ""}" data-act="craft" data-recipe="${r.id}" ${can ? "" : "disabled"}>${t("craft.craft")}</button></div>`;
 }
 function openCrafting() {
   const alchemy = RECIPE_LIST.filter((r) => r.station === "alchemy").map(recipeRow).join("");
   const smithing = RECIPE_LIST.filter((r) => r.station === "smithing").map(recipeRow).join("");
   const mats = Object.keys(game.stacks).map(getItem).filter((it) => it.kind === "material");
-  const matLine = mats.length ? mats.map((it) => `<span class="tag">${esc(it.name)} ×${game.stacks[it.id]}</span>`).join(" ") : `<span class="dim">No materials yet — win fights and gather to collect them.</span>`;
-  openModal(`Workshop — ⦿ ${game.gold}g`, `
+  const matLine = mats.length ? mats.map((it) => `<span class="tag">${esc(it.name)} ×${game.stacks[it.id]}</span>`).join(" ") : `<span class="dim">${t("craft.noMaterials")}</span>`;
+  openModal(`${t("craft.workshopTitle")} — ⦿ ${game.gold}${t("u.goldShort")}`, `
     <div style="margin-bottom:8px;display:flex;gap:5px;flex-wrap:wrap">${matLine}</div>
-    <h3 style="color:var(--gold)">⚗️ Alchemy</h3>
+    <h3 style="color:var(--gold)">${t("craft.alchemy")}</h3>
     <div class="list">${alchemy}</div>
-    <h3 style="color:var(--gold);margin-top:14px">🔨 Smithing</h3>
+    <h3 style="color:var(--gold);margin-top:14px">${t("craft.smithing")}</h3>
     <div class="list">${smithing}</div>
-    <div class="row center" style="margin-top:14px"><button class="btn ghost small" data-act="open-shop-back">Back</button></div>
+    <div class="row center" style="margin-top:14px"><button class="btn ghost small" data-act="open-shop-back">${t("common.back")}</button></div>
   `);
 }
 
@@ -792,7 +792,7 @@ function openParty() {
         ? `<div style="color:${RARITY[inst.rarity].color};font-weight:600;font-size:12px;line-height:1.2">${esc(instanceName(inst))}</div>${durabilityTag(inst)}`
         : `<div class="dim">—</div>`;
       return `<button class="slot ${inst ? "filled" : ""}" data-act="change-equip" data-member="${mi}" data-slot="${slot}">
-        <div class="dim" style="font-size:10px;text-transform:uppercase">${slot}</div>${inner}</button>`;
+        <div class="dim" style="font-size:10px;text-transform:uppercase">${t(`slot.${slot}`)}</div>${inner}</button>`;
     }).join("");
     const setInfo = setBonuses(equippedInstances(m)).active;
     const setChips = setInfo.map((s) => `<span class="tag" style="color:var(--gold)" title="${esc(s.desc)}">⚜ ${esc(s.name)} ${esc(s.desc)}</span>`).join(" ");
@@ -801,37 +801,37 @@ function openParty() {
     const bgName = m.backgroundId ? getBackground(m.backgroundId).name : "";
     const traitChips = traitsOf(m).map((t) => `<span class="tag" title="${esc(t.description)}">✦ ${esc(t.name)}</span>`).join(" ");
     return `<div class="card" style="margin-bottom:10px">
-      <div class="uname" style="font-size:16px">${CLASS_EMOJI[m.classId!]} ${esc(m.name)} <span class="dim">· L${m.level}</span></div>
+      <div class="uname" style="font-size:16px">${CLASS_EMOJI[m.classId!]} ${esc(m.name)} <span class="dim">· ${t("stat.lvlShort")}${m.level}</span></div>
       <div class="dim" style="font-size:12px;margin-top:-2px">${esc(raceName)} ${esc(getClass(m.classId!).name)}${bgName ? " · " + esc(bgName) : ""}</div>
       <div class="kv" style="margin:6px 0">
-        <span class="k">HP</span><span>${m.hp}/${m.maxHP} ${bar("hp", m.hp, m.maxHP)}</span>
-        <span class="k">Focus</span><span>${m.focus}/${m.maxFocus} ${bar("focus", m.focus, m.maxFocus)}</span>
-        <span class="k">XP</span><span>${xp.current}/${xp.needed} ${bar("xp", xp.current, xp.needed)}</span>
+        <span class="k">${t("stat.hp")}</span><span>${m.hp}/${m.maxHP} ${bar("hp", m.hp, m.maxHP)}</span>
+        <span class="k">${t("stat.focus")}</span><span>${m.focus}/${m.maxFocus} ${bar("focus", m.focus, m.maxFocus)}</span>
+        <span class="k">${t("stat.xp")}</span><span>${xp.current}/${xp.needed} ${bar("xp", xp.current, xp.needed)}</span>
       </div>
-      <div class="cstats dim">MGT ${a.might} (${fmtMod(a.might)}) · AGI ${a.agility} (${fmtMod(a.agility)}) · WIT ${a.wits} (${fmtMod(a.wits)}) · SPR ${a.spirit} (${fmtMod(a.spirit)}) · Def ${defenseOf(m)}</div>
+      <div class="cstats dim">${t("attr.short.might")} ${a.might} (${fmtMod(a.might)}) · ${t("attr.short.agility")} ${a.agility} (${fmtMod(a.agility)}) · ${t("attr.short.wits")} ${a.wits} (${fmtMod(a.wits)}) · ${t("attr.short.spirit")} ${a.spirit} (${fmtMod(a.spirit)}) · ${t("stat.def")} ${defenseOf(m)}</div>
       <div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap">${traitChips}${setChips}</div>
       <div class="slot-row" style="margin-top:8px">${eq}</div>
-      <div class="dim" style="font-size:10px;margin-top:2px">Tap a slot to change gear.</div>
+      <div class="dim" style="font-size:10px;margin-top:2px">${t("party.tapSlot")}</div>
       <div class="row" style="margin-top:8px;justify-content:space-between;align-items:center">
         <div style="display:flex;gap:4px;flex-wrap:wrap">${abilities}</div>
-        <button class="btn small ${talentPointsAvailable(m) > 0 ? "primary" : "ghost"}" data-act="open-talents" data-member="${mi}">✦ Talents${talentPointsAvailable(m) > 0 ? ` (${talentPointsAvailable(m)})` : ""}</button>
+        <button class="btn small ${talentPointsAvailable(m) > 0 ? "primary" : "ghost"}" data-act="open-talents" data-member="${mi}">✦ ${t("party.talents")}${talentPointsAvailable(m) > 0 ? ` (${talentPointsAvailable(m)})` : ""}</button>
       </div>
     </div>`;
   }).join("");
   const consumables = Object.keys(game.stacks).map(getItem).filter((it) => it.consumable);
   const materials = Object.keys(game.stacks).map(getItem).filter((it) => it.kind === "material");
   const bag = consumables.length ? consumables.map((it) => `<div class="li"><div class="grow"><span class="iname">${esc(it.name)}</span> <span class="dim">×${game.stacks[it.id]}</span><div class="idesc">${esc(it.description)}</div></div>
-    <button class="btn small ghost" data-act="use-item-ooc" data-item="${it.id}">Use</button></div>`).join("") : `<div class="dim">No provisions.</div>`;
-  const gearBag = game.gear.length ? game.gear.map((inst) => gearCard(inst, "")).join("") : `<div class="dim">No spare gear.</div>`;
+    <button class="btn small ghost" data-act="use-item-ooc" data-item="${it.id}">${t("common.use")}</button></div>`).join("") : `<div class="dim">${t("party.noProvisions")}</div>`;
+  const gearBag = game.gear.length ? game.gear.map((inst) => gearCard(inst, "")).join("") : `<div class="dim">${t("party.noSpareGear")}</div>`;
   const matBag = materials.length ? materials.map((it) => `<span class="tag">${esc(it.name)} ×${game.stacks[it.id]}</span>`).join(" ") : "";
-  openModal("Party", `
+  openModal(t("topbar.party"), `
     ${members}
-    <h3 style="color:var(--gold)">Provisions</h3>
+    <h3 style="color:var(--gold)">${t("party.provisions")}</h3>
     <div class="list">${bag}</div>
-    <h3 style="color:var(--gold);margin-top:12px">Spare Gear</h3>
+    <h3 style="color:var(--gold);margin-top:12px">${t("party.spareGear")}</h3>
     <div class="list">${gearBag}</div>
-    ${matBag ? `<h3 style="color:var(--gold);margin-top:12px">Materials</h3><div style="display:flex;gap:5px;flex-wrap:wrap">${matBag}</div>` : ""}
-    <div class="row center" style="margin-top:14px"><button class="btn primary small" data-act="close-modal">Close</button></div>
+    ${matBag ? `<h3 style="color:var(--gold);margin-top:12px">${t("party.materials")}</h3><div style="display:flex;gap:5px;flex-wrap:wrap">${matBag}</div>` : ""}
+    <div class="row center" style="margin-top:14px"><button class="btn primary small" data-act="close-modal">${t("common.close")}</button></div>
   `);
 }
 function fmtMod(score: number) { const m = modifier(score); return m >= 0 ? `+${m}` : `${m}`; }
@@ -851,24 +851,24 @@ function openTalents(memberIdx: number) {
       const learnable = canLearnTalent(m, n.id);
       const stateClass = owned ? "owned" : locked ? "locked" : learnable ? "learnable" : "unavail";
       const btn = owned
-        ? `<span class="tag good">Learned</span>`
-        : `<button class="btn small ${learnable ? "primary" : ""}" data-act="learn-talent" data-member="${memberIdx}" data-node="${n.id}" ${learnable ? "" : "disabled"}>Learn</button>`;
+        ? `<span class="tag good">${t("talents.learned")}</span>`
+        : `<button class="btn small ${learnable ? "primary" : ""}" data-act="learn-talent" data-member="${memberIdx}" data-node="${n.id}" ${learnable ? "" : "disabled"}>${t("talents.learn")}</button>`;
       return `<div class="talent-node ${stateClass}">
         <div class="grow"><div class="tname">${n.ultimate ? "★ " : ""}${esc(n.name)}</div><div class="tdesc">${esc(n.description)}</div></div>${btn}</div>`;
     }).join("");
     return `<div class="talent-tier">
-      <div class="tier-head">Tier ${tier + 1}${req > 0 ? ` <span class="dim">· needs ${req} spent${locked ? " 🔒" : ""}</span>` : ""}</div>
+      <div class="tier-head">${t("talents.tier", { n: tier + 1 })}${req > 0 ? ` <span class="dim">· ${t("talents.needs", { n: req })}${locked ? " 🔒" : ""}</span>` : ""}</div>
       ${nodes}
     </div>`;
   }).join("");
-  openModal(`${esc(m.name)} — Talents`, `
+  openModal(`${esc(m.name)} — ${t("talents.heading")}`, `
     <div class="row" style="justify-content:space-between;align-items:center">
-      <div class="dim">${esc(getClass(m.classId!).name)} · Level ${m.level}</div>
-      <div class="alloc-points ${avail > 0 ? "has" : ""}">${avail} point${avail === 1 ? "" : "s"} available</div>
+      <div class="dim">${esc(getClass(m.classId!).name)} · ${t("stat.level", { n: m.level })}</div>
+      <div class="alloc-points ${avail > 0 ? "has" : ""}">${t("talents.points", { n: avail })}</div>
     </div>
     <div class="talent-wrap">${body}</div>
-    <div class="dim" style="font-size:11px;margin-top:8px">Earn 1 talent point per level. Higher tiers unlock as you spend points in the tree.</div>
-    <div class="row center" style="margin-top:12px"><button class="btn ghost small" data-act="back-party">Back</button></div>
+    <div class="dim" style="font-size:11px;margin-top:8px">${t("talents.help")}</div>
+    <div class="row center" style="margin-top:12px"><button class="btn ghost small" data-act="back-party">${t("common.back")}</button></div>
   `);
 }
 
@@ -877,14 +877,14 @@ function openChangeEquip(memberIdx: number, slot: EquipSlot) {
   const candidates = game.gear.filter((inst) => getItem(inst.defId).slot === slot);
   const cur = m.equipment[slot];
   const list = candidates.length ? candidates.map((inst) => {
-    return gearCard(inst, `<button class="btn small primary" data-act="do-equip" data-member="${memberIdx}" data-uid="${inst.uid}">Equip</button>`);
-  }).join("") : `<div class="dim">No spare ${slot} in the bag.</div>`;
+    return gearCard(inst, `<button class="btn small primary" data-act="do-equip" data-member="${memberIdx}" data-uid="${inst.uid}">${t("equip.equip")}</button>`);
+  }).join("") : `<div class="dim">${t("equip.noSpare", { slot: t(`slot.${slot}`) })}</div>`;
   const equippedLine = cur ? `${instName(cur)} <span class="dim">${esc(instModSummary(cur) || getItem(cur.defId).description)}</span>` : "—";
-  openModal(`${esc(m.name)} — ${slot}`, `
-    <div class="card" style="margin-bottom:8px">Equipped: ${equippedLine}
-      ${cur ? `<div style="margin-top:6px"><button class="btn small ghost" data-act="unequip" data-member="${memberIdx}" data-slot="${slot}">Unequip</button></div>` : ""}</div>
+  openModal(`${esc(m.name)} — ${t(`slot.${slot}`)}`, `
+    <div class="card" style="margin-bottom:8px">${t("equip.equipped")} ${equippedLine}
+      ${cur ? `<div style="margin-top:6px"><button class="btn small ghost" data-act="unequip" data-member="${memberIdx}" data-slot="${slot}">${t("equip.unequip")}</button></div>` : ""}</div>
     <div class="list">${list}</div>
-    <div class="row center" style="margin-top:12px"><button class="btn ghost small" data-act="back-party">Back</button></div>
+    <div class="row center" style="margin-top:12px"><button class="btn ghost small" data-act="back-party">${t("common.back")}</button></div>
   `);
 }
 
@@ -892,12 +892,12 @@ function openUseItemOOC(itemId: string) {
   const item = getItem(itemId);
   const con = item.consumable!;
   const targets = con.reviveHpPercent ? game.party.filter((m) => !m.alive) : game.party.filter((m) => m.alive);
-  if (targets.length === 0) { toast("No valid target."); return; }
+  if (targets.length === 0) { toast(t("items.noValidTarget")); return; }
   const list = targets.map((m) => {
     const mi = game.party.indexOf(m);
-    return `<button class="btn full" data-act="do-use-ooc" data-item="${itemId}" data-member="${mi}">${CLASS_EMOJI[m.classId!]} ${esc(m.name)} — ${m.hp}/${m.maxHP} HP</button>`;
+    return `<button class="btn full" data-act="do-use-ooc" data-item="${itemId}" data-member="${mi}">${CLASS_EMOJI[m.classId!]} ${esc(m.name)} — ${m.hp}/${m.maxHP} ${t("stat.hp")}</button>`;
   }).join("");
-  openModal(`Use ${esc(item.name)}`, `<div class="list">${list}</div><div class="row center" style="margin-top:12px"><button class="btn ghost small" data-act="back-party">Back</button></div>`);
+  openModal(t("items.useOn", { x: esc(item.name) }), `<div class="list">${list}</div><div class="row center" style="margin-top:12px"><button class="btn ghost small" data-act="back-party">${t("common.back")}</button></div>`);
 }
 
 // ===================================================================
