@@ -98,12 +98,13 @@ via `src/data/locale.ts` `localizeDef(ns, def)` applied inside the getters
 (getClass/getRace/getBackground/getTrait, with getItem/getAbility/getEnemy/
 getQuest/getLore to follow) — English fallback throughout; locale stored in
 `prefs`. **Done:** v1.1.0 title/menu, Settings, How-to-Play; v1.2.0 creation (UI +
-classes/races/backgrounds/traits); v1.3.0 items/enemies/quests; v1.4.0 abilities (getItem/
-getEnemy/getQuest localized). **Next, in order:** (1) ability names+descriptions
-(getAbility already localized — add `ability` entries to `locale.ts`) + combat/
-shop/journal/party UI chrome + combat-log templates in `combat.ts`; (2) lore codex
-texts; (3) the full story script (`src/data/story.ts`, a custom node localizer for
-title/text/choices). Keep a consistent **glossary**:
+classes/races/backgrounds/traits); v1.3.0 items/enemies/quests; v1.4.0 abilities.
+All content getters (getItem/getAbility/getEnemy/getQuest/getClass/getRace/
+getBackground/getTrait) are localized. **Next, in order:** (1) combat/shop/journal/
+party UI chrome (`src/main.ts`) + combat-log templates in `src/engine/combat.ts`
+(route through `t()`); (2) lore codex texts (localize `getLore` + entries); (3) the
+full story script (`src/data/story.ts`, a custom node localizer for title/text/
+choices). Keep a consistent **glossary**:
 - Might→Сила, Agility→Ловкость, Wits→Разум, Spirit→Дух; Focus→Фокус; DC→СЛ; HP→ОЗ.
 - Statuses: Poison→Яд, Burn→Ожог, Chill→Озноб, Stun→Оглушение, Weaken→Ослабление,
   Rally→Воодушевление, Fortify→Укрепление, Shield→Щит, Regen→Регенерация.
