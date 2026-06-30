@@ -2,6 +2,25 @@
 
 All notable changes to Dicebound: The Hollow Crown.
 
+## [1.9.0] — Russian: Drowned Chapel & Ashen Keep (language stage 4c)
+
+### Added
+- **The main campaign's middle and end are now translated:** the Drowned Chapel
+  (congregation, reliquary, the rescued/too-late pilgrim, the Pale Bishop), the
+  last night at Greyhollow, and the Ashen Keep (gatehouse, Hall of Grey Candles,
+  the Candlewright, and the Barrow Throne confrontation with the Hollow King).
+- A new test guard asserts that **every translated story node is fully Russian** —
+  title, text and *all* choices — catching any mismatched choice array.
+
+### In progress (staged)
+- Remaining story: the Rimewood & Blightfen optional regions, the Greyhollow
+  Commons cast & readable books, the Unhollowed road/fen finds, and the
+  epilogue/endings. Plus a short tail of transient combat toasts.
+
+### Tests
+- **108 tests total**, all passing; `tsc --noEmit` clean and the smoke run reports
+  zero runtime errors.
+
 ## [1.8.0] — Russian: story script begins (language stage 4b)
 
 ### Added

@@ -34,6 +34,22 @@ test("localization preserves choice navigation fields (goto/combat/flags)", () =
   setLocale("en");
 });
 
+test("every translated story node is fully Russian — title, text and all choices", () => {
+  setLocale("ru");
+  const cyr = /[А-Яа-яЁё]/;
+  for (const id of Object.keys(NODES)) {
+    const en = NODES[id];
+    const ru = localizeStoryNode(en);
+    if (ru.title === en.title && ru.text === en.text) continue; // not translated yet
+    assert.ok(cyr.test(ru.title), `${id} title not translated`);
+    assert.ok(cyr.test(ru.text), `${id} text not translated`);
+    for (let i = 0; i < en.choices.length; i++) {
+      assert.ok(cyr.test(ru.choices[i].text), `${id} choice ${i} left in English (mismatched choices array?)`);
+    }
+  }
+  setLocale("en");
+});
+
 test("untranslated nodes fall back to English text (never blank)", () => {
   setLocale("ru");
   // a node not yet in the batch still returns usable (English) strings
