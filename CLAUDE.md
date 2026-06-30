@@ -54,8 +54,8 @@ roadmap item below, build it to completion as above, commit/push, and report.
 - `src/main.ts` — screen controller / all DOM UI and input.
 - `test/` — engine + content + smoke tests.
 
-## Status (as of v0.16.0)
-**Done & tested (66 tests):**
+## Status (as of v0.17.0)
+**Done & tested (70 tests):**
 - Foundation: character creation (race/class/background/point-buy/traits), save
   slots + import/export, procedural audio + settings, loot (rarity/affixes/sets/
   durability/repair), deep talent trees (9 nodes/class, ultimates + talent-granted
@@ -71,7 +71,9 @@ roadmap item below, build it to completion as above, commit/push, and report.
 - World deepening: Greyhollow is a living hub — a recurring named cast (Maren,
   Pip, Garrow) whose Commons dialogue evolves across the campaign's three stages,
   plus readable salvaged books; and optional **examine** beats in every main area
-  that uncover Aldermoor's history (codex entries), never blocking the march.
+  that uncover Aldermoor's history (codex entries), never blocking the march. The
+  victory ends on a **reactive epilogue** that reflects the optional threads you
+  resolved (Rimewood / Blightfen / Unhollowed), gated on flags set at each clear.
 
 ## Roadmap (continue here, in order)
 1. **Content fill** — expand toward the larger spec: more enemies/abilities/items

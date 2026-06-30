@@ -2,6 +2,24 @@
 
 All notable changes to Dicebound: The Hollow Crown.
 
+## [0.17.0] — A reactive epilogue (World deepening milestone 3)
+
+### Added
+- **The victory now reflects your journey.** When the Hollow King falls, a quiet
+  denouement gathers the optional threads you actually resolved — the **Rimewood**
+  freed, the **Blightfen** quieted, the **three who fled south** given their last
+  page — each an optional reflection shown only if you earned it, before the true
+  ending. Doing the optional content now pays off narratively, not just in loot.
+- Flags set at each optional clear (`rimewood_cleared`, `blightfen_cleared`, and
+  the existing Unhollowed flag) drive the reflections; the path to the ending is
+  **never gated** behind optional content, so any playthrough still ends cleanly.
+
+### Tests
+- New epilogue suite: the Hollow King routes through the epilogue, each clear sets
+  its flag, every reflection is gated/exists/loops back, and an ungated ending is
+  always offered — **70 tests total**, all passing; `tsc --noEmit` clean and the
+  Playwright smoke run reports zero runtime errors.
+
 ## [0.16.0] — Stories in the stones (World deepening milestone 2)
 
 ### Added

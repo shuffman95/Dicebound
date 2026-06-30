@@ -318,7 +318,7 @@ export const NODES: Record<string, StoryNode> = {
     choices: [
       { text: "Steady yourselves (Rest — 20 gold)", rest: true },
       { text: "Use the moment to ready gear (Shop)", shop: true },
-      { text: "Put out the grey fire", combat: { enemies: ["the-hollow-king"], victoryNode: "ending_victory" } },
+      { text: "Put out the grey fire", combat: { enemies: ["the-hollow-king"], victoryNode: "epilogue" } },
     ],
   },
 
@@ -409,7 +409,7 @@ export const NODES: Record<string, StoryNode> = {
     art: "🌅",
     text:
       "The armor comes apart in a fall of frost, and for the first time in a year the Rimewood is merely cold, not cruel. Winter's Edge lies bright in the snow. The frozen Wardens, freed, sink quietly into rest. Hesken will sleep easier — and so, perhaps, will you.",
-    onEnter: { xp: 40, completeQuest: "frozen-vigil" },
+    onEnter: { xp: 40, completeQuest: "frozen-vigil", setFlag: "rimewood_cleared" },
     choices: [
       { text: "Return to Greyhollow", goto: "town2" },
     ],
@@ -502,7 +502,7 @@ export const NODES: Record<string, StoryNode> = {
     art: "🌅",
     text:
       "The crown of mushrooms blackens and falls, and Mother Wyste with it — only an old woman again, at the last, and at rest. The Mirecrown Scepter she carried still hums with the half-thing she nearly made. The spore-light thins; somewhere a frog, the first living thing in a season, dares to call. Sedge will want to know.",
-    onEnter: { xp: 45, completeQuest: "blighted-roots" },
+    onEnter: { xp: 45, completeQuest: "blighted-roots", setFlag: "blightfen_cleared" },
     choices: [{ text: "Return to Greyhollow", goto: "town2" }],
   },
 
@@ -610,6 +610,49 @@ export const NODES: Record<string, StoryNode> = {
     text:
       "Garrow is standing when you find him — upright on the bad leg by sheer stubbornness. 'Can't march. So I'll hold the door here till you're back — or till I'm not.' He clasps your forearm, a soldier's grip, fierce and brief. 'Put it out, Warden. For them as ran, and them as stayed.' Then he sits, hard, and watches the fire, and says nothing more.",
     choices: [{ text: "Leave him the watch", goto: "commons3" }],
+  },
+
+  // ===================== Reactive epilogue =====================
+  // After the Hollow King falls, a quiet denouement that reflects the optional
+  // threads the party actually resolved (gated on flags set at each clear), then
+  // closes on the true ending. Reflections loop back here; "Let the green return"
+  // ends the game.
+  epilogue: {
+    id: "epilogue",
+    title: "The Crown Goes Out",
+    art: "🌄",
+    text:
+      "The grey crown cracks like river ice and the cold fire gutters out. The Hollow King sighs — almost grateful — and is, at last, only a dead man on a throne of roots. It is done.\n\nIn the long quiet after, before you turn for home, your thoughts go back along the road the Oath carried you — to the places you passed, and the ones you could not save, and the few you could.",
+    choices: [
+      { text: "Think of the Rimewood", goto: "ep_rime", requiresFlag: "rimewood_cleared" },
+      { text: "Think of the Blightfen", goto: "ep_fen", requiresFlag: "blightfen_cleared" },
+      { text: "Think of the three who fled south", goto: "ep_unhollowed", requiresFlag: "found_keep" },
+      { text: "Let the last green thing grow", goto: "ending_victory" },
+    ],
+  },
+  ep_rime: {
+    id: "ep_rime",
+    title: "The Rimewood Remembers",
+    art: "❄️",
+    text:
+      "East, in a wood that is only cold now and no longer cruel, the frozen Wardens have sunk at last into proper rest, and Captain Varn's long vigil is ended. Old Hesken, they say, sleeps the night through for the first time in a year. Winter will come there still — but only winter, which is a thing that ends.",
+    choices: [{ text: "Let the memory settle", goto: "epilogue" }],
+  },
+  ep_fen: {
+    id: "ep_fen",
+    title: "The Blightfen Quiets",
+    art: "🍄",
+    text:
+      "South and west, the spore-light has gone out of the fen, and Mother Wyste sleeps where her gardens grew — an old woman again, and at peace. The black pools are only water now. Somewhere among the reeds a frog, the first living thing in a season, dares to call into the dark, and is answered.",
+    choices: [{ text: "Let the memory settle", goto: "epilogue" }],
+  },
+  ep_unhollowed: {
+    id: "ep_unhollowed",
+    title: "The Last Page",
+    art: "🕯️",
+    text:
+      "And in Greyhollow, when you tell her, Maren writes three names in the ledger's last column — the reed-cutter and her girl, the pilgrim, Wick who made the candles — and beside each, instead of that bare word 'south', she writes what became of them. The dead have their last page. It is not much. It was the whole of what she asked.",
+    choices: [{ text: "Let the memory settle", goto: "epilogue" }],
   },
 
   ending_victory: {
