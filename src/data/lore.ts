@@ -1,4 +1,5 @@
 import { LoreDef } from "../engine/types.js";
+import { localizeDef } from "./locale.js";
 
 // Codex entries unlocked through exploration and quests.
 export const LORE: Record<string, LoreDef> = {
@@ -93,4 +94,4 @@ export const LORE: Record<string, LoreDef> = {
   },
 };
 
-export function getLore(id: string): LoreDef | undefined { return LORE[id]; }
+export function getLore(id: string): LoreDef | undefined { const l = LORE[id]; return l ? localizeDef("lore", l) : undefined; }

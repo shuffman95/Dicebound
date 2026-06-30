@@ -9,6 +9,7 @@ import { getItem, ITEMS } from "../src/data/items.js";
 import { getEnemy, ENEMIES } from "../src/data/enemies.js";
 import { getQuest, QUESTS } from "../src/data/quests.js";
 import { getAbility, ABILITIES } from "../src/data/abilities.js";
+import { getLore, LORE } from "../src/data/lore.js";
 import { localizeDef } from "../src/data/locale.js";
 
 test("English is unchanged (localization is identity for the default locale)", () => {
@@ -91,6 +92,25 @@ test("every ability is fully translated (no English leaks)", () => {
     const a = getAbility(id);
     assert.ok(cyrillic.test(a.name), `ability name ${id}`);
     assert.ok(cyrillic.test(a.description), `ability desc ${id}`);
+  }
+  setLocale("en");
+});
+
+test("Russian localizes the lore codex; English unchanged", () => {
+  setLocale("ru");
+  assert.equal(getLore("the-hollowing")!.title, "Об Опустошении");
+  assert.ok(getLore("the-hollowing")!.text.includes("Опустошение"));
+  setLocale("en");
+  assert.equal(getLore("the-hollowing")!.title, "On the Hollowing");
+});
+
+test("every codex entry is fully translated (no English leaks)", () => {
+  setLocale("ru");
+  const cyrillic = /[А-Яа-яЁё]/;
+  for (const id of Object.keys(LORE)) {
+    const l = getLore(id)!;
+    assert.ok(cyrillic.test(l.title), `lore title ${id}`);
+    assert.ok(cyrillic.test(l.text), `lore text ${id}`);
   }
   setLocale("en");
 });

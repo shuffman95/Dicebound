@@ -2,6 +2,25 @@
 
 All notable changes to Dicebound: The Hollow Crown.
 
+## [1.7.0] — Russian: the lore codex (language stage 4a)
+
+### Added
+- **The entire lore codex is now translated** — all 22 entries (titles and the
+  full paragraph texts), from *On the Hollowing* and *The Wardens' Oath* to the
+  environmental finds and the *Unhollowed* character vignettes. `getLore` now
+  localizes through the content layer.
+- Translations follow the established glossary and keep the grim, spare literary
+  voice of the originals (proper names transliterated: Алдермур, Грейхоллоу, etc.).
+
+### In progress (staged)
+- Last stage: the full **story script** (`story.ts`) — every node's title,
+  narrative text and choice labels — plus a short tail of transient combat toasts.
+
+### Tests
+- Content-locale suite extended with a no-English-leaks sweep over every codex
+  entry — **103 tests total**, all passing; `tsc --noEmit` clean and the smoke run
+  reports zero runtime errors.
+
 ## [1.6.0] — Russian: party, shop & workshop UI (language stage 3d)
 
 ### Added
