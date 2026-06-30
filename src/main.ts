@@ -132,7 +132,7 @@ function renderTitle() {
     </div>`);
 }
 
-const VERSION = "1.11.0";
+const VERSION = "1.12.0";
 
 function renderHowTo() {
   openModal(t("how.title"), `
@@ -346,8 +346,8 @@ async function handleChoice(idx: number) {
   if (!choice) return;
   if (choice.shop) { openShop(); return; }
   if (choice.rest) {
-    if (game.rest(20)) { toast("The party rests. Fully healed."); renderStory(); }
-    else toast("Not enough gold to rest (20).");
+    if (game.rest(20)) { toast(t("toast.rested")); renderStory(); }
+    else toast(t("toast.noGoldRest"));
     return;
   }
   if (choice.effects) { game.applyEffects(choice.effects); if (choice.effectsNext) game.goto(choice.effectsNext); renderStory(); return; }
@@ -356,7 +356,7 @@ async function handleChoice(idx: number) {
     busy = true;
     const { result, member } = game.performCheck(choice.check.attr, choice.check.dc);
     await showDice({ d20: result.die, bonus: result.modifier, total: result.total, target: result.dc, hit: result.success, crit: result.crit, fumble: result.fumble });
-    toast(`${member.name} rolls ${choice.check.attr.toUpperCase()} — ${result.success ? "Success!" : "Failed."}`);
+    toast(t("toast.check", { name: member.name, attr: attrLabel(choice.check.attr), result: result.success ? t("check.success") : t("check.fail") }));
     busy = false;
     game.goto(result.success ? choice.check.successNode : choice.check.failNode);
     renderStory();
@@ -630,13 +630,13 @@ async function useCombatItem(itemId: string, target: Combatant) {
   const item = getItem(itemId);
   const con = item.consumable!;
   let msg = "";
-  if (con.reviveHpPercent && !target.alive) { target.alive = true; target.hp = Math.max(1, Math.floor(target.maxHP * con.reviveHpPercent / 100)); msg = `${target.name} is revived!`; }
+  if (con.reviveHpPercent && !target.alive) { target.alive = true; target.hp = Math.max(1, Math.floor(target.maxHP * con.reviveHpPercent / 100)); msg = t("msg.revived", { name: target.name }); }
   else if (target.alive) {
-    if (con.heal) { const amt = Math.min(rollNote(con.heal), target.maxHP - target.hp); target.hp += amt; msg = `${target.name} heals ${amt} HP.`; }
-    if (con.restoreFocus) { const amt = Math.min(con.restoreFocus, target.maxFocus - target.focus); target.focus += amt; msg = `${target.name} restores ${amt} Focus.`; }
-    if (con.cureStatus) { target.statuses = target.statuses.filter((s) => !con.cureStatus!.includes(s.kind)); msg = `${target.name} is cleansed.`; }
-    if (con.applyStatus) { target.statuses.push({ ...con.applyStatus }); msg = `${target.name} gains ${describeStatus(con.applyStatus)}.`; }
-  } else { toast("Invalid target."); return; }
+    if (con.heal) { const amt = Math.min(rollNote(con.heal), target.maxHP - target.hp); target.hp += amt; msg = t("msg.healsHp", { name: target.name, n: amt }); }
+    if (con.restoreFocus) { const amt = Math.min(con.restoreFocus, target.maxFocus - target.focus); target.focus += amt; msg = t("msg.restoresFocus", { name: target.name, n: amt }); }
+    if (con.cureStatus) { target.statuses = target.statuses.filter((s) => !con.cureStatus!.includes(s.kind)); msg = t("msg.cleansed", { name: target.name }); }
+    if (con.applyStatus) { target.statuses.push({ ...con.applyStatus }); msg = t("msg.gains", { name: target.name, x: describeStatus(con.applyStatus) }); }
+  } else { toast(t("toast.invalidTarget")); return; }
   game.removeItem(itemId);
   combatItemMode = null;
   combat.pushLog(`🎒 ${item.name}: ${msg}`, "heal");
@@ -933,7 +933,7 @@ function onClick(ev: Event) {
   if (!(target as HTMLButtonElement).disabled && !NO_CLICK_SFX.has(act)) sfx("click");
   switch (act) {
     case "new-game": setup = defaultParty(); creationIndex = 0; renderSetup(); break;
-    case "continue": if (game.load()) { game.combat = null; renderStory(); } else toast("No save found."); break;
+    case "continue": if (game.load()) { game.combat = null; renderStory(); } else toast(t("toast.noSave")); break;
     case "load-game": renderLoadGame(); break;
     case "settings": openSettings(); break;
     case "how": renderHowTo(); break;
@@ -963,16 +963,16 @@ function onClick(ev: Event) {
     case "combat-item-pick": combatItemMode = d.item!; closeModal(); renderCombat(); break;
     case "combat-flee": void tryFlee(); break;
     case "victory-continue": game.goto(combatMeta!.victoryNode); combatMeta = null; renderStory(); break;
-    case "buy-consumable": if (game.buyConsumable(d.id!)) { sfx("buy"); toast("Purchased " + getItem(d.id!).name); openShop(); } else { sfx("error"); toast("Can't afford that."); } break;
-    case "buy-gear": { const inst = shopGear?.items.find((g) => g.uid === d.uid); if (inst && game.buyGear(inst)) { sfx("buy"); shopGear!.items = shopGear!.items.filter((g) => g.uid !== d.uid); toast("Purchased " + instanceName(inst)); openShop(); } else { sfx("error"); toast("Can't afford that."); } break; }
-    case "sell-stack": if (game.sellStack(d.id!)) { sfx("buy"); toast("Sold."); openShop(); } break;
-    case "sell-gear": if (game.sellGear(d.uid!)) { sfx("buy"); toast("Sold."); openShop(); } break;
-    case "repair-all": if (game.repairAll()) { sfx("buy"); toast("All gear repaired."); openShop(); } else { sfx("error"); toast("Can't afford repairs."); } break;
+    case "buy-consumable": if (game.buyConsumable(d.id!)) { sfx("buy"); toast(t("toast.purchased", { x: getItem(d.id!).name })); openShop(); } else { sfx("error"); toast(t("toast.cantAfford")); } break;
+    case "buy-gear": { const inst = shopGear?.items.find((g) => g.uid === d.uid); if (inst && game.buyGear(inst)) { sfx("buy"); shopGear!.items = shopGear!.items.filter((g) => g.uid !== d.uid); toast(t("toast.purchased", { x: instanceName(inst) })); openShop(); } else { sfx("error"); toast(t("toast.cantAfford")); } break; }
+    case "sell-stack": if (game.sellStack(d.id!)) { sfx("buy"); toast(t("toast.sold")); openShop(); } break;
+    case "sell-gear": if (game.sellGear(d.uid!)) { sfx("buy"); toast(t("toast.sold")); openShop(); } break;
+    case "repair-all": if (game.repairAll()) { sfx("buy"); toast(t("toast.allRepaired")); openShop(); } else { sfx("error"); toast(t("toast.cantAffordRepairs")); } break;
     case "open-crafting": openCrafting(); break;
     case "open-shop-back": openShop(); break;
-    case "craft": { const r = RECIPE_LIST.find((x) => x.id === d.recipe); if (r && game.craft(r)) { sfx("buy"); game.save(); toast("Crafted " + getItem(r.output.defId).name); openCrafting(); } else { sfx("error"); toast("Missing materials."); } break; }
+    case "craft": { const r = RECIPE_LIST.find((x) => x.id === d.recipe); if (r && game.craft(r)) { sfx("buy"); game.save(); toast(t("toast.crafted", { x: getItem(r.output.defId).name })); openCrafting(); } else { sfx("error"); toast(t("toast.missingMaterials")); } break; }
     case "change-equip": openChangeEquip(Number(d.member), d.slot as EquipSlot); break;
-    case "do-equip": { const m = game.party[Number(d.member)]; if (game.equipInstance(m, d.uid!)) { sfx("ability"); toast("Equipped."); } openParty(); break; }
+    case "do-equip": { const m = game.party[Number(d.member)]; if (game.equipInstance(m, d.uid!)) { sfx("ability"); toast(t("toast.equipped")); } openParty(); break; }
     case "unequip": { const m = game.party[Number(d.member)]; game.unequip(m, d.slot as EquipSlot); openParty(); break; }
     case "open-talents": openTalents(Number(d.member)); break;
     case "learn-talent": { const m = game.party[Number(d.member)]; if (learnTalent(m, d.node!)) { sfx("levelup"); game.save(); openTalents(Number(d.member)); } else { sfx("error"); } break; }
@@ -980,8 +980,8 @@ function onClick(ev: Event) {
     case "use-item-ooc": openUseItemOOC(d.item!); break;
     case "do-use-ooc": { const m = game.party[Number(d.member)]; const msg = game.useConsumableOOC(d.item!, m); toast(msg ?? "Can't use that."); openParty(); break; }
     // ---- saves / settings ----
-    case "save-slot": { if (game.saveToSlot(d.slot as SaveSlot)) toast("Saved to slot " + slotLabel(d.slot as SaveSlot)); closeModal(); break; }
-    case "load-slot": { if (game.loadFromSlot(d.slot as SaveSlot)) { game.combat = null; closeModal(); renderStory(); } else { sfx("error"); toast("Empty or invalid slot."); } break; }
+    case "save-slot": { if (game.saveToSlot(d.slot as SaveSlot)) toast(t("toast.savedSlot", { x: slotLabel(d.slot as SaveSlot) })); closeModal(); break; }
+    case "load-slot": { if (game.loadFromSlot(d.slot as SaveSlot)) { game.combat = null; closeModal(); renderStory(); } else { sfx("error"); toast(t("toast.emptySlot")); } break; }
     case "delete-slot": { Game.deleteSlot(d.slot as SaveSlot); renderLoadGameInner(); break; }
     case "export-save": exportSave(); break;
     case "import-save": importSavePrompt(); break;
@@ -1028,8 +1028,8 @@ app.addEventListener("pointerdown", (ev) => {
 
 async function tryFlee() {
   // 50/50 flee; failure costs the turn
-  if (Math.random() < 0.5) { toast("You slip away from the fight."); game.combat = null; game.goto(combatMeta!.victoryNode); combatMeta = null; renderStory(); }
-  else { toast("Couldn't escape!"); const combat = game.combat!; combat.pushLog("The party fails to flee!", "info"); busy = true; renderCombat(); await delay(300); combat.endTurnManually(); busy = false; await postTurn(); }
+  if (Math.random() < 0.5) { toast(t("toast.fleeSuccess")); game.combat = null; game.goto(combatMeta!.victoryNode); combatMeta = null; renderStory(); }
+  else { toast(t("toast.fleeFail")); const combat = game.combat!; combat.pushLog(t("log.fleeFail"), "info"); busy = true; renderCombat(); await delay(300); combat.endTurnManually(); busy = false; await postTurn(); }
 }
 
 function startNewGame() {
@@ -1042,17 +1042,17 @@ function startNewGame() {
 // ===================================================================
 // SAVE SLOTS / LOAD GAME
 // ===================================================================
-function slotLabel(slot: SaveSlot): string { return slot === "auto" ? "Auto" : slot; }
+function slotLabel(slot: SaveSlot): string { return slot === "auto" ? t("save.auto") : slot; }
 
 function slotRow(slot: SaveSlot, mode: "load" | "save"): string {
   const meta = Game.readMeta(slot);
   const when = meta ? new Date(meta.timestamp).toLocaleString() : "";
   const info = meta
-    ? `<div class="iname">${esc(meta.leader)} & party · L${meta.level}</div><div class="idesc">${esc(meta.location)} · ⦿${meta.gold} · ${esc(when)}</div>`
-    : `<div class="dim">— empty —</div>`;
+    ? `<div class="iname">${esc(meta.leader)}${t("save.andParty")} · ${t("stat.lvlShort")}${meta.level}</div><div class="idesc">${esc(meta.location)} · ⦿${meta.gold} · ${esc(when)}</div>`
+    : `<div class="dim">${t("save.empty")}</div>`;
   const action = mode === "load"
-    ? `<button class="btn small ${meta ? "primary" : ""}" data-act="load-slot" data-slot="${slot}" ${meta ? "" : "disabled"}>Load</button>`
-    : `<button class="btn small primary" data-act="save-slot" data-slot="${slot}">Save</button>`;
+    ? `<button class="btn small ${meta ? "primary" : ""}" data-act="load-slot" data-slot="${slot}" ${meta ? "" : "disabled"}>${t("save.load")}</button>`
+    : `<button class="btn small primary" data-act="save-slot" data-slot="${slot}">${t("topbar.save")}</button>`;
   const del = meta ? `<button class="btn small ghost" data-act="delete-slot" data-slot="${slot}">🗑</button>` : "";
   return `<div class="li"><div class="grow"><span class="tag">${slotLabel(slot)}</span> ${info}</div>${action}${del}</div>`;
 }
@@ -1061,23 +1061,23 @@ function renderLoadGame() {
   audio.playMusic("title");
   setHTML(`
     <div class="screen">
-      <h2 class="title-serif" style="color:var(--gold);text-align:center">Load Game</h2>
+      <h2 class="title-serif" style="color:var(--gold);text-align:center">${t("title.load")}</h2>
       <div class="list" id="slot-list">${["auto", "1", "2", "3"].map((s) => slotRow(s as SaveSlot, "load")).join("")}</div>
       <div class="row center" style="margin-top:10px">
-        <button class="btn ghost small" data-act="import-save">📥 Import</button>
-        <button class="btn ghost small" data-act="to-title">Back</button>
+        <button class="btn ghost small" data-act="import-save">${t("common.import")}</button>
+        <button class="btn ghost small" data-act="to-title">${t("common.back")}</button>
       </div>
     </div>`);
 }
 function renderLoadGameInner() { const list = document.getElementById("slot-list"); if (list) list.innerHTML = ["auto", "1", "2", "3"].map((s) => slotRow(s as SaveSlot, "load")).join(""); }
 
 function openSaveMenu() {
-  openModal("Save Game", `
+  openModal(t("save.title"), `
     <div class="list">${["1", "2", "3", "auto"].map((s) => slotRow(s as SaveSlot, "save")).join("")}</div>
     <div class="row center" style="margin-top:12px">
-      <button class="btn ghost small" data-act="export-save">📤 Export</button>
-      <button class="btn ghost small" data-act="import-save">📥 Import</button>
-      <button class="btn ghost small" data-act="close-modal">Close</button>
+      <button class="btn ghost small" data-act="export-save">${t("common.export")}</button>
+      <button class="btn ghost small" data-act="import-save">${t("common.import")}</button>
+      <button class="btn ghost small" data-act="close-modal">${t("common.close")}</button>
     </div>
   `);
 }
@@ -1091,17 +1091,17 @@ function exportSave() {
     aEl.href = url; aEl.download = `dicebound-save-${Date.now()}.json`;
     document.body.appendChild(aEl); aEl.click(); aEl.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
-    toast("Save exported.");
+    toast(t("toast.exported"));
   } catch {
     // fallback: copy to clipboard
-    navigator.clipboard?.writeText(data).then(() => toast("Save copied to clipboard.")).catch(() => toast("Export failed."));
+    navigator.clipboard?.writeText(data).then(() => toast(t("toast.copied"))).catch(() => toast(t("toast.exportFailed")));
   }
 }
 function importSavePrompt() {
-  const json = window.prompt("Paste an exported save (JSON):");
+  const json = window.prompt(t("prompt.pasteSave"));
   if (!json) return;
-  if (game.importString(json.trim())) { closeModal(); toast("Save imported."); renderStory(); }
-  else { sfx("error"); toast("Invalid save data."); }
+  if (game.importString(json.trim())) { closeModal(); toast(t("toast.imported")); renderStory(); }
+  else { sfx("error"); toast(t("toast.invalidSave")); }
 }
 
 // ===================================================================

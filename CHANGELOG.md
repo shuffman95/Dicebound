@@ -2,6 +2,26 @@
 
 All notable changes to Dicebound: The Hollow Crown.
 
+## [1.12.0] — Russian: toasts, notifications & the save menu (language stage 4f)
+
+### Added
+- **Translated the transient feedback layer:** skill-check results, rest/shop/
+  craft/equip/save toasts, the quest & codex notifications (start/complete/loot,
+  "Codex updated"), out-of-combat and in-combat item-use messages, the flee
+  outcomes, and the export/import prompts — `game.ts` and `combat.ts` now route
+  these through the i18n layer too.
+- **The save/load menu** is localized (slot labels, Load/Save, Import/Export,
+  empty-slot text).
+
+### In progress
+- One surface remains: the **combat-log sentence templates** in `combat.ts`
+  (e.g. "X uses Y", the d20 hit/miss/crit lines, damage and reaction tags). That's
+  the last English in the game and is up next.
+
+### Tests
+- **109 tests**, all passing; `tsc --noEmit` clean and the smoke run reports zero
+  runtime errors.
+
 ## [1.11.0] — Russian: the story script is complete (language stage 4e)
 
 ### Added

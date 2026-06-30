@@ -10,6 +10,7 @@ import { getItem, ITEMS } from "../data/items.js";
 import { CLASSES } from "../data/classes.js";
 import { baseInstance, generateGear, repairCost, sellValue, buyValue } from "./loot.js";
 import { getQuest } from "../data/quests.js";
+import { t } from "./i18n.js";
 
 const SAVE_VERSION = 3;
 const SAVE_PREFIX = "dicebound.save.v3.";
@@ -98,7 +99,7 @@ export class Game {
     const q = getQuest(id);
     if (!q) return;
     this.quests[id] = "active";
-    this.notifications.push(`📜 ${q.type === "main" ? "Quest" : "Side quest"}: ${q.name}`);
+    this.notifications.push(t("notif.questPrefix", { type: q.type === "main" ? t("notif.quest") : t("notif.sideQuest"), name: q.name }));
   }
   completeQuest(id: string): void {
     if (this.quests[id] === "completed") return;
@@ -111,13 +112,13 @@ export class Game {
       if (q.reward.items) for (const it of q.reward.items) this.addItem(it);
     }
     const r = q.reward;
-    const rewardText = r ? ` (+${r.xp ?? 0} XP, +${r.gold ?? 0}g${r.items?.length ? ", loot" : ""})` : "";
-    this.notifications.push(`✅ Quest complete: ${q.name}${rewardText}`);
+    const rewardText = r ? t("notif.reward", { xp: r.xp ?? 0, gold: r.gold ?? 0, g: t("u.goldShort"), loot: r.items?.length ? t("notif.loot") : "" }) : "";
+    this.notifications.push(t("notif.questComplete", { name: q.name, reward: rewardText }));
   }
   unlockLore(id: string): void {
     if (this.lore.has(id)) return;
     this.lore.add(id);
-    this.notifications.push(`📖 Codex updated`);
+    this.notifications.push(t("notif.codex"));
   }
   drainNotifications(): string[] { const n = this.notifications; this.notifications = []; return n; }
   questState(id: string): "active" | "completed" | undefined { return this.quests[id]; }
@@ -243,13 +244,13 @@ export class Game {
       target.alive = true;
       target.hp = Math.max(1, Math.floor(target.maxHP * c.reviveHpPercent / 100));
       this.removeItem(itemId);
-      return `${target.name} is revived at ${target.hp} HP.`;
+      return t("msg.revivedAt", { name: target.name, hp: target.hp });
     }
     if (!target.alive) return null;
     let msg = "";
-    if (c.heal) { const amt = Math.min(rollSimple(c.heal, this.rng), target.maxHP - target.hp); target.hp += amt; msg = `${target.name} restores ${amt} HP.`; }
-    if (c.restoreFocus) { const amt = Math.min(c.restoreFocus, target.maxFocus - target.focus); target.focus += amt; msg = `${target.name} restores ${amt} Focus.`; }
-    if (c.cureStatus) { target.statuses = target.statuses.filter((s) => !c.cureStatus!.includes(s.kind)); msg = `${target.name} is cleansed.`; }
+    if (c.heal) { const amt = Math.min(rollSimple(c.heal, this.rng), target.maxHP - target.hp); target.hp += amt; msg = t("msg.restoresHp", { name: target.name, n: amt }); }
+    if (c.restoreFocus) { const amt = Math.min(c.restoreFocus, target.maxFocus - target.focus); target.focus += amt; msg = t("msg.restoresFocus", { name: target.name, n: amt }); }
+    if (c.cureStatus) { target.statuses = target.statuses.filter((s) => !c.cureStatus!.includes(s.kind)); msg = t("msg.cleansed", { name: target.name }); }
     this.removeItem(itemId);
     return msg || `${item.name} used.`;
   }
