@@ -2,6 +2,26 @@
 
 All notable changes to Dicebound: The Hollow Crown.
 
+## [1.3.0] — Russian: items, enemies & quests (language stage 3a)
+
+### Added
+- **All equipment, consumables, materials, enemies and quests are now translated**
+  into Russian: every item name & description, every enemy name, and every quest's
+  name, summary and objective — so the shop, inventory, party panel, combat target
+  labels and the quest journal read in Russian.
+- Wired `localizeDef` into the item/ability/enemy/quest getters (abilities will be
+  populated next), and made enemy battle emoji key off the stable id rather than
+  the display name, so icons are correct in any language.
+
+### In progress (staged)
+- Next: ability names & descriptions + the combat/shop/journal UI chrome; then the
+  lore codex and the full story script.
+
+### Tests
+- Content-locale suite extended (Russian items/enemies/quests, English identity,
+  and a no-English-leaks sweep over every item/enemy/quest) — **99 tests total**,
+  all passing; `tsc --noEmit` clean and the smoke run reports zero runtime errors.
+
 ## [1.2.1] — Ensure English is the default language
 
 ### Fixed / hardened

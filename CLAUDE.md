@@ -58,8 +58,8 @@ roadmap item below, build it to completion as above, commit/push, and report.
 - `src/main.ts` — screen controller / all DOM UI and input.
 - `test/` — engine + content + smoke tests.
 
-## Status (as of v1.2.0)
-**Done & tested (95 tests):**
+## Status (as of v1.3.0)
+**Done & tested (99 tests):**
 - Foundation: character creation (race/class/background/point-buy/traits), save
   slots + import/export, procedural audio + settings, loot (rarity/affixes/sets/
   durability/repair), deep talent trees (9 nodes/class, ultimates + talent-granted
@@ -97,16 +97,25 @@ Russian language support is being built in stages behind a Settings toggle
 via `src/data/locale.ts` `localizeDef(ns, def)` applied inside the getters
 (getClass/getRace/getBackground/getTrait, with getItem/getAbility/getEnemy/
 getQuest/getLore to follow) — English fallback throughout; locale stored in
-`prefs`. **Done:** v1.1.0 title/menu, Settings, How-to-Play; v1.2.0 character
-creation (UI + classes/races/backgrounds/traits content). **Next, in order:**
-(1) combat & shop/journal UI; (2) content — items, abilities, enemies, quests,
-lore codex (add `localizeDef` to their getters + entries in `locale.ts`); (3) the
-full story script (`src/data/story.ts`, a custom node localizer for title/text/
-choices). Keep a consistent **glossary**:
-- Might→Сила, Agility→Ловкость, Wits→Разум, Spirit→Дух; Focus→Фокус; DC→СЛ.
-- Warden→Хранитель; the Hollowing→Опустошение; Hollow King→Полый Король;
-  Aldermoor/Greyhollow stay as proper names (may transliterate: Алдермур,
-  Грейхоллоу). "Dicebound" / "The Hollow Crown" stay as the brand title.
+`prefs`. **Done:** v1.1.0 title/menu, Settings, How-to-Play; v1.2.0 creation (UI +
+classes/races/backgrounds/traits); v1.3.0 items, enemies, quests (getItem/
+getEnemy/getQuest localized). **Next, in order:** (1) ability names+descriptions
+(getAbility already localized — add `ability` entries to `locale.ts`) + combat/
+shop/journal/party UI chrome + combat-log templates in `combat.ts`; (2) lore codex
+texts; (3) the full story script (`src/data/story.ts`, a custom node localizer for
+title/text/choices). Keep a consistent **glossary**:
+- Might→Сила, Agility→Ловкость, Wits→Разум, Spirit→Дух; Focus→Фокус; DC→СЛ; HP→ОЗ.
+- Statuses: Poison→Яд, Burn→Ожог, Chill→Озноб, Stun→Оглушение, Weaken→Ослабление,
+  Rally→Воодушевление, Fortify→Укрепление, Shield→Щит, Regen→Регенерация.
+- Warden→Хранитель; the Hollowing→Опустошение; Hollow King→Полый Король; the
+  Wardens' Oath→Клятва Хранителей. Regions: Rimewood→Морозный лес,
+  Blightfen→Гнилотопь, Ashen Keep→Пепельная Цитадель, Drowned Chapel→Утонувшая
+  Часовня, Sunken Road→Затонувшая Дорога. Bosses: Warden of Thorns→Хранитель
+  Терний, Pale Bishop→Бледный Епископ, Hoarfrost Knight→Рыцарь Изморози,
+  Rotcrowned→Гнилоувенчанная. NPCs: Maren→Марен, Pip→Пип, Garrow→Гэрроу,
+  Hesken→Хескен, Sedge→Седж, Mother Wyste→Матушка Виста, Wick→Вик.
+- Aldermoor→Алдермур, Greyhollow→Грейхоллоу (proper names). "Dicebound" /
+  "The Hollow Crown" stay as the brand title.
 - Native-speaker proofreading is welcome — flag any awkward lines to refine.
 
 ## Post-1.0 ideas

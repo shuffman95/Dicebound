@@ -1,4 +1,5 @@
 import { QuestDef } from "../engine/types.js";
+import { localizeDef } from "./locale.js";
 
 export const QUESTS: Record<string, QuestDef> = {
   "hollow-crown": {
@@ -44,5 +45,5 @@ export const QUESTS: Record<string, QuestDef> = {
   },
 };
 
-export function getQuest(id: string): QuestDef | undefined { return QUESTS[id]; }
+export function getQuest(id: string): QuestDef | undefined { const q = QUESTS[id]; return q ? localizeDef("quest", q) : undefined; }
 export const QUEST_LIST = Object.values(QUESTS);

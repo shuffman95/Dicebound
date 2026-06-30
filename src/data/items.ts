@@ -1,4 +1,5 @@
 import { ItemDef, EquipSlot } from "../engine/types.js";
+import { localizeDef } from "./locale.js";
 
 export const ITEMS: Record<string, ItemDef> = {
   // ---------------- Consumables ----------------
@@ -107,7 +108,7 @@ export const ITEMS: Record<string, ItemDef> = {
 export function getItem(id: string): ItemDef {
   const it = ITEMS[id];
   if (!it) throw new Error(`Unknown item: ${id}`);
-  return it;
+  return localizeDef("item", it);
 }
 
 // Consumables the shop always stocks (sold as stacks at fixed price).

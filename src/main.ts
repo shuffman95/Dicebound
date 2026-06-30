@@ -131,7 +131,7 @@ function renderTitle() {
     </div>`);
 }
 
-const VERSION = "1.2.1";
+const VERSION = "1.3.0";
 
 function renderHowTo() {
   openModal(t("how.title"), `
@@ -397,7 +397,7 @@ function unitCard(c: Combatant, opts: { targetable?: boolean; healTarget?: boole
   if (!c.alive) cls.push("dead");
   if (opts.targetable) cls.push("targetable");
   if (opts.healTarget) cls.push("heal-target");
-  const emoji = c.isPlayer ? CLASS_EMOJI[c.classId!] : enemyEmoji(c.name);
+  const emoji = c.isPlayer ? CLASS_EMOJI[c.classId!] : enemyEmoji(c.id);
   const def = game.combat ? game.combat.defenseInCombat(c) : defenseOf(c);
   const statuses = c.statuses.map((s) => statusChip(s)).join("");
   const boss = !c.isPlayer && (game.combat?.enemies.length === 1);

@@ -1,4 +1,5 @@
 import { EnemyDef } from "../engine/types.js";
+import { localizeDef } from "./locale.js";
 
 export const ENEMIES: Record<string, EnemyDef> = {
   // ---- Area 1: The Sunken Road ----
@@ -130,5 +131,5 @@ export const ENEMIES: Record<string, EnemyDef> = {
 export function getEnemy(id: string): EnemyDef {
   const e = ENEMIES[id];
   if (!e) throw new Error(`Unknown enemy: ${id}`);
-  return e;
+  return localizeDef("enemy", e);
 }

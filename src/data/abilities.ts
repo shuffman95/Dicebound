@@ -1,4 +1,5 @@
 import { Ability } from "../engine/types.js";
+import { localizeDef } from "./locale.js";
 
 // All abilities (player + enemy) keyed by id. Targeting is relative to the
 // actor's side: "all-enemies" means the opposing team, "all-allies" the actor's team.
@@ -272,5 +273,5 @@ export const ABILITIES: Record<string, Ability> = {
 export function getAbility(id: string): Ability {
   const a = ABILITIES[id];
   if (!a) throw new Error(`Unknown ability: ${id}`);
-  return a;
+  return localizeDef("ability", a);
 }
