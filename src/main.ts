@@ -18,6 +18,7 @@ import { describeStatus } from "./engine/combat.js";
 import { audio, SfxName } from "./engine/audio.js";
 import { DisplayPrefs, PrefKey, PREF_KEYS, ALL_PREF_CLASSES, prefsBodyClasses, loadPrefs, savePrefs } from "./engine/prefs.js";
 import { Locale, LANGUAGES, t, setLocale } from "./engine/i18n.js";
+import { localizeStoryNode } from "./data/locale.js";
 
 const app = document.getElementById("app")!;
 const diceLayer = document.getElementById("dice-layer")!;
@@ -131,7 +132,7 @@ function renderTitle() {
     </div>`);
 }
 
-const VERSION = "1.7.0";
+const VERSION = "1.8.0";
 
 function renderHowTo() {
   openModal(t("how.title"), `
@@ -276,7 +277,7 @@ function visibleChoices(node: StoryNode) {
 
 function renderStory() {
   selectedAbility = null; combatItemMode = null;
-  const node = game.currentNode();
+  const node = localizeStoryNode(game.currentNode());
   game.save();
   if (node.isEnding) { renderEnding(node.isEnding); return; }
   audio.playMusic(musicForNode(node.id));
@@ -365,7 +366,7 @@ async function handleChoice(idx: number) {
 }
 
 function renderEnding(kind: "victory" | "defeat") {
-  const node = game.currentNode();
+  const node = localizeStoryNode(game.currentNode());
   Game.clearSave();
   if (kind === "victory") { audio.playMusic("victory"); sfx("victory"); } else { audio.stopMusic(); sfx("defeat"); }
   setHTML(`
@@ -373,7 +374,7 @@ function renderEnding(kind: "victory" | "defeat") {
       <div class="big-emoji">${node.art ?? (kind === "victory" ? "🌄" : "💀")}</div>
       <h1 class="title-serif" style="color:${kind === "victory" ? "var(--gold)" : "var(--bad)"}">${esc(node.title)}</h1>
       <div class="panel story-text" style="text-align:left">${esc(node.text)}</div>
-      <button class="btn primary" data-act="to-title">${kind === "victory" ? "Return to Title" : "Try Again"}</button>
+      <button class="btn primary" data-act="to-title">${kind === "victory" ? t("ending.returnTitle") : t("ending.tryAgain")}</button>
     </div>`);
 }
 

@@ -180,6 +180,10 @@ const EN: Dict = {
   "items.noValidTarget": "No valid target.",
   "items.useOn": "Use {x}",
 
+  // endings
+  "ending.returnTitle": "Return to Title",
+  "ending.tryAgain": "Try Again",
+
   // how to play
   "how.title": "How to Play",
   "how.body": `<b>The core roll.</b> Almost everything is a d20 plus an attribute modifier versus a target number. Beat it and you succeed; a natural 20 always hits (and crits for double dice), a natural 1 always misses.
@@ -360,6 +364,10 @@ const RU: Dict = {
   "items.noUsable": "Нет подходящих предметов.",
   "items.noValidTarget": "Нет подходящей цели.",
   "items.useOn": "Использовать: {x}",
+
+  // endings
+  "ending.returnTitle": "Вернуться в меню",
+  "ending.tryAgain": "Попробовать снова",
 
   // how to play
   "how.title": "Как играть",

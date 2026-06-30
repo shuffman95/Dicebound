@@ -2,6 +2,27 @@
 
 All notable changes to Dicebound: The Hollow Crown.
 
+## [1.8.0] — Russian: story script begins (language stage 4b)
+
+### Added
+- **A story-node localizer** (`localizeStoryNode`) that translates a node's title,
+  narrative text and choice labels while preserving every navigation field
+  (goto / combat targets / flags), so the game logic is untouched — only the
+  displayed words change. Wired into the story and ending renderers.
+- **Act 1 translated** — the opening and the whole Sunken Road: the intro, the
+  Greyhollow waystation (both visits), Maren's plea, the wagon and toll-bridge
+  branches, and the Warden of Thorns. Untranslated nodes fall back to English.
+
+### In progress (staged)
+- Remaining story to translate, in batches: the Drowned Chapel, the Ashen Keep,
+  the Rimewood & Blightfen, the Greyhollow Commons cast, the Unhollowed beats, and
+  the epilogue/endings. Plus a short tail of transient combat toasts.
+
+### Tests
+- New story-locale suite (English pass-through, Russian title/text/choices,
+  navigation-field preservation, safe fallback) — **107 tests total**, all passing;
+  `tsc --noEmit` clean and the smoke run reports zero runtime errors.
+
 ## [1.7.0] — Russian: the lore codex (language stage 4a)
 
 ### Added
