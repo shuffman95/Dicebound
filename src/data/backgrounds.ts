@@ -1,4 +1,5 @@
 import { BackgroundDef } from "../engine/types.js";
+import { localizeDef } from "./locale.js";
 
 export const BACKGROUNDS: Record<string, BackgroundDef> = {
   soldier: {
@@ -34,4 +35,4 @@ export const BACKGROUNDS: Record<string, BackgroundDef> = {
 };
 
 export const BACKGROUND_LIST = Object.values(BACKGROUNDS);
-export function getBackground(id: string): BackgroundDef { const b = BACKGROUNDS[id]; if (!b) throw new Error(`Unknown background ${id}`); return b; }
+export function getBackground(id: string): BackgroundDef { const b = BACKGROUNDS[id]; if (!b) throw new Error(`Unknown background ${id}`); return localizeDef("background", b); }

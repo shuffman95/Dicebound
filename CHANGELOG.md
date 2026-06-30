@@ -2,6 +2,26 @@
 
 All notable changes to Dicebound: The Hollow Crown.
 
+## [1.2.0] — Russian: character creation (language stage 2)
+
+### Added
+- **Character creation is now fully Russian** when the language is set to Русский —
+  the whole screen (headings, pickers, point-buy, buttons) plus all the content it
+  shows: **every class, race, background and trait** (names, blurbs and descriptions).
+- **A content-localization layer** (`src/data/locale.ts`, `localizeDef`): content
+  defs are translated at the getter boundary by namespace+id, so the localized
+  names/descriptions appear everywhere they're shown (creation, party panel, …),
+  with English as a clean fallback for anything not yet translated.
+
+### In progress (staged)
+- Still to come: combat & shop/journal UI, then the remaining content (items,
+  abilities, enemies, quests, lore), then the full story script.
+
+### Tests
+- New content-locale suite (English identity, Russian creation content, no
+  English leaks in creation, fallback for unknown ids) — **95 tests total**, all
+  passing; `tsc --noEmit` clean and the smoke run reports zero runtime errors.
+
 ## [1.1.0] — Localization framework + Russian (language stage 1)
 
 ### Added

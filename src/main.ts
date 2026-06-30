@@ -1,7 +1,7 @@
 import { Game, SaveSlot } from "./engine/game.js";
 import { Combat, LogEntry } from "./engine/combat.js";
 import { Ability, Attr, ATTRS, Combatant, EquipSlot, HeroBuild, ItemInstance, RecipeDef, StatusEffect, StoryNode } from "./engine/types.js";
-import { CLASS_LIST, CLASSES } from "./data/classes.js";
+import { CLASS_LIST, getClass } from "./data/classes.js";
 import { RACE_LIST, getRace } from "./data/races.js";
 import { BACKGROUND_LIST, getBackground } from "./data/backgrounds.js";
 import { getTrait, STARTING_TRAITS } from "./data/traits.js";
@@ -131,7 +131,7 @@ function renderTitle() {
     </div>`);
 }
 
-const VERSION = "1.1.0";
+const VERSION = "1.2.0";
 
 function renderHowTo() {
   openModal(t("how.title"), `
@@ -145,7 +145,7 @@ ${t("how.body")}
 // ===================================================================
 // CHARACTER CREATION
 // ===================================================================
-const ATTR_LABEL: Record<Attr, string> = { might: "Might", agility: "Agility", wits: "Wits", spirit: "Spirit" };
+function attrLabel(attr: Attr): string { return t(`attr.${attr}`); }
 
 function picker(act: string, label: string, name: string, desc: string): string {
   return `<div class="picker">
@@ -162,7 +162,7 @@ function picker(act: string, label: string, name: string, desc: string): string 
 
 function renderSetup() {
   const b = setup[creationIndex];
-  const cls = CLASSES[b.classId];
+  const cls = getClass(b.classId);
   const race = getRace(b.raceId);
   const bg = getBackground(b.backgroundId);
   const trait = b.traitId ? getTrait(b.traitId) : undefined;
@@ -173,14 +173,14 @@ function renderSetup() {
 
   const tabs = setup.map((s, i) =>
     `<button class="crt-tab ${i === creationIndex ? "sel" : ""}" data-act="creation-tab" data-i="${i}">
-      <div class="crt-emoji">${CLASS_EMOJI[s.classId]}</div><div class="crt-tname">${esc(s.name || CLASSES[s.classId].name)}</div>
+      <div class="crt-emoji">${CLASS_EMOJI[s.classId]}</div><div class="crt-tname">${esc(s.name || getClass(s.classId).name)}</div>
     </button>`).join("");
 
   const allocRows = ATTRS.map((attr) => {
     const val = a[attr];
     const al = b.allocations[attr] ?? 0;
     return `<div class="alloc-row">
-      <span class="alloc-name">${ATTR_LABEL[attr]}</span>
+      <span class="alloc-name">${attrLabel(attr)}</span>
       <button class="btn small ghost alloc-btn" data-act="alloc" data-attr="${attr}" data-dir="-1" ${al <= 0 ? "disabled" : ""}>−</button>
       <span class="alloc-val">${val} <span class="dim">(${fmtMod(val)})</span></span>
       <button class="btn small ghost alloc-btn" data-act="alloc" data-attr="${attr}" data-dir="1" ${remaining <= 0 || al >= MAX_ALLOC_PER_ATTR ? "disabled" : ""}>+</button>
@@ -191,41 +191,41 @@ function renderSetup() {
 
   setHTML(`
     <div class="screen creation">
-      <h2 class="title-serif" style="color:var(--gold);text-align:center;margin-bottom:2px">Forge Your Heroes</h2>
-      <div class="dim" style="text-align:center;font-size:12.5px">Four sworn to the Wardens' Oath. Tap a slot to edit each one.</div>
+      <h2 class="title-serif" style="color:var(--gold);text-align:center;margin-bottom:2px">${t("create.title")}</h2>
+      <div class="dim" style="text-align:center;font-size:12.5px">${t("create.subtitle")}</div>
       <div class="crt-tabs">${tabs}</div>
 
       <div class="card creation-card">
         <div class="row" style="gap:8px;align-items:center">
-          <input class="name-input" id="hero-name" value="${esc(b.name)}" maxlength="14" placeholder="Name"
+          <input class="name-input" id="hero-name" value="${esc(b.name)}" maxlength="14" placeholder="${t("create.namePlaceholder")}"
             style="flex:1;background:#0c0913;border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:9px;font-size:15px" />
           <button class="btn small ghost" data-act="reroll-name">🎲</button>
         </div>
 
-        ${picker("pick-class", "Class", cls.name, cls.blurb)}
-        ${picker("pick-race", "Race", race.name, race.blurb)}
-        ${picker("pick-bg", "Background", bg.name, bg.blurb)}
-        ${picker("pick-trait", "Starting Trait", trait ? trait.name : "None", trait ? trait.description : "No extra trait.")}
+        ${picker("pick-class", t("pick.class"), cls.name, cls.blurb)}
+        ${picker("pick-race", t("pick.race"), race.name, race.blurb)}
+        ${picker("pick-bg", t("pick.bg"), bg.name, bg.blurb)}
+        ${picker("pick-trait", t("pick.trait"), trait ? trait.name : t("create.none"), trait ? trait.description : t("create.noTrait"))}
 
         <div class="alloc-wrap">
           <div class="row" style="justify-content:space-between;align-items:center">
-            <span class="dim picker-label">Allocate Points</span>
-            <span class="alloc-points ${remaining > 0 ? "has" : ""}">${remaining} left</span>
+            <span class="dim picker-label">${t("create.allocate")}</span>
+            <span class="alloc-points ${remaining > 0 ? "has" : ""}">${t("create.left", { n: remaining })}</span>
           </div>
           ${allocRows}
         </div>
 
         <div class="derived">
-          <span>❤️ ${hero.maxHP} HP</span><span>🔷 ${hero.maxFocus} Focus</span><span>🛡️ ${defenseOf(hero)} Def</span>
+          <span>❤️ ${hero.maxHP} ${t("stat.hp")}</span><span>🔷 ${hero.maxFocus} ${t("stat.focus")}</span><span>🛡️ ${defenseOf(hero)} ${t("stat.def")}</span>
         </div>
         <div class="trait-list">${traitChips}</div>
       </div>
 
       <div class="row center" style="margin-top:6px">
-        <button class="btn ghost small" data-act="reroll-hero">🎲 Randomize Hero</button>
-        <button class="btn ghost small" data-act="to-title">Back</button>
+        <button class="btn ghost small" data-act="reroll-hero">${t("create.randomize")}</button>
+        <button class="btn ghost small" data-act="to-title">${t("common.back")}</button>
       </div>
-      <button class="btn primary full" data-act="begin">Begin the Adventure</button>
+      <button class="btn primary full" data-act="begin">${t("create.begin")}</button>
     </div>`);
 
   const nameInput = document.getElementById("hero-name") as HTMLInputElement | null;
@@ -235,7 +235,7 @@ function renderSetup() {
 // Lightweight tab-name refresh without a full re-render (so typing stays smooth).
 function updateCreationTabName() {
   const tab = app.querySelectorAll(".crt-tab")[creationIndex];
-  if (tab) { const el = tab.querySelector(".crt-tname"); if (el) el.textContent = setup[creationIndex].name || CLASSES[setup[creationIndex].classId].name; }
+  if (tab) { const el = tab.querySelector(".crt-tname"); if (el) el.textContent = setup[creationIndex].name || getClass(setup[creationIndex].classId).name; }
 }
 
 function cycleList<T extends { id: string }>(list: T[], currentId: string, dir: number): string {
@@ -799,7 +799,7 @@ function openParty() {
     const traitChips = traitsOf(m).map((t) => `<span class="tag" title="${esc(t.description)}">✦ ${esc(t.name)}</span>`).join(" ");
     return `<div class="card" style="margin-bottom:10px">
       <div class="uname" style="font-size:16px">${CLASS_EMOJI[m.classId!]} ${esc(m.name)} <span class="dim">· L${m.level}</span></div>
-      <div class="dim" style="font-size:12px;margin-top:-2px">${esc(raceName)} ${esc(CLASSES[m.classId!].name)}${bgName ? " · " + esc(bgName) : ""}</div>
+      <div class="dim" style="font-size:12px;margin-top:-2px">${esc(raceName)} ${esc(getClass(m.classId!).name)}${bgName ? " · " + esc(bgName) : ""}</div>
       <div class="kv" style="margin:6px 0">
         <span class="k">HP</span><span>${m.hp}/${m.maxHP} ${bar("hp", m.hp, m.maxHP)}</span>
         <span class="k">Focus</span><span>${m.focus}/${m.maxFocus} ${bar("focus", m.focus, m.maxFocus)}</span>
@@ -860,7 +860,7 @@ function openTalents(memberIdx: number) {
   }).join("");
   openModal(`${esc(m.name)} — Talents`, `
     <div class="row" style="justify-content:space-between;align-items:center">
-      <div class="dim">${esc(CLASSES[m.classId!].name)} · Level ${m.level}</div>
+      <div class="dim">${esc(getClass(m.classId!).name)} · Level ${m.level}</div>
       <div class="alloc-points ${avail > 0 ? "has" : ""}">${avail} point${avail === 1 ? "" : "s"} available</div>
     </div>
     <div class="talent-wrap">${body}</div>
@@ -1029,7 +1029,7 @@ async function tryFlee() {
 }
 
 function startNewGame() {
-  for (const s of setup) if (!s.name.trim()) s.name = CLASSES[s.classId].name;
+  for (const s of setup) if (!s.name.trim()) s.name = getClass(s.classId).name;
   Game.clearSave();
   game.newGame(setup.map((s) => ({ ...s, name: s.name.trim() })));
   renderStory();

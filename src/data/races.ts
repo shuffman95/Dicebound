@@ -1,4 +1,5 @@
 import { RaceDef } from "../engine/types.js";
+import { localizeDef } from "./locale.js";
 
 export const RACES: Record<string, RaceDef> = {
   aldermoorian: {
@@ -34,4 +35,4 @@ export const RACES: Record<string, RaceDef> = {
 };
 
 export const RACE_LIST = Object.values(RACES);
-export function getRace(id: string): RaceDef { const r = RACES[id]; if (!r) throw new Error(`Unknown race ${id}`); return r; }
+export function getRace(id: string): RaceDef { const r = RACES[id]; if (!r) throw new Error(`Unknown race ${id}`); return localizeDef("race", r); }

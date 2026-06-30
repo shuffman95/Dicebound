@@ -1,4 +1,5 @@
 import { TraitDef } from "../engine/types.js";
+import { localizeDef } from "./locale.js";
 
 // Every trait here has a real, implemented effect (see character.ts derived
 // stats, game.ts skill checks, and combat.ts hooks). No flavor-only traits.
@@ -29,7 +30,7 @@ export const TRAITS: Record<string, TraitDef> = {
   warded: { id: "warded", name: "Warded", description: "Begin every battle with a 6-point shield.", combat: { startShield: 6 } },
 };
 
-export function getTrait(id: string): TraitDef | undefined { return TRAITS[id]; }
+export function getTrait(id: string): TraitDef | undefined { const tr = TRAITS[id]; return tr ? localizeDef("trait", tr) : undefined; }
 
 // The starting-trait (feat) options offered at character creation.
 export const STARTING_TRAITS = ["tough", "focused", "brawny", "fleet", "sharp", "devout", "lucky", "warded"];

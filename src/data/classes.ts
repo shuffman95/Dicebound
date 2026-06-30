@@ -1,4 +1,5 @@
 import { ClassDef } from "../engine/types.js";
+import { localizeDef } from "./locale.js";
 
 export const CLASSES: Record<string, ClassDef> = {
   vanguard: {
@@ -153,3 +154,5 @@ export const CLASSES: Record<string, ClassDef> = {
 };
 
 export const CLASS_LIST = Object.values(CLASSES);
+// Localized class def for display (logic should key off ids, not names).
+export function getClass(id: string): ClassDef { return localizeDef("class", CLASSES[id]); }

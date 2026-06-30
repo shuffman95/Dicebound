@@ -54,11 +54,12 @@ roadmap item below, build it to completion as above, commit/push, and report.
   `talents`, `items`, `affixes`, `sets`, `enemies`, `recipes`, `quests`, `lore`,
   `story` (the node graph).
 - `src/engine/i18n.ts` — localization: `t(key)` UI strings (en/ru) + locale state.
+- `src/data/locale.ts` — content translations + `localizeDef(ns, def)` (used in getters).
 - `src/main.ts` — screen controller / all DOM UI and input.
 - `test/` — engine + content + smoke tests.
 
-## Status (as of v1.1.0)
-**Done & tested (91 tests):**
+## Status (as of v1.2.0)
+**Done & tested (95 tests):**
 - Foundation: character creation (race/class/background/point-buy/traits), save
   slots + import/export, procedural audio + settings, loot (rarity/affixes/sets/
   durability/repair), deep talent trees (9 nodes/class, ultimates + talent-granted
@@ -92,12 +93,16 @@ roadmap item below, build it to completion as above, commit/push, and report.
 
 ## Localization (in progress — continue here)
 Russian language support is being built in stages behind a Settings toggle
-(English default). Engine: `src/engine/i18n.ts` — `t(key)` for UI strings with
-English fallback; locale stored in `prefs`. **Done (v1.1.0):** title/menu,
-Settings, How-to-Play. **Next, in order:** (1) character creation & combat UI;
-(2) content — items, abilities, enemies, quests, lore codex; (3) the full story
-script (`src/data/story.ts`). For content, add a localized-getter layer rather
-than rewriting render sites. Keep a consistent **glossary**:
+(English default). Engine: `src/engine/i18n.ts` — `t(key)` for UI strings; content
+via `src/data/locale.ts` `localizeDef(ns, def)` applied inside the getters
+(getClass/getRace/getBackground/getTrait, with getItem/getAbility/getEnemy/
+getQuest/getLore to follow) — English fallback throughout; locale stored in
+`prefs`. **Done:** v1.1.0 title/menu, Settings, How-to-Play; v1.2.0 character
+creation (UI + classes/races/backgrounds/traits content). **Next, in order:**
+(1) combat & shop/journal UI; (2) content — items, abilities, enemies, quests,
+lore codex (add `localizeDef` to their getters + entries in `locale.ts`); (3) the
+full story script (`src/data/story.ts`, a custom node localizer for title/text/
+choices). Keep a consistent **glossary**:
 - Might→Сила, Agility→Ловкость, Wits→Разум, Spirit→Дух; Focus→Фокус; DC→СЛ.
 - Warden→Хранитель; the Hollowing→Опустошение; Hollow King→Полый Король;
   Aldermoor/Greyhollow stay as proper names (may transliterate: Алдермур,

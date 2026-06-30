@@ -56,6 +56,30 @@ const EN: Dict = {
   "pref.reduceMotion.label": "Reduce motion",
   "pref.reduceMotion.help": "Minimise animations and screen transitions.",
 
+  // attributes
+  "attr.might": "Might",
+  "attr.agility": "Agility",
+  "attr.wits": "Wits",
+  "attr.spirit": "Spirit",
+  "stat.hp": "HP",
+  "stat.focus": "Focus",
+  "stat.def": "Def",
+
+  // character creation
+  "create.title": "Forge Your Heroes",
+  "create.subtitle": "Four sworn to the Wardens' Oath. Tap a slot to edit each one.",
+  "create.namePlaceholder": "Name",
+  "create.allocate": "Allocate Points",
+  "create.left": "{n} left",
+  "create.randomize": "🎲 Randomize Hero",
+  "create.begin": "Begin the Adventure",
+  "create.none": "None",
+  "create.noTrait": "No extra trait.",
+  "pick.class": "Class",
+  "pick.race": "Race",
+  "pick.bg": "Background",
+  "pick.trait": "Starting Trait",
+
   // how to play
   "how.title": "How to Play",
   "how.body": `<b>The core roll.</b> Almost everything is a d20 plus an attribute modifier versus a target number. Beat it and you succeed; a natural 20 always hits (and crits for double dice), a natural 1 always misses.
@@ -112,6 +136,30 @@ const RU: Dict = {
   "pref.bigTouch.help": "Более высокие кнопки, по которым легче попадать.",
   "pref.reduceMotion.label": "Меньше анимаций",
   "pref.reduceMotion.help": "Свести к минимуму анимации и переходы между экранами.",
+
+  // attributes
+  "attr.might": "Сила",
+  "attr.agility": "Ловкость",
+  "attr.wits": "Разум",
+  "attr.spirit": "Дух",
+  "stat.hp": "ОЗ",
+  "stat.focus": "Фокус",
+  "stat.def": "Защ",
+
+  // character creation
+  "create.title": "Создайте героев",
+  "create.subtitle": "Четверо, давших Клятву Хранителей. Коснитесь ячейки, чтобы изменить каждого.",
+  "create.namePlaceholder": "Имя",
+  "create.allocate": "Распределите очки",
+  "create.left": "осталось: {n}",
+  "create.randomize": "🎲 Случайный герой",
+  "create.begin": "Начать приключение",
+  "create.none": "Нет",
+  "create.noTrait": "Без дополнительной черты.",
+  "pick.class": "Класс",
+  "pick.race": "Раса",
+  "pick.bg": "Происхождение",
+  "pick.trait": "Стартовая черта",
 
   // how to play
   "how.title": "Как играть",
