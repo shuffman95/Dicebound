@@ -2,6 +2,37 @@
 
 All notable changes to Dicebound: The Hollow Crown.
 
+## [1.0.0] — The Hollow Crown (1.0 release)
+
+The first full release. Productionization is complete — accessibility, offline
+PWA hardening, a green campaign-wide QA sweep, and now a launch screen — atop a
+finished campaign with two optional regions, deep talent trees, and a living,
+reactive world.
+
+### Added
+- **A branded launch splash.** A brief crest-and-title screen on load that fades
+  into the menu. It ships in the page markup so it appears instantly before the
+  bundle boots, can be **tapped to skip**, auto-dismisses, and respects the
+  **Reduce motion** preference (it appears and clears without animation).
+
+### Notes — what 1.0 contains
+- Character creation (race/class/background/point-buy/traits), 8 classes with deep
+  9-node talent trees and talent-granted actives, save slots + import/export.
+- Tactical combat: elemental damage/resistances, reactions (Shatter/Ignite/Chill),
+  defend/counter, multi-phase bosses, arena auras, per-enemy AI.
+- The main campaign (Sunken Road → Drowned Chapel → Ashen Keep → Hollow King) with
+  per-area secrets and a reactive epilogue; two optional regions (Rimewood,
+  Blightfen); quests, journal and a deep lore codex; a living Greyhollow hub.
+- Procedural audio, crafting & gathering, loot with affixes/sets/durability.
+- Installable PWA (offline-capable, update-safe service worker) plus a
+  single-file standalone build. Accessibility: larger text, high contrast, large
+  touch targets, reduced motion.
+
+### Tests
+- **86 tests**, all passing; `tsc --noEmit` clean; Playwright smoke (now including
+  the splash, accessibility toggle, commons/journal UI and a full encounter)
+  reports zero runtime errors.
+
 ## [0.20.0] — Final QA sweep (Productionize milestone 3)
 
 ### Added

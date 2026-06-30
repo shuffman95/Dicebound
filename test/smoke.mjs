@@ -47,6 +47,10 @@ async function skipDice() {
 
 await page.goto(url);
 await settle(400);
+await page.screenshot({ path: path.join(shotDir, "00-splash.png") });
+// dismiss the launch splash (also exercises tap-to-skip), then reveal the title
+await page.locator("#splash").click({ force: true }).catch(() => {});
+await settle(300);
 await page.screenshot({ path: path.join(shotDir, "01-title.png") });
 log("title loaded");
 

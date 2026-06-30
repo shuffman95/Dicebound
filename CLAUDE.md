@@ -56,7 +56,7 @@ roadmap item below, build it to completion as above, commit/push, and report.
 - `src/main.ts` — screen controller / all DOM UI and input.
 - `test/` — engine + content + smoke tests.
 
-## Status (as of v0.20.0)
+## Status (as of v1.0.0 — first full release)
 **Done & tested (86 tests):**
 - Foundation: character creation (race/class/background/point-buy/traits), save
   slots + import/export, procedural audio + settings, loot (rarity/affixes/sets/
@@ -83,11 +83,17 @@ roadmap item below, build it to completion as above, commit/push, and report.
    more talents per class. Keep balance fair (no grind walls / dead skills).
 2. **World deepening** — more NPC dialogue, books/journals, environmental
    storytelling, reputation-flavored choices.
-3. **Productionize to v1.0** — polished release build: splash screens, clean
-   project structure, accessibility pass (font sizes, contrast, larger touch
-   targets, reduced-motion) — **done in v0.18.0 (Settings → Display & Accessibility)**;
-   still to do: perf/offline hardening, final QA sweep (verify every quest, item,
-   class, boss, save/load, install). No debug code.
+3. **Productionize to v1.0** — **DONE (v1.0.0).** Accessibility pass (v0.18.0,
+   Settings → Display & Accessibility), offline/PWA hardening (v0.19.0,
+   version-stamped update-safe service worker), campaign-wide QA sweep (v0.20.0,
+   headless story reachability + real-combat resolution for every enemy/boss), and
+   a launch splash (v1.0.0). No debug code.
+
+## Post-1.0 ideas (continue here)
+- More content: a third optional region/boss, more side quests & enemies.
+- Deeper systems: reputation-flavored choices, New Game+, difficulty options.
+- Polish: more procedural audio variety, additional accessibility (screen-reader
+  labels), perf profiling on low-end devices.
 
 Treat this as heading toward a paid-quality indie RPG 1.0. Quality and stability
 over raw volume; depth and systems that interact.

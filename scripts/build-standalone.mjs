@@ -35,6 +35,11 @@ const html = `<!DOCTYPE html>
 </head>
 <body>
 <div id="app"></div>
+<div id="splash" class="splash" aria-hidden="true">
+  <div class="crest">👑</div>
+  <div class="stitle">Dicebound</div>
+  <div class="stag">The Hollow Crown</div>
+</div>
 <div id="dice-layer" class="dice-layer hidden" aria-hidden="true">
   <div class="dice-die" id="dice-die">20</div>
   <div class="dice-caption" id="dice-caption"></div>

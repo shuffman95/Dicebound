@@ -130,7 +130,7 @@ function renderTitle() {
     </div>`);
 }
 
-const VERSION = "0.20.0";
+const VERSION = "1.0.0";
 
 function renderHowTo() {
   openModal("How to Play", `
@@ -1166,6 +1166,25 @@ function togglePref(key: PrefKey) {
   applyPrefs();
 }
 
+// ---- launch splash ----
+// The splash markup ships in the page so it shows instantly before the bundle
+// boots. We render the title behind it, then fade it away. Tap to skip.
+function dismissSplash() {
+  const el = document.getElementById("splash");
+  if (!el) return;
+  let gone = false;
+  const finish = () => {
+    if (gone) return;
+    gone = true;
+    el.classList.add("hide");
+    if (prefs.reduceMotion) el.remove();
+    else setTimeout(() => el.remove(), 520);
+  };
+  el.addEventListener("pointerdown", finish);
+  setTimeout(finish, prefs.reduceMotion ? 150 : 1000);
+}
+
 // ---- boot ----
 applyPrefs();
 renderTitle();
+dismissSplash();
