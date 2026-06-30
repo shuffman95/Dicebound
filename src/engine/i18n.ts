@@ -233,6 +233,41 @@ const EN: Dict = {
   "common.import": "📥 Import",
   "common.export": "📤 Export",
 
+  // combat log
+  "dice.vs": "vs",
+  "combat.vsDef": "vs Def",
+  "combat.fumble": "Fumble!",
+  "combat.miss": "Miss.",
+  "combat.crit": "CRIT!",
+  "combat.hit": "Hit!",
+  "combat.damageWord": "damage",
+  "combat.weak": " Weak!",
+  "combat.resisted": " Resisted.",
+  "react.shatter": " ❄️💥 Shatter!",
+  "react.ignite": " 🔥💥 Ignite!",
+  "elem.fire": "fire", "elem.ice": "ice", "elem.lightning": "lightning",
+  "elem.poison": "poison", "elem.holy": "holy", "elem.dark": "dark",
+  "log.battleBegins": "⚔️ Battle begins! Initiative: {order}",
+  "log.refusesToDie": "✨ {name} refuses to die and rises at {hp} HP! ({trait})",
+  "log.suffersDot": "{name} suffers {n} {kind} damage.",
+  "log.regenerates": "{name} regenerates {n} HP.",
+  "log.hasFallen": "💀 {name} has fallen!",
+  "log.stunned": "{name} is stunned and loses the turn!",
+  "log.auraDamage": "{name} takes {n} {elem} damage from the aura.{dead}",
+  "log.suffersStatus": "{name} suffers {status}.",
+  "log.gainsStatus": "{name} gains {status}.",
+  "log.afflicted": "{name} is afflicted: {status}.",
+  "log.uses": "{name} uses {ability}.",
+  "log.usesFocus": "{name} uses {ability} (−{n} Focus).",
+  "log.siphons": "{name} siphons {n} HP.",
+  "log.counters": "🛡️ {guarder} counters {attacker} for {n}!{dead}",
+  "log.isSlain": "💀 {name} is slain!",
+  "log.darkMend": "{name} draws on the Hollowing and recovers {n} HP!",
+  "log.defendStance": "{name} takes a defensive stance (−50% damage, counters melee).",
+  "log.healsFor": "{name} heals {target} for {n} HP.",
+  "log.revives": "✨ {name} revives {target} at {n} HP!",
+  "log.attackHead": "{name} → {target}: d20 {die}{bonus} = {total} {vsdef} {def} — ",
+
   // how to play
   "how.title": "How to Play",
   "how.body": `<b>The core roll.</b> Almost everything is a d20 plus an attribute modifier versus a target number. Beat it and you succeed; a natural 20 always hits (and crits for double dice), a natural 1 always misses.
@@ -467,6 +502,41 @@ const RU: Dict = {
   "common.import": "📥 Импорт",
   "common.export": "📤 Экспорт",
 
+  // combat log
+  "dice.vs": "против",
+  "combat.vsDef": "против Защ",
+  "combat.fumble": "Провал!",
+  "combat.miss": "Промах.",
+  "combat.crit": "КРИТ!",
+  "combat.hit": "Попадание!",
+  "combat.damageWord": "урона",
+  "combat.weak": " Уязвимость!",
+  "combat.resisted": " Сопротивление.",
+  "react.shatter": " ❄️💥 Раскол!",
+  "react.ignite": " 🔥💥 Воспламенение!",
+  "elem.fire": "огнём", "elem.ice": "льдом", "elem.lightning": "молнией",
+  "elem.poison": "ядом", "elem.holy": "светом", "elem.dark": "тьмой",
+  "log.battleBegins": "⚔️ Бой начинается! Инициатива: {order}",
+  "log.refusesToDie": "✨ {name} отказывается умирать и поднимается с {hp} ОЗ! ({trait})",
+  "log.suffersDot": "{name} получает {n} урона ({kind}).",
+  "log.regenerates": "{name} восстанавливает {n} ОЗ.",
+  "log.hasFallen": "💀 {name} пал!",
+  "log.stunned": "{name} оглушён и теряет ход!",
+  "log.auraDamage": "{name} получает {n} урона {elem} от ауры.{dead}",
+  "log.suffersStatus": "{name} страдает: {status}.",
+  "log.gainsStatus": "{name} получает {status}.",
+  "log.afflicted": "{name} поражён: {status}.",
+  "log.uses": "{name} применяет {ability}.",
+  "log.usesFocus": "{name} применяет {ability} (−{n} Фокуса).",
+  "log.siphons": "{name} высасывает {n} ОЗ.",
+  "log.counters": "🛡️ {guarder} контратакует {attacker} на {n}!{dead}",
+  "log.isSlain": "💀 {name} сражён!",
+  "log.darkMend": "{name} черпает из Опустошения и восстанавливает {n} ОЗ!",
+  "log.defendStance": "{name} встаёт в защитную стойку (−50% урона, контратака в ближнем бою).",
+  "log.healsFor": "{name} исцеляет {target} на {n} ОЗ.",
+  "log.revives": "✨ {name} воскрешает {target} с {n} ОЗ!",
+  "log.attackHead": "{name} → {target}: d20 {die}{bonus} = {total} {vsdef} {def} — ",
+
   // how to play
   "how.title": "Как играть",
   "how.body": `<b>Основной бросок.</b> Почти всё решается броском d20 плюс модификатор характеристики против целевого числа. Превзойдите его — и вы преуспели; натуральная 20 всегда попадает (и наносит критический урон удвоенными костями), натуральная 1 всегда промахивается.
@@ -492,4 +562,9 @@ export function t(key: string, vars?: Record<string, string | number>): string {
   let s = TABLES[locale][key] ?? EN[key] ?? key;
   if (vars) for (const [k, v] of Object.entries(vars)) s = s.replace(`{${k}}`, String(v));
   return s;
+}
+
+// The element's adjective/instrumental word for damage lines ("" for physical).
+export function elementWord(element: string): string {
+  return element === "physical" ? "" : t(`elem.${element}`);
 }

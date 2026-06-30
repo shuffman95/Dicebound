@@ -2,6 +2,31 @@
 
 All notable changes to Dicebound: The Hollow Crown.
 
+## [1.13.0] — Russian: the combat log (localization complete)
+
+### Added
+- **The combat log is now fully translated** — every play-by-play line: the
+  initiative banner, "{actor} uses {ability}", the d20 attack lines (hit / miss /
+  crit / fumble, damage with elemental words, Weak!/Resisted., Shatter!/Ignite!),
+  damage-over-time and regen ticks, stuns, counters, defends, heals, revives, and
+  the "rises again" trait line — plus the **dice-roll overlay** verdict.
+- **Boss phase and aura messages** (the dramatic mid-fight one-liners) are
+  localized too, by id at enemy creation.
+
+### Localization is effectively complete
+- With this, the **entire game reads in Russian**: menus, Settings, creation, all
+  content (items/abilities/enemies/quests), the lore codex, the complete story
+  script, every toast/notification, and now the full combat log.
+- **Known limitation:** names on *procedurally-generated* gear keep their English
+  affixes (e.g. "Vicious … of the Bear"). Russian adjectives must agree in gender
+  with each item noun, which a flat lookup can't do correctly, so these are left
+  recognizably foreign rather than grammatically wrong. Base/fixed item names are
+  translated.
+
+### Tests
+- **109 tests**, all passing; `tsc --noEmit` clean and the smoke run reports zero
+  runtime errors.
+
 ## [1.12.0] — Russian: toasts, notifications & the save menu (language stage 4f)
 
 ### Added

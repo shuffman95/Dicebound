@@ -3,7 +3,7 @@ import { RNG } from "./rng.js";
 import { roll, attackRoll } from "./dice.js";
 import { getAbility } from "../data/abilities.js";
 import { attackBonusFor, damageBonusFor, defenseOf, spiritMod, traitsOf, talentCritBonus, talentLifesteal } from "./character.js";
-import { t } from "./i18n.js";
+import { t, getLocale, elementWord } from "./i18n.js";
 
 export type LogKind = "info" | "damage" | "heal" | "miss" | "crit" | "status" | "death" | "focus" | "roll";
 
@@ -40,9 +40,9 @@ export class Combat {
       c.combatFlags = {};
       c.alive = c.hp > 0;
       // trait: start-of-battle shield (Warded)
-      for (const t of traitsOf(c)) {
-        if (t.combat?.startShield && c.alive) {
-          c.statuses.push({ kind: "shield", turns: 99, magnitude: t.combat.startShield });
+      for (const tr of traitsOf(c)) {
+        if (tr.combat?.startShield && c.alive) {
+          c.statuses.push({ kind: "shield", turns: 99, magnitude: tr.combat.startShield });
         }
       }
     }
@@ -53,7 +53,7 @@ export class Combat {
     this.order = all.sort((a, b) => (init.get(b.id)! - init.get(a.id)!));
     this.turnIndex = 0;
     this.round = 1;
-    this.log.push({ kind: "info", text: `⚔️ Battle begins! Initiative: ${this.order.map((c) => c.name).join(" → ")}` });
+    this.log.push({ kind: "info", text: t("log.battleBegins", { order: this.order.map((c) => c.name).join(" → ") }) });
     this.beginTurn();
   }
 
@@ -117,13 +117,13 @@ export class Combat {
     if (target.hp === 0 && target.alive) {
       target.alive = false;
       // trait: rise again the first time felled each battle (Undying)
-      for (const t of traitsOf(target)) {
-        const rev = t.combat?.reviveOncePerBattle;
+      for (const tr of traitsOf(target)) {
+        const rev = tr.combat?.reviveOncePerBattle;
         if (rev && !(target.combatFlags?.undyingUsed)) {
           target.combatFlags = { ...(target.combatFlags ?? {}), undyingUsed: true };
           target.alive = true;
           target.hp = rev.hp;
-          this.log.push({ kind: "heal", text: `✨ ${target.name} refuses to die and rises at ${rev.hp} HP! (${t.name})` });
+          this.log.push({ kind: "heal", text: t("log.refusesToDie", { name: target.name, hp: rev.hp, trait: tr.name }) });
         }
       }
     }
@@ -133,8 +133,8 @@ export class Combat {
   // Extra flat damage from traits (e.g. Bloodrage while wounded).
   private traitDamageBonus(actor: Combatant): number {
     let bonus = 0;
-    for (const t of traitsOf(actor)) {
-      const low = t.combat?.lowHpDamageBonus;
+    for (const tr of traitsOf(actor)) {
+      const low = tr.combat?.lowHpDamageBonus;
       if (low && actor.hp <= actor.maxHP * low.threshold) bonus += low.amount;
     }
     return bonus;
@@ -155,9 +155,9 @@ export class Combat {
       actor.cooldowns[k] = Math.max(0, actor.cooldowns[k] - 1);
     }
     // trait: focus regen at start of turn (Mana Spring)
-    for (const t of traitsOf(actor)) {
-      if (t.combat?.focusRegenPerTurn && actor.focus < actor.maxFocus) {
-        const gain = Math.min(t.combat.focusRegenPerTurn, actor.maxFocus - actor.focus);
+    for (const tr of traitsOf(actor)) {
+      if (tr.combat?.focusRegenPerTurn && actor.focus < actor.maxFocus) {
+        const gain = Math.min(tr.combat.focusRegenPerTurn, actor.maxFocus - actor.focus);
         actor.focus += gain;
       }
     }
@@ -165,19 +165,19 @@ export class Combat {
     for (const s of [...actor.statuses]) {
       if (s.kind === "poison" || s.kind === "burn") {
         this.applyDamage(actor, s.magnitude);
-        this.log.push({ kind: "damage", text: `${actor.name} suffers ${s.magnitude} ${s.kind} damage.` });
+        this.log.push({ kind: "damage", text: t("log.suffersDot", { name: actor.name, n: s.magnitude, kind: t(`status.${s.kind}`) }) });
       } else if (s.kind === "regen") {
         const heal = Math.min(s.magnitude, actor.maxHP - actor.hp);
-        if (heal > 0) { actor.hp += heal; this.log.push({ kind: "heal", text: `${actor.name} regenerates ${heal} HP.` }); }
+        if (heal > 0) { actor.hp += heal; this.log.push({ kind: "heal", text: t("log.regenerates", { name: actor.name, n: heal }) }); }
       }
     }
-    if (!actor.alive) { this.log.push({ kind: "death", text: `💀 ${actor.name} has fallen!` }); this.afterAction(); return; }
+    if (!actor.alive) { this.log.push({ kind: "death", text: t("log.hasFallen", { name: actor.name }) }); this.afterAction(); return; }
     for (const s of actor.statuses) s.turns -= 1;
     actor.statuses = actor.statuses.filter((s) => s.turns > 0 || s.kind === "shield");
 
     // stun: lose the turn
     if (this.hasStatus(actor, "stun")) {
-      this.log.push({ kind: "status", text: `${actor.name} is stunned and loses the turn!` });
+      this.log.push({ kind: "status", text: t("log.stunned", { name: actor.name }) });
       actor.statuses = actor.statuses.filter((s) => s.kind !== "stun");
       this.afterAction();
     }
@@ -204,7 +204,7 @@ export class Combat {
           const mult = hero.resist?.[a.element ?? "dark"] ?? 1;
           const dmg = Math.max(1, Math.round(a.damage * mult));
           this.applyDamage(hero, dmg);
-          this.log.push({ kind: "damage", text: `${hero.name} takes ${dmg} ${a.element ?? "dark"} damage from the aura.${hero.alive ? "" : " 💀"}` });
+          this.log.push({ kind: "damage", text: t("log.auraDamage", { name: hero.name, n: dmg, elem: elementWord(a.element ?? "dark"), dead: hero.alive ? "" : " 💀" }) });
         }
       }
       if (a.applyStatus && this.rng.chance(a.chance ?? 1)) {
@@ -212,7 +212,7 @@ export class Combat {
         if (living.length) {
           const victim = this.rng.pick(living);
           this.addStatus(victim, a.applyStatus);
-          this.log.push({ kind: "status", text: `${victim.name} suffers ${describeStatus(a.applyStatus)}.` });
+          this.log.push({ kind: "status", text: t("log.suffersStatus", { name: victim.name, status: describeStatus(a.applyStatus) }) });
         }
       }
     }
@@ -289,9 +289,9 @@ export class Combat {
     const targets = this.resolveTargets(actor, ability, primary);
 
     if (ability.focusCost > 0) {
-      this.log.push({ kind: "focus", text: `${actor.name} uses ${ability.name} (−${ability.focusCost} Focus).` });
+      this.log.push({ kind: "focus", text: t("log.usesFocus", { name: actor.name, ability: ability.name, n: ability.focusCost }) });
     } else {
-      this.log.push({ kind: "info", text: `${actor.name} uses ${ability.name}.` });
+      this.log.push({ kind: "info", text: t("log.uses", { name: actor.name, ability: ability.name }) });
     }
 
     const isAttack = !!ability.damage;
@@ -308,18 +308,18 @@ export class Combat {
         this.doHeal(actor, ability, target);
       } else if (ability.applyStatus) {
         this.addStatus(target, ability.applyStatus);
-        this.log.push({ kind: "status", text: `${target.name} gains ${describeStatus(ability.applyStatus)}.` });
+        this.log.push({ kind: "status", text: t("log.gainsStatus", { name: target.name, status: describeStatus(ability.applyStatus) }) });
       }
       // status riders on healing/utility (e.g. renewal regen)
       if (!isAttack && ability.heal && ability.applyStatus) {
         this.addStatus(target, ability.applyStatus);
-        this.log.push({ kind: "status", text: `${target.name} gains ${describeStatus(ability.applyStatus)}.` });
+        this.log.push({ kind: "status", text: t("log.gainsStatus", { name: target.name, status: describeStatus(ability.applyStatus) }) });
       }
     }
 
     if (ability.selfStatus) {
       this.addStatus(actor, ability.selfStatus);
-      this.log.push({ kind: "status", text: `${actor.name} gains ${describeStatus(ability.selfStatus)}.` });
+      this.log.push({ kind: "status", text: t("log.gainsStatus", { name: actor.name, status: describeStatus(ability.selfStatus) }) });
     }
   }
 
@@ -330,8 +330,9 @@ export class Combat {
     const critFrom = 20 - talentCritBonus(actor);
     const ar = attackRoll(bonus, def, this.rng, critFrom);
     const dice = { d20: ar.die, bonus, total: ar.attackTotal, target: def, hit: ar.hit, crit: ar.crit, fumble: ar.fumble };
+    const head = t("log.attackHead", { name: actor.name, target: target.name, die: ar.die, bonus: fmt(bonus), total: ar.attackTotal, vsdef: t("combat.vsDef"), def });
     if (!ar.hit) {
-      this.log.push({ kind: "miss", dice, text: `${actor.name} → ${target.name}: d20 ${ar.die}${fmt(bonus)} = ${ar.attackTotal} vs Def ${def} — ${ar.fumble ? "Fumble!" : "Miss."}` });
+      this.log.push({ kind: "miss", dice, text: head + (ar.fumble ? t("combat.fumble") : t("combat.miss")) });
       return;
     }
     let dmgRoll = roll(ability.damage!, this.rng).total;
@@ -346,13 +347,13 @@ export class Combat {
     if (this.hasStatus(target, "chill") && (element === "physical" || element === "ice")) {
       total += Math.max(5, Math.ceil(total * 0.5)); // Shatter a frozen foe
       target.statuses = target.statuses.filter((s) => s.kind !== "chill");
-      reaction = " ❄️💥 Shatter!";
+      reaction = t("react.shatter");
     }
     if (this.hasStatus(target, "poison") && element === "fire") {
       const burst = target.statuses.filter((s) => s.kind === "poison").reduce((a, s) => a + s.magnitude * s.turns, 0);
       total += burst; // Ignite the poison for a burst
       target.statuses = target.statuses.filter((s) => s.kind !== "poison");
-      reaction = " 🔥💥 Ignite!";
+      reaction = t("react.ignite");
     }
     // guard (Defend) damage reduction
     const guard = this.guardPercent(target);
@@ -363,21 +364,26 @@ export class Combat {
     const ls = talentLifesteal(actor);
     if (ls > 0 && actor.alive) {
       const healed = Math.min(Math.floor(total * ls), actor.maxHP - actor.hp);
-      if (healed > 0) { actor.hp += healed; this.log.push({ kind: "heal", text: `${actor.name} siphons ${healed} HP.` }); }
+      if (healed > 0) { actor.hp += healed; this.log.push({ kind: "heal", text: t("log.siphons", { name: actor.name, n: healed }) }); }
     }
-    const elemNote = mult > 1 ? " Weak!" : mult < 1 ? " Resisted." : "";
-    const elemWord = element !== "physical" ? `${element} ` : "";
+    const elemNote = mult > 1 ? t("combat.weak") : mult < 1 ? t("combat.resisted") : "";
+    const ew = elementWord(element);
+    const dmgWord = t("combat.damageWord");
+    const dmgPhrase = getLocale() === "ru"
+      ? `${total} ${dmgWord}${ew ? " " + ew : ""}.`
+      : `${total} ${ew ? ew + " " : ""}${dmgWord}.`;
+    const verdict = (ar.crit ? t("combat.crit") : t("combat.hit")) + " ";
     this.log.push({
       kind: ar.crit ? "crit" : "damage", dice,
-      text: `${actor.name} → ${target.name}: d20 ${ar.die}${fmt(bonus)} = ${ar.attackTotal} vs Def ${def} — ${ar.crit ? "CRIT! " : "Hit! "}${total} ${elemWord}damage.${elemNote}${reaction}${target.alive ? "" : " 💀"}`,
+      text: `${head}${verdict}${dmgPhrase}${elemNote}${reaction}${target.alive ? "" : " 💀"}`,
     });
     // counterattack: a defending target strikes back at melee (physical) attackers
     if (target.alive && guard > 0 && element === "physical" && actor !== target) this.counterAttack(target, actor);
     if (target.alive && ability.applyStatus) {
       this.addStatus(target, ability.applyStatus);
-      this.log.push({ kind: "status", text: `${target.name} is afflicted: ${describeStatus(ability.applyStatus)}.` });
+      this.log.push({ kind: "status", text: t("log.afflicted", { name: target.name, status: describeStatus(ability.applyStatus) }) });
     }
-    if (!target.alive) this.log.push({ kind: "death", text: `💀 ${target.name} is slain!` });
+    if (!target.alive) this.log.push({ kind: "death", text: t("log.isSlain", { name: target.name }) });
     this.checkPhase(target);
   }
 
@@ -395,8 +401,8 @@ export class Combat {
     if (!guarder.alive || !attacker.alive) return;
     const dmg = Math.max(1, roll("1d6", this.rng).total + damageBonusFor(guarder, "might"));
     this.applyDamage(attacker, dmg);
-    this.log.push({ kind: "damage", text: `🛡️ ${guarder.name} counters ${attacker.name} for ${dmg}!${attacker.alive ? "" : " 💀"}` });
-    if (!attacker.alive) this.log.push({ kind: "death", text: `💀 ${attacker.name} is slain!` });
+    this.log.push({ kind: "damage", text: t("log.counters", { guarder: guarder.name, attacker: attacker.name, n: dmg, dead: attacker.alive ? "" : " 💀" }) });
+    if (!attacker.alive) this.log.push({ kind: "death", text: t("log.isSlain", { name: attacker.name }) });
     this.checkPhase(attacker);
   }
 
@@ -415,7 +421,7 @@ export class Combat {
     if (ph.healPercent) {
       const heal = Math.floor(enemy.maxHP * ph.healPercent / 100);
       enemy.hp = Math.min(enemy.maxHP, enemy.hp + heal);
-      this.log.push({ kind: "heal", text: `${enemy.name} draws on the Hollowing and recovers ${heal} HP!` });
+      this.log.push({ kind: "heal", text: t("log.darkMend", { name: enemy.name, n: heal }) });
     }
     if (ph.selfBuff) { this.addStatus(enemy, ph.selfBuff); this.log.push({ kind: "status", text: `${enemy.name} gains ${describeStatus(ph.selfBuff)}.` }); }
   }
@@ -427,7 +433,7 @@ export class Combat {
     if (!actor || actor.id !== actorId) return [];
     actor.statuses = actor.statuses.filter((s) => s.kind !== "guard");
     actor.statuses.push({ kind: "guard", turns: 1, magnitude: 50 });
-    this.log.push({ kind: "status", text: `${actor.name} takes a defensive stance (−50% damage, counters melee).` });
+    this.log.push({ kind: "status", text: t("log.defendStance", { name: actor.name }) });
     this.afterAction();
     return this.log.slice(before);
   }
@@ -437,7 +443,7 @@ export class Combat {
     const amount = roll(ability.heal!, this.rng).total + spiritMod(actor);
     const healed = Math.min(amount, target.maxHP - target.hp);
     target.hp += healed;
-    this.log.push({ kind: "heal", text: `${actor.name} heals ${target.name} for ${healed} HP.` });
+    this.log.push({ kind: "heal", text: t("log.healsFor", { name: actor.name, target: target.name, n: healed }) });
   }
 
   private doRevive(actor: Combatant, target: Combatant, percent: number): void {
@@ -445,7 +451,7 @@ export class Combat {
     target.alive = true;
     target.hp = Math.max(1, Math.floor(target.maxHP * percent / 100));
     target.statuses = [];
-    this.log.push({ kind: "heal", text: `✨ ${actor.name} revives ${target.name} at ${target.hp} HP!` });
+    this.log.push({ kind: "heal", text: t("log.revives", { name: actor.name, target: target.name, n: target.hp }) });
   }
 
   // Push a log line (used by the UI for item use, etc.).

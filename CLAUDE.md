@@ -58,8 +58,8 @@ roadmap item below, build it to completion as above, commit/push, and report.
 - `src/main.ts` — screen controller / all DOM UI and input.
 - `test/` — engine + content + smoke tests.
 
-## Status (as of v1.12.0)
-**Done & tested (101 tests):**
+## Status (as of v1.13.0)
+**Done & tested (109 tests):**
 - Foundation: character creation (race/class/background/point-buy/traits), save
   slots + import/export, procedural audio + settings, loot (rarity/affixes/sets/
   durability/repair), deep talent trees (9 nodes/class, ultimates + talent-granted
@@ -91,20 +91,19 @@ roadmap item below, build it to completion as above, commit/push, and report.
    headless story reachability + real-combat resolution for every enemy/boss), and
    a launch splash (v1.0.0). No debug code.
 
-## Localization (in progress — continue here)
-Russian language support is being built in stages behind a Settings toggle
-(English default). Engine: `src/engine/i18n.ts` — `t(key)` for UI strings; content
-via `src/data/locale.ts` `localizeDef(ns, def)` applied inside the getters
-(getClass/getRace/getBackground/getTrait, with getItem/getAbility/getEnemy/
-getQuest/getLore to follow) — English fallback throughout; locale stored in
-`prefs`. **Done:** v1.1.0 title/menu, Settings, How-to-Play; v1.2.0 creation (UI +
-classes/races/backgrounds/traits); v1.3.0 items/enemies/quests; v1.4.0 abilities.
-All content getters (getItem/getAbility/getEnemy/getQuest/getClass/getRace/
-getBackground/getTrait) are localized. **Next, in order:** (1) combat/shop/journal/
-party UI chrome (`src/main.ts`) + combat-log templates in `src/engine/combat.ts`
-(route through `t()`); (2) lore codex texts (localize `getLore` + entries); (3) the
-full story script (`src/data/story.ts`, a custom node localizer for title/text/
-choices). Keep a consistent **glossary**:
+## Localization — COMPLETE (Russian, v1.13.0; toggle in Settings → Язык)
+Engine: `src/engine/i18n.ts` — `t(key)` for UI strings (en/ru), `elementWord`;
+content via `src/data/locale.ts` — `localizeDef(ns, def)` in the getters, plus
+`localizeStoryNode` (story) and `enemyMessage` (boss phase/aura). English default
++ fallback; locale stored in `prefs` and coerced to a known value on load.
+**Translated:** all UI chrome, every content getter (items/abilities/enemies/
+quests/lore/class/race/background/trait), the full story script, all toasts/
+notifications, the combat log + dice overlay, and boss phase/aura messages.
+**Known limitation:** procedurally-generated gear keeps English affix names
+(Russian gender agreement can't be done by flat lookup). **When adding NEW
+content, add its `ru` entry** in `locale.ts` (and story keys / i18n keys) too —
+the no-English-leaks tests in `content-locale`/`story-locale` will catch misses.
+Keep a consistent **glossary**:
 - Might→Сила, Agility→Ловкость, Wits→Разум, Spirit→Дух; Focus→Фокус; DC→СЛ; HP→ОЗ.
 - Statuses: Poison→Яд, Burn→Ожог, Chill→Озноб, Stun→Оглушение, Weaken→Ослабление,
   Rally→Воодушевление, Fortify→Укрепление, Shield→Щит, Regen→Регенерация.

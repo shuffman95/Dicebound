@@ -89,8 +89,8 @@ async function showDice(d: NonNullable<LogEntry["dice"]>) {
   sfx("dice");
   diceDie.textContent = String(d.d20);
   diceDie.className = "dice-die rolling" + (d.crit ? " crit" : d.fumble ? " fumble" : "");
-  const verdict = d.crit ? "CRITICAL!" : d.fumble ? "FUMBLE!" : d.hit ? "Hit!" : "Miss";
-  diceCaption.textContent = `d20 ${d.d20} ${d.bonus >= 0 ? "+" : ""}${d.bonus} = ${d.total}  vs  ${d.target}  ·  ${verdict}`;
+  const verdict = d.crit ? t("combat.crit") : d.fumble ? t("combat.fumble") : d.hit ? t("combat.hit") : t("combat.miss");
+  diceCaption.textContent = `d20 ${d.d20} ${d.bonus >= 0 ? "+" : ""}${d.bonus} = ${d.total}  ${t("dice.vs")}  ${d.target}  ·  ${verdict}`;
   diceLayer.classList.remove("hidden");
   await raceTapOrDelay(prefs.reduceMotion ? 200 : d.crit || d.fumble ? 950 : 650);
   diceLayer.classList.add("hidden");
@@ -132,7 +132,7 @@ function renderTitle() {
     </div>`);
 }
 
-const VERSION = "1.12.0";
+const VERSION = "1.13.0";
 
 function renderHowTo() {
   openModal(t("how.title"), `

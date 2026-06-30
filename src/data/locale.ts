@@ -369,6 +369,21 @@ export function localizeDef<T extends { id: string }>(ns: string, def: T): T {
   return tr ? ({ ...def, ...tr } as T) : def;
 }
 
+// Boss phase / aura messages live nested on the enemy def, so they're localized
+// by id at enemy-creation time rather than through localizeDef.
+const ENEMY_MSG: Record<string, Record<string, { phase?: string; aura?: string }>> = {
+  ru: {
+    "warden-of-thorns": { phase: "Хранитель Терний взрывается яростью терновника!" },
+    "the-pale-bishop": { phase: "Бледный Епископ разрывает завесу — утопшие отвечают на зов!", aura: "Утопший шёпот высасывает силы отряда." },
+    "the-hoarfrost-knight": { phase: "Доспех Рыцаря Изморози раскалывается в метель!", aura: "Пронизывающий ветер студит отряд." },
+    "the-rotcrowned": { phase: "Корона Гнилоувенчанной взрывается облаком спор!", aura: "Дрейфующие споры оседают в раны отряда." },
+    "the-hollow-king": { phase: "Серая корона вспыхивает — Полый Король высвобождает всю свою мощь!", aura: "Опустошение грызёт отряд." },
+  },
+};
+export function enemyMessage(id: string, kind: "phase" | "aura", fallback: string): string {
+  return ENEMY_MSG[getLocale()]?.[id]?.[kind] ?? fallback;
+}
+
 // Story nodes need a bespoke localizer because choices are an array. Translations
 // are keyed by node id; `choices` maps positionally onto node.choices (flag
 // fields and targets are preserved — only display text changes). Untranslated

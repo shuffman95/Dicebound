@@ -5,6 +5,7 @@ import { getRace } from "../data/races.js";
 import { getBackground } from "../data/backgrounds.js";
 import { getTrait } from "../data/traits.js";
 import { getTalent, talentTreeFor } from "../data/talents.js";
+import { enemyMessage } from "../data/locale.js";
 import { instanceMods, setBonuses, addMods, baseInstance } from "./loot.js";
 
 let instanceCounter = 0;
@@ -263,8 +264,8 @@ export function createEnemy(def: EnemyDef, level = 1): Combatant {
     goldReward: def.goldReward,
     lootTable: def.lootTable,
     resist: def.resist,
-    phase: def.phase,
-    aura: def.aura,
+    phase: def.phase ? { ...def.phase, message: enemyMessage(def.id, "phase", def.phase.message) } : undefined,
+    aura: def.aura ? { ...def.aura, message: def.aura.message ? enemyMessage(def.id, "aura", def.aura.message) : def.aura.message } : undefined,
     ai: def.ai,
     alive: true,
   };
