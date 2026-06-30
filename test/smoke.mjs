@@ -77,6 +77,24 @@ await settle(300);
 await page.screenshot({ path: path.join(shotDir, "03-town.png") });
 log("reached town");
 
+// exercise the world-deepening UI: the Journal/codex, then the Greyhollow
+// commons (talk to an NPC, read a salvaged book, return to the fire).
+await page.locator('[data-act="open-journal"]').click();
+await settle(250);
+await page.locator('[data-act="close-modal"]').first().click();
+await settle(150);
+await clickText("Sit with the survivors");
+await settle(250);
+await clickText("Talk with Maren");
+await settle(200);
+await clickText("Step away");
+await settle(150);
+await clickText("A Child's Primer");
+await settle(200);
+await clickText("Rejoin the fire later");
+await settle(200);
+log("explored commons & journal");
+
 // open party panel to exercise that UI, then close
 await page.locator('[data-act="open-party"]').click();
 await settle(300);

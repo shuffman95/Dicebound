@@ -2,6 +2,28 @@
 
 All notable changes to Dicebound: The Hollow Crown.
 
+## [0.20.0] — Final QA sweep (Productionize milestone 3)
+
+### Added
+- **A headless campaign QA suite that actually plays the game.** It walks the
+  whole story graph from the start and asserts **every non-ending node is
+  reachable** and no node is a dead end, then drives **real combat through the
+  engine**: every defined enemy fights to a clean resolution (no throws, no
+  stalls), a leveled party defeats **every boss** — exercising multi-phase
+  transitions, arena auras and elemental reactions that the unit tests never
+  reached — and a representative multi-enemy encounter resolves cleanly.
+- **The smoke test now exercises the world-deepening UI too**: the Journal/codex
+  and the Greyhollow Commons (talking to an NPC and reading a salvaged book),
+  alongside the existing accessibility-toggle and full-encounter checks.
+
+### Notes
+- The sweep found no defects — all content (regions, quests, bosses, talents,
+  reactions) resolves correctly end to end.
+
+### Tests
+- **86 tests total**, all passing; `tsc --noEmit` clean and the Playwright smoke
+  run reports zero runtime errors.
+
 ## [0.19.0] — Offline/PWA hardening (Productionize milestone 2)
 
 ### Fixed

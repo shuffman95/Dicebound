@@ -130,7 +130,7 @@ function renderTitle() {
     </div>`);
 }
 
-const VERSION = "0.19.0";
+const VERSION = "0.20.0";
 
 function renderHowTo() {
   openModal("How to Play", `
