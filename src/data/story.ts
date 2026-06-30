@@ -22,10 +22,20 @@ export const NODES: Record<string, StoryNode> = {
     onEnter: { startQuest: "hollow-crown", unlockLore: "the-hollowing" },
     choices: [
       { text: "Visit the apothecary (Shop)", shop: true },
+      { text: "Ask Maren about the folk who fled south", goto: "town1_missing", hideIfFlag: "q_unhollowed" },
       { text: "Forage the waystation for moonherb", gather: true, effects: { giveItems: ["mat-moonherb", "mat-moonherb"], setFlag: "gather_town1" }, hideIfFlag: "gather_town1" },
       { text: "Rest at the stable — heal the party (20 gold)", rest: true },
       { text: "Take the Sunken Road south", goto: "road1" },
     ],
+  },
+  town1_missing: {
+    id: "town1_missing",
+    title: "Maren's Worry",
+    art: "🕯️",
+    text:
+      "The apothecary straightens with a wince — Maren, the survivors call her. 'Before your Oath ever reached us, three of ours lost their nerve and ran south, thinking the rot ran thinner that way. The reed-cutter and her girl. A pilgrim, half-sick already. And Wick, who made our candles thirty winters.' She presses a dried sprig of moonherb into your hand. 'If you find them out there — and you will, the road keeps everything — do for them what I couldn't. That's the whole of what I ask.'",
+    onEnter: { startQuest: "the-unhollowed", unlockLore: "maren-of-greyhollow", setFlag: "q_unhollowed" },
+    choices: [{ text: "Give Maren your word", goto: "town1" }],
   },
 
   road1: {
@@ -49,8 +59,18 @@ export const NODES: Record<string, StoryNode> = {
       { text: "Study the wreck for traps and footing (Wits, DC 13)", check: { attr: "wits", dc: 13, successNode: "road2_loot", failNode: "road2_ambush" } },
       { text: "Force the strongbox open by main strength (Might, DC 14)", check: { attr: "might", dc: 14, successNode: "road2_loot", failNode: "road2_ambush" } },
       { text: "Salvage scrap metal from the wreck", gather: true, effects: { giveItems: ["mat-iron-scrap", "mat-iron-scrap"], setFlag: "gather_road2" }, hideIfFlag: "gather_road2" },
+      { text: "A child's reed-doll snags your boot — follow the trail", goto: "road_lost", requiresFlag: "q_unhollowed", hideIfFlag: "found_road" },
       { text: "Leave it and press on", goto: "road3" },
     ],
+  },
+  road_lost: {
+    id: "road_lost",
+    title: "The Reed Mother",
+    art: "🪺",
+    text:
+      "The trail of small dropped things ends at a half-sunk coracle. The reed-cutter sits in the black water with her girl held close — both gone grey and still, hollowed mid-embrace. They do not rise to fight you; the rot left them only this last shape. You work the reed-doll free from the child's hand, lay the two of them down beneath the reeds where the current won't take them, and stand a moment in the cold before you can go on.",
+    onEnter: { setFlag: "found_road", gold: 20, giveItems: ["potion-major"], unlockLore: "the-reed-mother" },
+    choices: [{ text: "Return to the wreck", goto: "road2" }],
   },
   road2_loot: {
     id: "road2_loot",
@@ -154,8 +174,27 @@ export const NODES: Record<string, StoryNode> = {
       { text: "Pick the warded lock (Agility, DC 14)", check: { attr: "agility", dc: 14, successNode: "chapel2_loot", failNode: "chapel2_zap" } },
       { text: "Unravel the wards by lore (Wits, DC 15)", check: { attr: "wits", dc: 15, successNode: "chapel2_loot", failNode: "chapel2_zap" } },
       { text: "Pry a bone charm from the reliquary frame", gather: true, effects: { giveItems: ["mat-bone-charm", "mat-moonherb"], setFlag: "gather_chapel2" }, hideIfFlag: "gather_chapel2" },
+      { text: "A muffled prayer behind a collapsed pew — investigate (Spirit, DC 13)", check: { attr: "spirit", dc: 13, successNode: "chapel_lost_save", failNode: "chapel_lost_late" }, requiresFlag: "q_unhollowed", hideIfFlag: "found_chapel" },
       { text: "Ignore it and find the bishop", goto: "chapel_boss" },
     ],
+  },
+  chapel_lost_save: {
+    id: "chapel_lost_save",
+    title: "A Voice Still Human",
+    art: "🙏",
+    text:
+      "Behind the fallen pew crouches an old man — the pilgrim, thin and fevered but himself, his eyes clearing from terror to weeping as he understands you are warm, and living, and kind. He cannot walk the road at your side, but you give him your spare salve, a lit brand, and the bearing north to Greyhollow and Maren's fire. 'Tell her,' he whispers, gripping your sleeve, 'tell her one of us came back.' It is not much, against all of this. Out here, it is everything.",
+    onEnter: { setFlag: "found_chapel", gold: 25, giveItems: ["phoenix-tear"], unlockLore: "the-last-pilgrim" },
+    choices: [{ text: "Return to the reliquary", goto: "chapel2" }],
+  },
+  chapel_lost_late: {
+    id: "chapel_lost_late",
+    title: "Too Late by an Hour",
+    art: "🕯️",
+    text:
+      "You reach the pilgrim just as the grey is reaching him — far enough gone that there is no calling him back, near enough that he knows your face for a kind one. You hold his hand while the light goes out of him cleanly, before the Hollowing can finish its work and make him walk. A mercy, and a small one, and the only one the chapel left to give.",
+    onEnter: { setFlag: "found_chapel", gold: 15, unlockLore: "the-last-pilgrim" },
+    choices: [{ text: "Return to the reliquary", goto: "chapel2" }],
   },
   chapel2_loot: {
     id: "chapel2_loot",
@@ -230,8 +269,28 @@ export const NODES: Record<string, StoryNode> = {
     choices: [
       { text: "Slip past in the dark (Agility, DC 15)", check: { attr: "agility", dc: 15, successNode: "keep3", failNode: "keep2_fight" } },
       { text: "Loot silver and emberdust from the hall", gather: true, effects: { giveItems: ["mat-silver-ingot", "mat-emberdust", "mat-silver-ingot"], setFlag: "gather_keep2", completeQuest: "silver-of-the-keep" }, hideIfFlag: "gather_keep2" },
+      { text: "A grey figure weeps in a side cell — approach", goto: "keep_lost", requiresFlag: "q_unhollowed", hideIfFlag: "found_keep" },
       { text: "Fight through the mages", combat: { enemies: ["hollow-mage", "hollow-mage", "wraith-knight"], victoryNode: "keep3" } },
     ],
+  },
+  keep_lost: {
+    id: "keep_lost",
+    title: "The Candlewright",
+    art: "🕯️",
+    text:
+      "In a side cell a figure rocks over a guttered candle, trying with grey and clumsy fingers to coax a flame that will not come — Wick, who lit Greyhollow's winters for thirty years. What's left of her lifts a ruined face toward you. 'Can't,' she says, and it is almost a question, 'can't keep it lit—' and then the Hollowing closes over the last of her, and she comes at you with the candle-iron raised.",
+    choices: [
+      { text: "Give her the light she's chasing", combat: { enemies: ["the-candlewright"], victoryNode: "keep_lost_end" } },
+    ],
+  },
+  keep_lost_end: {
+    id: "keep_lost_end",
+    title: "A Candle, Snuffed",
+    art: "🕯️",
+    text:
+      "It is over quickly, and quietly. You set the cold candle back into her stilled hands and leave her looking, almost, at peace. Three sought a thinner rot to the south and found only more of it; you have given all three the only ending the rot left to give. Maren will want to know how their story closed. She will not thank you for it. But she will know — and the dead will have their last page.",
+    onEnter: { setFlag: "found_keep", completeQuest: "the-unhollowed", gold: 30, unlockLore: "the-candlewright" },
+    choices: [{ text: "Return to the hall", goto: "keep2" }],
   },
   keep2_fight: {
     id: "keep2_fight",

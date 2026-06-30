@@ -91,6 +91,7 @@ export const ITEMS: Record<string, ItemDef> = {
   "trk-rimeheart": { id: "trk-rimeheart", name: "Rimeheart", kind: "trinket", slot: "trinket", price: 130, itemLevel: 6, description: "+2 Defense, +14 HP.", defenseBonus: 2, hpBonus: 14 },
   "wpn-mirecrown-scepter": { id: "wpn-mirecrown-scepter", name: "Mirecrown Scepter", kind: "weapon", slot: "weapon", price: 165, itemLevel: 6, description: "+3 attack, +3 damage, +1 Wits.", attackBonus: 3, damageBonus: 3, attrBonus: { wits: 1 } },
   "trk-witch-phylactery": { id: "trk-witch-phylactery", name: "Witch's Phylactery", kind: "trinket", slot: "trinket", price: 130, itemLevel: 6, description: "+1 Spirit, +8 Focus.", attrBonus: { spirit: 1 }, focusBonus: 8 },
+  "trk-keepsake": { id: "trk-keepsake", name: "Pilgrim's Keepsake", kind: "trinket", slot: "trinket", price: 85, itemLevel: 4, description: "+1 Spirit, +6 HP. A memento of those who fled and did not return.", attrBonus: { spirit: 1 }, hpBonus: 6 },
 
   // ---------------- Materials & treasures (sellable / for future crafting) ----------------
   "mat-iron-scrap": { id: "mat-iron-scrap", name: "Iron Scrap", kind: "material", price: 8, description: "Salvaged metal. Useful to a smith." },
@@ -118,7 +119,7 @@ export const SHOP_CONSUMABLES: string[] = [
 export const BASE_GEAR: Record<EquipSlot, string[]> = {
   weapon: ["wpn-broadsword", "wpn-twin-daggers", "wpn-aether-rod", "wpn-bramble-staff", "wpn-starsteel-blade", "wpn-stormrod", "wpn-shadowfang", "wpn-lifebough", "wpn-vigil-glaive", "wpn-ember-brand", "wpn-winters-edge", "wpn-mirecrown-scepter", "wpn-kingsbane"],
   armor: ["arm-leather", "arm-chain", "arm-robe", "arm-warded-plate", "arm-runed-vest", "arm-nightcloak", "arm-vigil-mail", "arm-ember-weave"],
-  trinket: ["trk-iron-band", "trk-bloodstone", "trk-focus-lens", "trk-warding-eye", "trk-titan-seal", "trk-vigil-seal", "trk-ember-eye", "trk-rimeheart", "trk-witch-phylactery"],
+  trinket: ["trk-iron-band", "trk-bloodstone", "trk-focus-lens", "trk-warding-eye", "trk-titan-seal", "trk-vigil-seal", "trk-ember-eye", "trk-rimeheart", "trk-witch-phylactery", "trk-keepsake"],
 };
 
 // Materials/treasures enemies may drop as loot.

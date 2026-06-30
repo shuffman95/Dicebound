@@ -42,6 +42,13 @@ export const ENEMIES: Record<string, EnemyDef> = {
     lootTable: [{ itemId: "potion-focus", chance: 0.3 }, { itemId: "trk-focus-lens", chance: 0.08 }],
   },
 
+  // ---- Optional: The Unhollowed (a tragic encounter in the Ashen Keep) ----
+  "the-candlewright": {
+    id: "the-candlewright", resist: { holy: 1.5, dark: 0.5 }, ai: "tactician", name: "The Candlewright", attributes: { might: 11, agility: 11, wits: 15, spirit: 12 },
+    maxHP: 48, baseDefense: 14, abilities: ["hex", "drain-life", "wail"], xpReward: 55, goldReward: 30,
+    lootTable: [{ itemId: "potion-focus", chance: 0.5 }],
+  },
+
   // ---- Bosses ----
   "warden-of-thorns": {
     id: "warden-of-thorns", ai: "berserker", resist: { fire: 1.5, holy: 1.25, poison: 0.5 }, phase: { atHpPercent: 40, message: "The Warden of Thorns erupts in a fury of bramble!", selfBuff: { kind: "rally", turns: 4, magnitude: 3 }, healPercent: 12 }, name: "Warden of Thorns", attributes: { might: 16, agility: 11, wits: 12, spirit: 14 },

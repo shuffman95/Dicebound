@@ -2,6 +2,31 @@
 
 All notable changes to Dicebound: The Hollow Crown.
 
+## [0.14.0] — The Unhollowed (Content fill: secrets in the main campaign)
+
+### Added
+- **A new side quest, *The Unhollowed*, woven through all three main-campaign
+  areas** — giving the Sunken Road, Drowned Chapel and Ashen Keep the optional
+  depth the side regions already had. Maren the apothecary (now named) sends you
+  to learn the fate of three Greyhollow folk who fled south; each area hides one
+  discovery, in three different styles:
+  - **Sunken Road** — a somber find (the Reed Mother) with loot + lore.
+  - **Drowned Chapel** — a **Spirit skill check** that branches between saving the
+    pilgrim (better reward) and a too-late mercy, either way advancing the tale.
+  - **Ashen Keep** — an **optional fight** with a new tragic enemy, *the
+    Candlewright*, that completes the quest and grants the **Pilgrim's Keepsake**.
+- The secrets are **flag-gated**: they stay hidden until you accept the quest from
+  Maren, and each vanishes once resolved (using the existing flag system, so they
+  persist correctly across save/load).
+- **Four codex entries** (Maren of Greyhollow, the Reed Mother, the Last Pilgrim,
+  Wick the Candlewright) and a new reward trinket that joins the loot/shop pool.
+
+### Tests
+- New *Unhollowed* suite covering flag gating (hidden pre-quest, shown after),
+  each area's discovery, quest completion + reward at the keep, and the new
+  enemy/lore resolving — **58 tests total**, all passing; `tsc --noEmit` clean and
+  the Playwright smoke run reports zero runtime errors.
+
 ## [0.13.0] — Deeper talent trees (Content fill: build variety)
 
 ### Added

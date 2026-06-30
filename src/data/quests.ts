@@ -30,6 +30,12 @@ export const QUESTS: Record<string, QuestDef> = {
     objective: "Defeat the Rotcrowned in the Blightfen.",
     reward: { gold: 75, xp: 60, items: ["trk-witch-phylactery"] },
   },
+  "the-unhollowed": {
+    id: "the-unhollowed", name: "The Unhollowed", type: "side",
+    summary: "Before the Wardens marched, three of Greyhollow's own lost their nerve and fled south into the rot — a reed-cutter and her child, a pilgrim, and Wick the candlewright. Maren the apothecary asks you to learn what became of them, and to grant them mercy if mercy is all that's left.",
+    objective: "Discover the fate of the three who fled south (Sunken Road, Drowned Chapel, Ashen Keep).",
+    reward: { gold: 70, xp: 55, items: ["trk-keepsake"] },
+  },
   "silver-of-the-keep": {
     id: "silver-of-the-keep", name: "Silver of the Keep", type: "side",
     summary: "The smith at Greyhollow swears the Ashen Keep is full of candle-silver worth a fortune. Gather what you can on the way to the throne.",

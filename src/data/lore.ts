@@ -30,6 +30,22 @@ export const LORE: Record<string, LoreDef> = {
     id: "the-lost-herbalist", title: "The Lost Herbalist",
     text: "Among the reeds, a flooded stillroom and a swollen journal. 'I came to find a cure in the rot itself,' the last legible page reads, 'for surely what fights the Hollowing must be born of it. I have grown such things. I have eaten of them, to be certain. If I am not back by the new moon, do not come looking — or if you must, come with fire. — M.W.' A ring of dried blightcaps still hangs above the bench, and beneath it, Mother Wyste's good silver shears.",
   },
+  "maren-of-greyhollow": {
+    id: "maren-of-greyhollow", title: "Maren of Greyhollow",
+    text: "The crook-backed woman at the peat fire is Maren, who keeps what's left of Greyhollow in salves and stubbornness. She set bones and broke fevers in this waystation for forty years, and means to go on doing it until the rot takes the last of them or the Wardens put it out. She does not weep for the three who fled south before the Oath came — a reed-cutter and her girl, a sick pilgrim, Wick who made the candles — but she remembers their names, and asks that someone learn how their story ended. 'The dead deserve a last page,' she says. 'Even out there.'",
+  },
+  "the-reed-mother": {
+    id: "the-reed-mother", title: "The Reed Mother",
+    text: "She made it no further than the first black mile of the Sunken Road. The rot found her with her daughter in her arms and left them so — grey, still, and holding on. They did not rise; some small mercy in the Hollowing left them only that last shape, a mother and child under the reeds. The Wardens freed the child's reed-doll from her hand and laid them down properly. It was all the road would allow.",
+  },
+  "the-last-pilgrim": {
+    id: "the-last-pilgrim", title: "The Last Pilgrim",
+    text: "The pilgrim went south to pray the rot away and found the Drowned Chapel singing to the thing that made it. How he lasted so long among the grey faithful, hidden behind a fallen pew, not even he could say. Whether the Wardens reached him in time to point him home, or only in time to hold his hand as the grey closed over — that is the part of the story Maren most wished, and most feared, to hear.",
+  },
+  "the-candlewright": {
+    id: "the-candlewright", title: "Wick the Candlewright",
+    text: "Wick lit Greyhollow's winters for thirty years; no hearth in the waystation was ever cold while she had wax and wick to spare. The Hollowing took her in the Ashen Keep, and left her there in a side cell, trying with grey and clumsy fingers to coax a flame from a candle long guttered out — chasing, even hollowed, the one thing she had always been. The Wardens gave her the only light left to give. They set the cold candle back in her hands when it was done.",
+  },
   "the-grey-crown": {
     id: "the-grey-crown", title: "The Grey Crown",
     text: "Cold iron, beaten thin, set with no jewel — a pauper's crown for the proudest king. They say he forged it himself in his last madness, to 'hold the kingdom together when I am gone.' It holds, after a fashion. It holds everything it touches in grey, patient quiet.",
