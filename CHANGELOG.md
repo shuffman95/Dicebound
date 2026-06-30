@@ -2,6 +2,25 @@
 
 All notable changes to Dicebound: The Hollow Crown.
 
+## [0.16.0] — Stories in the stones (World deepening milestone 2)
+
+### Added
+- **Environmental storytelling across the whole main campaign.** Every main area
+  now offers an optional **examine** beat that uncovers a piece of Aldermoor's
+  history without slowing the march: the drowning Old King's Road and the dead
+  salt-caravans on the Sunken Road; the corrupted hymnal and the warded reliquary
+  of Saint Illa in the Drowned Chapel; the frozen Iron Garrison and the grey
+  candle-magic of the hollow mages in the Ashen Keep.
+- **Six new codex entries**, read at the moment of discovery and kept in the
+  Journal. Each examine marks itself read (flag-tracked, save-safe) so it won't
+  clutter a node you've already searched, and never blocks the way forward.
+
+### Tests
+- New environs suite: every main-area node exposes its examine beat, examining
+  records the right codex entry and then hides, and no beat blocks the path —
+  **66 tests total**, all passing; `tsc --noEmit` clean and the Playwright smoke
+  run reports zero runtime errors.
+
 ## [0.15.0] — Greyhollow comes alive (World deepening milestone 1)
 
 ### Added

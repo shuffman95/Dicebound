@@ -46,6 +46,7 @@ export const NODES: Record<string, StoryNode> = {
     text:
       "Black water laps at a causeway of broken stone. Something pale skitters away into the reeds — then more of them turn, and come back hungry.",
     choices: [
+      { text: "Examine the drowning causeway underfoot", effects: { unlockLore: "the-old-kings-road", setFlag: "exm_road1" }, hideIfFlag: "exm_road1" },
       { text: "Stand and fight", combat: { enemies: ["hollow-rat", "hollow-rat", "rot-crawler"], victoryNode: "road2" } },
     ],
   },
@@ -61,6 +62,7 @@ export const NODES: Record<string, StoryNode> = {
       { text: "Force the strongbox open by main strength (Might, DC 14)", check: { attr: "might", dc: 14, successNode: "road2_loot", failNode: "road2_ambush" } },
       { text: "Salvage scrap metal from the wreck", gather: true, effects: { giveItems: ["mat-iron-scrap", "mat-iron-scrap"], setFlag: "gather_road2" }, hideIfFlag: "gather_road2" },
       { text: "A child's reed-doll snags your boot — follow the trail", goto: "road_lost", requiresFlag: "q_unhollowed", hideIfFlag: "found_road" },
+      { text: "Read the waybills in the drowned wagon", effects: { unlockLore: "the-salt-caravans", setFlag: "exm_road2" }, hideIfFlag: "exm_road2" },
       { text: "Leave it and press on", goto: "road3" },
     ],
   },
@@ -163,6 +165,7 @@ export const NODES: Record<string, StoryNode> = {
       "The chapel has sunk to its windows in black water. Candlelight moves behind the glass though no living hand could light it. Pale acolytes drift between the pews, chanting to the crown.",
     onEnter: { startQuest: "drowned-faithful" },
     choices: [
+      { text: "Examine the waterlogged hymnal in a pew", effects: { unlockLore: "the-drowned-faith", setFlag: "exm_chapel1" }, hideIfFlag: "exm_chapel1" },
       { text: "Cut through the congregation", combat: { enemies: ["pale-acolyte", "pale-acolyte", "bog-lurker"], victoryNode: "chapel2" } },
     ],
   },
@@ -177,6 +180,7 @@ export const NODES: Record<string, StoryNode> = {
       { text: "Unravel the wards by lore (Wits, DC 15)", check: { attr: "wits", dc: 15, successNode: "chapel2_loot", failNode: "chapel2_zap" } },
       { text: "Pry a bone charm from the reliquary frame", gather: true, effects: { giveItems: ["mat-bone-charm", "mat-moonherb"], setFlag: "gather_chapel2" }, hideIfFlag: "gather_chapel2" },
       { text: "A muffled prayer behind a collapsed pew — investigate (Spirit, DC 13)", check: { attr: "spirit", dc: 13, successNode: "chapel_lost_save", failNode: "chapel_lost_late" }, requiresFlag: "q_unhollowed", hideIfFlag: "found_chapel" },
+      { text: "Study the warding on the reliquary frame", effects: { unlockLore: "the-reliquary-saint", setFlag: "exm_chapel2" }, hideIfFlag: "exm_chapel2" },
       { text: "Ignore it and find the bishop", goto: "chapel_boss" },
     ],
   },
@@ -260,6 +264,7 @@ export const NODES: Record<string, StoryNode> = {
       "Wraith knights stand the gate, grey banners hanging in air that does not move. They lower their lances as one.",
     onEnter: { startQuest: "silver-of-the-keep" },
     choices: [
+      { text: "Examine the wraith-knights' frozen banners", effects: { unlockLore: "the-iron-garrison", setFlag: "exm_keep1" }, hideIfFlag: "exm_keep1" },
       { text: "Break through the gate", combat: { enemies: ["wraith-knight", "wraith-knight"], victoryNode: "keep2" } },
     ],
   },
@@ -273,6 +278,7 @@ export const NODES: Record<string, StoryNode> = {
       { text: "Slip past in the dark (Agility, DC 15)", check: { attr: "agility", dc: 15, successNode: "keep3", failNode: "keep2_fight" } },
       { text: "Loot silver and emberdust from the hall", gather: true, effects: { giveItems: ["mat-silver-ingot", "mat-emberdust", "mat-silver-ingot"], setFlag: "gather_keep2", completeQuest: "silver-of-the-keep" }, hideIfFlag: "gather_keep2" },
       { text: "A grey figure weeps in a side cell — approach", goto: "keep_lost", requiresFlag: "q_unhollowed", hideIfFlag: "found_keep" },
+      { text: "Read a hollow mage's open grimoire", effects: { unlockLore: "the-grey-candles", setFlag: "exm_keep2" }, hideIfFlag: "exm_keep2" },
       { text: "Fight through the mages", combat: { enemies: ["hollow-mage", "hollow-mage", "wraith-knight"], victoryNode: "keep3" } },
     ],
   },

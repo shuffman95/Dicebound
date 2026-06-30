@@ -2,6 +2,31 @@ import { LoreDef } from "../engine/types.js";
 
 // Codex entries unlocked through exploration and quests.
 export const LORE: Record<string, LoreDef> = {
+  // ---- Environmental storytelling: things examined out in the world ----
+  "the-old-kings-road": {
+    id: "the-old-kings-road", title: "The Old King's Road",
+    text: "The causeway south was the Kingsway once — laid stone by stone to carry the old king's bier to the barrow beneath the capital, so that no royal foot need ever touch common mud. They finished it the same winter he died. The Hollowing came up that same road, as if it had been built for exactly this, and now the Kingsway drowns a hand's-breadth deeper each year. The water is very black and very patient, and it remembers the weight of a crown.",
+  },
+  "the-salt-caravans": {
+    id: "the-salt-caravans", title: "The Salt Caravans",
+    text: "Faded waybills in the drowned wagon: salt and wool going south, ironwork and Greyhollow candles coming north, season on season. The last bill is dated the spring the wheat came up ash. 'Hold the toll for us,' a clerk has scrawled at the bottom, 'we'll settle on the return.' They did not return. The road that fed the south with salt now salts it only with the dead.",
+  },
+  "the-drowned-faith": {
+    id: "the-drowned-faith", title: "The Drowned Faith",
+    text: "Before the marsh swallowed it, the chapel kept a gentle creed: that the dead were owed remembrance, and the living owed each other bread. A waterlogged hymnal still holds the old verses — and, pressed between the last pages in fresh grey ink, a newer line in no language the living should know, sung now by a hundred drowned throats. The crown did not silence the faith. It learned the tune, and changed the words.",
+  },
+  "the-reliquary-saint": {
+    id: "the-reliquary-saint", title: "The Warded Reliquary",
+    text: "The brass-ringed reliquary was warded not to keep thieves out but to keep something in: the finger-bone of Saint Illa of the Ford, who legend says walked into a flooding river to carry a child across and did not walk back out. The wards are old water-magic, meant to hold back drowning. They have held, after a fashion, all this time — which is perhaps why the chapel sank instead of the relic.",
+  },
+  "the-iron-garrison": {
+    id: "the-iron-garrison", title: "The Iron Garrison",
+    text: "The wraith-knights at the gate were the Ashen Keep's living garrison once — three hundred swords sworn to hold the realm's last hard place against any army. No army came. The Hollowing came instead, up through the well-water and the bread, and took them at their posts so quietly that their grey banners never even fell. They hold the gate still. They were always going to hold the gate. That was the whole of the oath they swore.",
+  },
+  "the-grey-candles": {
+    id: "the-grey-candles", title: "The Hall of Grey Candles",
+    text: "The keep's mages bound their lore into candle and flame — a working-light for every spell, snuffed when the work was done. When the Hollowing took them it did not put their candles out; it froze them mid-burn, grey wax that neither melts nor gutters, a hall of guttering lights that will not die and will not live. Read a hollow mage's open grimoire and the marginalia turns, page by page, from theory to terror to a single word repeated: 'cold, cold, cold.'",
+  },
   "the-hollowing": {
     id: "the-hollowing", title: "On the Hollowing",
     text: "It did not come as armies come. It came as a grey quiet, seeping up from the barrow beneath the capital the night the old king was buried in his crown of cold iron. Where it passed, the living grew thin and forgetful, and the dead grew restless. The scholars named it the Hollowing, for that is what it leaves: a body that walks, emptied of the person who wore it.",

@@ -54,8 +54,8 @@ roadmap item below, build it to completion as above, commit/push, and report.
 - `src/main.ts` — screen controller / all DOM UI and input.
 - `test/` — engine + content + smoke tests.
 
-## Status (as of v0.15.0)
-**Done & tested (63 tests):**
+## Status (as of v0.16.0)
+**Done & tested (66 tests):**
 - Foundation: character creation (race/class/background/point-buy/traits), save
   slots + import/export, procedural audio + settings, loot (rarity/affixes/sets/
   durability/repair), deep talent trees (9 nodes/class, ultimates + talent-granted
@@ -70,7 +70,8 @@ roadmap item below, build it to completion as above, commit/push, and report.
   **Blightfen** (Blighted Roots quest, the Rotcrowned mini-boss, poison/Ignite).
 - World deepening: Greyhollow is a living hub — a recurring named cast (Maren,
   Pip, Garrow) whose Commons dialogue evolves across the campaign's three stages,
-  plus readable salvaged books that flesh out Aldermoor in the codex.
+  plus readable salvaged books; and optional **examine** beats in every main area
+  that uncover Aldermoor's history (codex entries), never blocking the march.
 
 ## Roadmap (continue here, in order)
 1. **Content fill** — expand toward the larger spec: more enemies/abilities/items
