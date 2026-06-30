@@ -131,7 +131,7 @@ function renderTitle() {
     </div>`);
 }
 
-const VERSION = "1.4.0";
+const VERSION = "1.5.0";
 
 function renderHowTo() {
   openModal(t("how.title"), `
@@ -255,11 +255,11 @@ function cycleTrait(currentId: string | undefined, dir: number): string | undefi
 // ===================================================================
 function topbar(): string {
   return `<div class="topbar">
-    <div class="coins">⦿ ${game.gold}<span class="dim" style="font-weight:400"> gold</span></div>
+    <div class="coins">⦿ ${game.gold}<span class="dim" style="font-weight:400"> ${t("topbar.gold")}</span></div>
     <div class="links">
-      <button class="btn small ghost" data-act="open-journal">Journal</button>
-      <button class="btn small ghost" data-act="open-party">Party</button>
-      <button class="btn small ghost" data-act="save-quit">Save</button>
+      <button class="btn small ghost" data-act="open-journal">${t("topbar.journal")}</button>
+      <button class="btn small ghost" data-act="open-party">${t("topbar.party")}</button>
+      <button class="btn small ghost" data-act="save-quit">${t("topbar.save")}</button>
     </div>
   </div>`;
 }
@@ -310,27 +310,27 @@ function openJournal() {
   const active = entries.filter(([, st]) => st === "active").map(([id]) => getQuest(id)!).filter(Boolean);
   const done = entries.filter(([, st]) => st === "completed").map(([id]) => getQuest(id)!).filter(Boolean);
   const questCard = (q: typeof active[number], complete: boolean) => `<div class="card" style="margin-bottom:8px;${complete ? "opacity:.7" : ""}">
-      <div class="uname" style="font-size:15px">${complete ? "✅ " : q.type === "main" ? "★ " : "• "}${esc(q.name)} <span class="tag">${q.type}</span></div>
+      <div class="uname" style="font-size:15px">${complete ? "✅ " : q.type === "main" ? "★ " : "• "}${esc(q.name)} <span class="tag">${t(q.type === "main" ? "quest.main" : "quest.side")}</span></div>
       <div class="idesc" style="margin:4px 0">${esc(q.summary)}</div>
-      <div class="dim" style="font-size:12px">Objective: ${esc(q.objective)}${complete ? " — done" : ""}</div>
+      <div class="dim" style="font-size:12px">${t("journal.objective")} ${esc(q.objective)}${complete ? t("journal.doneSuffix") : ""}</div>
     </div>`;
-  const activeHtml = active.length ? active.map((q) => questCard(q, false)).join("") : `<div class="dim">No active quests.</div>`;
+  const activeHtml = active.length ? active.map((q) => questCard(q, false)).join("") : `<div class="dim">${t("journal.noQuests")}</div>`;
   const doneHtml = done.length ? done.map((q) => questCard(q, true)).join("") : "";
   const lore = [...game.lore].map((id) => getLore(id)).filter(Boolean) as NonNullable<ReturnType<typeof getLore>>[];
-  const loreHtml = lore.length ? lore.map((l) => `<button class="btn full ghost" style="text-align:left" data-act="read-lore" data-id="${l.id}">📖 ${esc(l.title)}</button>`).join("") : `<div class="dim">No codex entries yet. Explore to uncover the world's history.</div>`;
-  openModal("Journal", `
-    <h3 style="color:var(--gold)">Quests</h3>
+  const loreHtml = lore.length ? lore.map((l) => `<button class="btn full ghost" style="text-align:left" data-act="read-lore" data-id="${l.id}">📖 ${esc(l.title)}</button>`).join("") : `<div class="dim">${t("journal.noCodex")}</div>`;
+  openModal(t("topbar.journal"), `
+    <h3 style="color:var(--gold)">${t("journal.quests")}</h3>
     ${activeHtml}
-    ${doneHtml ? `<h3 style="color:var(--gold);margin-top:12px">Completed</h3>${doneHtml}` : ""}
-    <h3 style="color:var(--gold);margin-top:14px">Codex</h3>
+    ${doneHtml ? `<h3 style="color:var(--gold);margin-top:12px">${t("journal.completed")}</h3>${doneHtml}` : ""}
+    <h3 style="color:var(--gold);margin-top:14px">${t("journal.codex")}</h3>
     <div class="list">${loreHtml}</div>
-    <div class="row center" style="margin-top:14px"><button class="btn primary small" data-act="close-modal">Close</button></div>
+    <div class="row center" style="margin-top:14px"><button class="btn primary small" data-act="close-modal">${t("common.close")}</button></div>
   `);
 }
 function openLore(id: string) {
   const l = getLore(id); if (!l) return;
   openModal(l.title, `<div class="story-text">${esc(l.text)}</div>
-    <div class="row center" style="margin-top:14px"><button class="btn ghost small" data-act="open-journal">Back to Journal</button></div>`);
+    <div class="row center" style="margin-top:14px"><button class="btn ghost small" data-act="open-journal">${t("journal.back")}</button></div>`);
 }
 
 function partyStrip(): string {
@@ -432,25 +432,25 @@ function renderCombat() {
 
   let controls = "";
   if (selectedAbility) {
-    controls = `<div class="turn-banner">Choose a target for <b>${esc(selectedAbility.name)}</b></div>
-      <div class="row center"><button class="btn small ghost" data-act="cancel-target">Cancel</button></div>`;
+    controls = `<div class="turn-banner">${t("combat.chooseTarget")} <b>${esc(selectedAbility.name)}</b></div>
+      <div class="row center"><button class="btn small ghost" data-act="cancel-target">${t("common.cancel")}</button></div>`;
   } else if (combatItemMode) {
-    controls = `<div class="turn-banner">Use <b>${esc(getItem(combatItemMode).name)}</b> on whom?</div>
-      <div class="row center"><button class="btn small ghost" data-act="cancel-item">Cancel</button></div>`;
+    controls = `<div class="turn-banner">${t("combat.useItemPrompt", { x: esc(getItem(combatItemMode).name) })}</div>
+      <div class="row center"><button class="btn small ghost" data-act="cancel-item">${t("common.cancel")}</button></div>`;
   } else if (isPlayer) {
     controls = abilityBar(actor) + `<div class="row" style="margin-top:8px">
-      <button class="btn small ghost" data-act="combat-defend">🛡 Defend</button>
-      <button class="btn small ghost" data-act="combat-items">🎒 Item</button>
-      <button class="btn small ghost" data-act="combat-flee">Flee</button></div>`;
+      <button class="btn small ghost" data-act="combat-defend">${t("combat.defend")}</button>
+      <button class="btn small ghost" data-act="combat-items">${t("combat.item")}</button>
+      <button class="btn small ghost" data-act="combat-flee">${t("combat.flee")}</button></div>`;
   } else {
-    controls = `<div class="turn-banner">${actor ? esc(actor.name) + " is acting…" : "…"}</div>`;
+    controls = `<div class="turn-banner">${actor ? t("combat.acting", { x: esc(actor.name) }) : "…"}</div>`;
   }
 
   setHTML(`
     <div class="screen combat">
-      <div class="turn-banner">Round ${combat.round} · ${esc(actor?.name ?? "")}${isPlayer ? " — your move" : ""}</div>
+      <div class="turn-banner">${t("combat.round", { n: combat.round })} · ${esc(actor?.name ?? "")}${isPlayer ? t("combat.yourMove") : ""}</div>
       <div class="enemy-zone">${enemies}</div>
-      <div class="dim" style="text-align:center;font-size:11px">— vs —</div>
+      <div class="dim" style="text-align:center;font-size:11px">${t("combat.vs")}</div>
       <div class="party-zone">${allies}</div>
       <div id="controls">${controls}</div>
       <div class="log" id="log">${renderLog(combat.log)}</div>
@@ -464,9 +464,9 @@ function abilityBar(actor: Combatant): string {
     const ab = getAbility(id);
     const usable = combat.abilityUsable(actor, ab);
     const cd = actor.cooldowns[id] ?? 0;
-    const cost = ab.focusCost > 0 ? `<span class="cost">${ab.focusCost} FP</span>` : `<span class="cost">free</span>`;
+    const cost = ab.focusCost > 0 ? `<span class="cost">${t("combat.fp", { n: ab.focusCost })}</span>` : `<span class="cost">${t("combat.free")}</span>`;
     return `<button class="ability-btn" data-act="ability" data-ab="${id}" ${usable ? "" : "disabled"}>
-      <div class="an">${elementBadge(ab.element)}${esc(ab.name)} ${cd > 0 ? `<span class="cd-pill">CD ${cd}</span>` : cost}</div>
+      <div class="an">${elementBadge(ab.element)}${esc(ab.name)} ${cd > 0 ? `<span class="cd-pill">${t("combat.cd", { n: cd })}</span>` : cost}</div>
       <div class="ad">${esc(ab.description)}</div>
     </button>`;
   }).join("");
@@ -586,22 +586,25 @@ function renderVictory() {
   sfx(r.levelUps.length ? "levelup" : "victory");
   const gearLoot = r.gearItems.map((inst) => gearCard(inst, "")).join("");
   const stackLoot = r.stackItems.map((id) => `<div class="li"><div class="grow"><span class="iname">${esc(getItem(id).name)}</span><div class="idesc">${esc(getItem(id).description)}</div></div></div>`).join("");
-  const loot = (gearLoot + stackLoot) || `<div class="dim">No loot dropped.</div>`;
+  const loot = (gearLoot + stackLoot) || `<div class="dim">${t("victory.noLoot")}</div>`;
   const ups = r.levelUps.length ? r.levelUps.map((u) => {
     const newAbs = u.result.newAbilities.map((a) => getAbility(a).name).join(", ");
-    return `<div class="lvlup">⬆ ${esc(u.name)} reached Level ${u.result.newLevel}! (+${u.result.hpGain} HP, +${u.result.focusGain} FP${newAbs ? `, learned ${esc(newAbs)}` : ""})</div>`;
+    const reached = t("victory.reachedLevel", { name: esc(u.name), lvl: u.result.newLevel });
+    const gains = t("victory.gains", { hp: u.result.hpGain, fp: u.result.focusGain });
+    const learned = newAbs ? t("victory.learned", { x: esc(newAbs) }) : "";
+    return `<div class="lvlup">⬆ ${reached} (${gains}${learned})</div>`;
   }).join("") : "";
   setHTML(`
     <div class="screen center-col" style="justify-content:center">
       <div class="big-emoji">🏆</div>
-      <h1 class="title-serif" style="color:var(--gold)">Victory!</h1>
+      <h1 class="title-serif" style="color:var(--gold)">${t("victory.title")}</h1>
       <div class="panel" style="width:100%">
-        <div class="row" style="justify-content:space-around"><div><span class="gold-text">+${r.xp}</span> XP</div><div><span class="gold-text">+${r.gold}</span> gold</div></div>
+        <div class="row" style="justify-content:space-around"><div><span class="gold-text">+${r.xp}</span> ${t("victory.xp")}</div><div><span class="gold-text">+${r.gold}</span> ${t("victory.gold")}</div></div>
         ${ups ? `<div style="margin-top:10px">${ups}</div>` : ""}
-        <h3 style="margin-top:12px;color:var(--gold)">Spoils</h3>
+        <h3 style="margin-top:12px;color:var(--gold)">${t("victory.spoils")}</h3>
         <div class="list">${loot}</div>
       </div>
-      <button class="btn primary" data-act="victory-continue">Continue</button>
+      <button class="btn primary" data-act="victory-continue">${t("title.continue")}</button>
     </div>`);
 }
 

@@ -2,6 +2,24 @@
 
 All notable changes to Dicebound: The Hollow Crown.
 
+## [1.5.0] — Russian: combat & journal UI (language stage 3c)
+
+### Added
+- **The combat screen, top bar, journal and status effects now read in Russian:**
+  the round banner, target prompts, the Defend/Item/Flee bar, ability cost pills
+  (ФП / беспл. / КД), the victory screen (loot, level-ups), the top bar
+  (золото / Журнал / Отряд / Сохранить), the quest journal (Задания / Кодекс /
+  Цель), and every status-effect label in the combat log (Яд, Ожог, Озноб…).
+- Routed `combat.ts`'s `describeStatus` through the localization layer.
+
+### In progress (staged)
+- Next: the shop / workshop / party-panel UI chrome; then the lore codex texts and
+  the full story script.
+
+### Tests
+- **101 tests**, all passing; `tsc --noEmit` clean and the smoke run (which plays a
+  full encounter) reports zero runtime errors.
+
 ## [1.4.0] — Russian: abilities (language stage 3b)
 
 ### Added

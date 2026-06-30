@@ -3,6 +3,7 @@ import { RNG } from "./rng.js";
 import { roll, attackRoll } from "./dice.js";
 import { getAbility } from "../data/abilities.js";
 import { attackBonusFor, damageBonusFor, defenseOf, spiritMod, traitsOf, talentCritBonus, talentLifesteal } from "./character.js";
+import { t } from "./i18n.js";
 
 export type LogKind = "info" | "damage" | "heal" | "miss" | "crit" | "status" | "death" | "focus" | "roll";
 
@@ -544,16 +545,18 @@ export class Combat {
 function fmt(n: number): string { return n >= 0 ? `+${n}` : `${n}`; }
 
 export function describeStatus(s: StatusEffect): string {
+  const m = s.magnitude, n = s.turns;
+  const per = t("u.perTurn"), tu = t("u.t"), atk = t("u.atk"), def = t("u.def"), dmg = t("u.dmg");
   switch (s.kind) {
-    case "poison": return `Poison (${s.magnitude}/turn, ${s.turns}t)`;
-    case "burn": return `Burn (${s.magnitude}/turn, ${s.turns}t)`;
-    case "regen": return `Regen (${s.magnitude}/turn, ${s.turns}t)`;
-    case "shield": return `Shield (${s.magnitude})`;
-    case "stun": return `Stun (${s.turns}t)`;
-    case "weaken": return `Weaken (−${s.magnitude} atk, ${s.turns}t)`;
-    case "fortify": return `Fortify (+${s.magnitude} def, ${s.turns}t)`;
-    case "rally": return `Rally (+${s.magnitude} atk/dmg, ${s.turns}t)`;
-    case "guard": return `Guard (−${s.magnitude}% dmg)`;
-    case "chill": return `Chill (−${s.magnitude} atk, ${s.turns}t)`;
+    case "poison": return `${t("status.poison")} (${m}${per}, ${n}${tu})`;
+    case "burn": return `${t("status.burn")} (${m}${per}, ${n}${tu})`;
+    case "regen": return `${t("status.regen")} (${m}${per}, ${n}${tu})`;
+    case "shield": return `${t("status.shield")} (${m})`;
+    case "stun": return `${t("status.stun")} (${n}${tu})`;
+    case "weaken": return `${t("status.weaken")} (−${m} ${atk}, ${n}${tu})`;
+    case "fortify": return `${t("status.fortify")} (+${m} ${def}, ${n}${tu})`;
+    case "rally": return `${t("status.rally")} (+${m} ${atk}/${dmg}, ${n}${tu})`;
+    case "guard": return `${t("status.guard")} (−${m}% ${dmg})`;
+    case "chill": return `${t("status.chill")} (−${m} ${atk}, ${n}${tu})`;
   }
 }

@@ -80,6 +80,54 @@ const EN: Dict = {
   "pick.bg": "Background",
   "pick.trait": "Starting Trait",
 
+  // topbar
+  "topbar.gold": "gold",
+  "topbar.journal": "Journal",
+  "topbar.party": "Party",
+  "topbar.save": "Save",
+
+  // combat
+  "common.cancel": "Cancel",
+  "combat.round": "Round {n}",
+  "combat.yourMove": " — your move",
+  "combat.vs": "— vs —",
+  "combat.acting": "{x} is acting…",
+  "combat.chooseTarget": "Choose a target for",
+  "combat.useItemPrompt": "Use <b>{x}</b> on whom?",
+  "combat.defend": "🛡 Defend",
+  "combat.item": "🎒 Item",
+  "combat.flee": "Flee",
+  "combat.fp": "{n} FP",
+  "combat.free": "free",
+  "combat.cd": "CD {n}",
+  "victory.title": "Victory!",
+  "victory.xp": "XP",
+  "victory.gold": "gold",
+  "victory.spoils": "Spoils",
+  "victory.noLoot": "No loot dropped.",
+  "victory.reachedLevel": "{name} reached Level {lvl}!",
+  "victory.gains": "+{hp} HP, +{fp} FP",
+  "victory.learned": ", learned {x}",
+
+  // status effects (combat log / pills)
+  "status.poison": "Poison", "status.burn": "Burn", "status.regen": "Regen",
+  "status.shield": "Shield", "status.stun": "Stun", "status.weaken": "Weaken",
+  "status.fortify": "Fortify", "status.rally": "Rally", "status.guard": "Guard",
+  "status.chill": "Chill",
+  "u.perTurn": "/turn", "u.t": "t", "u.atk": "atk", "u.def": "def", "u.dmg": "dmg",
+
+  // journal
+  "journal.quests": "Quests",
+  "journal.completed": "Completed",
+  "journal.codex": "Codex",
+  "journal.noQuests": "No active quests.",
+  "journal.noCodex": "No codex entries yet. Explore to uncover the world's history.",
+  "journal.objective": "Objective:",
+  "journal.doneSuffix": " — done",
+  "journal.back": "Back to Journal",
+  "quest.main": "main",
+  "quest.side": "side",
+
   // how to play
   "how.title": "How to Play",
   "how.body": `<b>The core roll.</b> Almost everything is a d20 plus an attribute modifier versus a target number. Beat it and you succeed; a natural 20 always hits (and crits for double dice), a natural 1 always misses.
@@ -160,6 +208,54 @@ const RU: Dict = {
   "pick.race": "Раса",
   "pick.bg": "Происхождение",
   "pick.trait": "Стартовая черта",
+
+  // topbar
+  "topbar.gold": "золота",
+  "topbar.journal": "Журнал",
+  "topbar.party": "Отряд",
+  "topbar.save": "Сохранить",
+
+  // combat
+  "common.cancel": "Отмена",
+  "combat.round": "Раунд {n}",
+  "combat.yourMove": " — ваш ход",
+  "combat.vs": "— против —",
+  "combat.acting": "{x} ходит…",
+  "combat.chooseTarget": "Выберите цель для",
+  "combat.useItemPrompt": "Применить <b>{x}</b> — на ком?",
+  "combat.defend": "🛡 Защита",
+  "combat.item": "🎒 Предмет",
+  "combat.flee": "Бежать",
+  "combat.fp": "{n} ФП",
+  "combat.free": "беспл.",
+  "combat.cd": "КД {n}",
+  "victory.title": "Победа!",
+  "victory.xp": "опыта",
+  "victory.gold": "золота",
+  "victory.spoils": "Добыча",
+  "victory.noLoot": "Добычи не выпало.",
+  "victory.reachedLevel": "{name} достигает уровня {lvl}!",
+  "victory.gains": "+{hp} ОЗ, +{fp} ФП",
+  "victory.learned": ", выучено: {x}",
+
+  // status effects (combat log / pills)
+  "status.poison": "Яд", "status.burn": "Ожог", "status.regen": "Регенерация",
+  "status.shield": "Щит", "status.stun": "Оглушение", "status.weaken": "Ослабление",
+  "status.fortify": "Укрепление", "status.rally": "Воодушевление", "status.guard": "Защита",
+  "status.chill": "Озноб",
+  "u.perTurn": "/ход", "u.t": "х", "u.atk": "атк", "u.def": "защ", "u.dmg": "урон",
+
+  // journal
+  "journal.quests": "Задания",
+  "journal.completed": "Выполнено",
+  "journal.codex": "Кодекс",
+  "journal.noQuests": "Нет активных заданий.",
+  "journal.noCodex": "Записей кодекса пока нет. Исследуйте мир, чтобы раскрыть его историю.",
+  "journal.objective": "Цель:",
+  "journal.doneSuffix": " — выполнено",
+  "journal.back": "Назад к журналу",
+  "quest.main": "основное",
+  "quest.side": "побочное",
 
   // how to play
   "how.title": "Как играть",
