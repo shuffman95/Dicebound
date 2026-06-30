@@ -50,11 +50,27 @@ test("every translated story node is fully Russian — title, text and all choic
   setLocale("en");
 });
 
-test("untranslated nodes fall back to English text (never blank)", () => {
+test("the entire story script is translated — no node falls back to English", () => {
   setLocale("ru");
-  // a node not yet in the batch still returns usable (English) strings
-  const n = localizeStoryNode(NODES["keep3"]);
-  assert.ok(n.title.length > 0 && n.text.length > 0);
-  assert.equal(n.choices.length, NODES["keep3"].choices.length);
+  const missing: string[] = [];
+  for (const id of Object.keys(NODES)) {
+    const en = NODES[id];
+    const ru = localizeStoryNode(en);
+    if (ru.title === en.title && ru.text === en.text) missing.push(id);
+  }
+  setLocale("en");
+  assert.deepEqual(missing, [], `untranslated story nodes: ${missing.join(", ")}`);
+});
+
+test("graceful fallback still works for an unknown node id", () => {
+  setLocale("ru");
+  // a node with no translation entry returns its own (English) strings, unbroken
+  const fake = { id: "__not_a_real_node__", title: "Untranslated", text: "Body", art: "❓",
+    choices: [{ text: "Onward", goto: "intro" }] };
+  const n = localizeStoryNode(fake);
+  assert.equal(n.title, "Untranslated");
+  assert.equal(n.text, "Body");
+  assert.equal(n.choices[0].text, "Onward");
+  assert.equal(n.choices[0].goto, "intro");
   setLocale("en");
 });

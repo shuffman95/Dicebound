@@ -2,6 +2,24 @@
 
 All notable changes to Dicebound: The Hollow Crown.
 
+## [1.11.0] — Russian: the story script is complete (language stage 4e)
+
+### Added
+- **The entire story script is now translated** — the Greyhollow Commons cast
+  (Maren, Pip and Garrow across all three stages, with their evolving dialogue),
+  the reactive epilogue and its reflections, and both endings.
+- A completeness test now asserts **no story node falls back to English** — so the
+  whole narrative, every node and choice, reads in Russian.
+
+### Status
+- The full interactive game, all content data, the lore codex, and the complete
+  story are translated. The only remaining English is a short tail of **transient
+  combat-feedback toasts** (rest/repair/item-use messages), coming next.
+
+### Tests
+- **109 tests total**, all passing; `tsc --noEmit` clean and the smoke run reports
+  zero runtime errors.
+
 ## [1.10.0] — Russian: the optional regions (language stage 4d)
 
 ### Added
