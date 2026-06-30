@@ -2,6 +2,30 @@
 
 All notable changes to Dicebound: The Hollow Crown.
 
+## [0.19.0] — Offline/PWA hardening (Productionize milestone 2)
+
+### Fixed
+- **Installed PWAs were stuck on old builds.** The service worker used a static
+  cache name and a pure cache-first strategy, so once `app.js`/`styles.css` were
+  cached, an installed home-screen copy would never pick up a new release. The
+  cache name is now **stamped with the app version at build time** (single source
+  of truth: `package.json`), so every release installs into a fresh cache and the
+  `activate` step purges the previous one.
+
+### Changed
+- **Update-safe fetch strategy.** Navigations are now **network-first** (an online
+  player always gets the latest deploy, with the cached shell as the offline
+  fallback); other same-origin assets use **stale-while-revalidate** (instant from
+  cache, refreshed in the background). Cross-origin requests are left untouched,
+  and the worker accepts a `SKIP_WAITING` message to take over promptly.
+
+### Tests
+- New service-worker suite asserting the cache is versioned (no static name), the
+  worker is stamped to match `package.json`, the precache lists the app shell, and
+  install/activate/fetch/message handlers behave update-safely — **80 tests total**,
+  all passing; `tsc --noEmit` clean and the Playwright smoke run reports zero
+  runtime errors.
+
 ## [0.18.0] — Accessibility pass (Productionize milestone 1)
 
 ### Added

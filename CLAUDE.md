@@ -25,7 +25,9 @@ Build in small, shippable installments. For each one:
 4. Add/extend tests for the new system (engine unit tests + content-integrity
    checks that ids resolve).
 5. Bump the version (`package.json` + the `VERSION` const in `src/main.ts`),
-   update `CHANGELOG.md`, run `npm run standalone`.
+   update `CHANGELOG.md`, run `npm run standalone`. (`npm run build` auto-stamps
+   the same version into `www/sw.js` so the PWA cache busts on each release —
+   build before committing so the committed `sw.js` stays in sync.)
 6. Commit with a clear message and **push** (this repo is your scope now).
 7. Tell the user what shipped, with the test count, and what's next.
 
@@ -54,8 +56,8 @@ roadmap item below, build it to completion as above, commit/push, and report.
 - `src/main.ts` — screen controller / all DOM UI and input.
 - `test/` — engine + content + smoke tests.
 
-## Status (as of v0.18.0)
-**Done & tested (76 tests):**
+## Status (as of v0.19.0)
+**Done & tested (80 tests):**
 - Foundation: character creation (race/class/background/point-buy/traits), save
   slots + import/export, procedural audio + settings, loot (rarity/affixes/sets/
   durability/repair), deep talent trees (9 nodes/class, ultimates + talent-granted
