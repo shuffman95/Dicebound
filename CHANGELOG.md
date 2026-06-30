@@ -2,6 +2,31 @@
 
 All notable changes to Dicebound: The Hollow Crown.
 
+## [1.1.0] — Localization framework + Russian (language stage 1)
+
+### Added
+- **A Language setting (English / Русский)** in Settings → the game can now be
+  switched to Russian. The choice persists with your other preferences and applies
+  instantly. **English remains the default.**
+- **A localization engine** (`src/engine/i18n.ts`): every UI string resolves
+  through `t(key)` for the active locale, falling back to English (and then the key
+  itself) for anything not yet translated — so the game is never broken while
+  translation is in progress.
+- **Stage 1 Russian translation — the framing screens are fully localized:** the
+  title/main menu, the entire Settings screen, and the How-to-Play guide.
+
+### In progress (staged)
+- This is the first stage of a full Russian localization. Still to come, in
+  installments: character creation & combat UI, then all content (items,
+  abilities, enemies, quests, the lore codex), then the full story script. Until
+  each lands, those strings fall back to English.
+
+### Tests
+- New i18n suite (locale switching, placeholder substitution, English-parity for
+  the translated keys, safe fallback) and the smoke test now switches to Russian,
+  asserts the title localizes, and switches back — **91 tests total**, all passing;
+  `tsc --noEmit` clean and the Playwright smoke run reports zero runtime errors.
+
 ## [1.0.0] — The Hollow Crown (1.0 release)
 
 The first full release. Productionization is complete — accessibility, offline

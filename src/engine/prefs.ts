@@ -3,29 +3,30 @@
 // direct DOM use here so the mapping/serialisation is unit-testable; main.ts owns
 // the actual class application.
 
+import type { Locale } from "./i18n.js";
+
 export interface DisplayPrefs {
   reduceMotion: boolean; // minimise animations & screen transitions
   largeText: boolean; // enlarge the main reading surfaces
   highContrast: boolean; // stronger colours for low light / low vision
   bigTouch: boolean; // taller, easier-to-tap controls
+  locale: Locale; // UI/content language ("en" default)
 }
 
-export type PrefKey = keyof DisplayPrefs;
+// The boolean accessibility toggles (locale is handled separately).
+export type PrefKey = "reduceMotion" | "largeText" | "highContrast" | "bigTouch";
 
 export const DEFAULT_PREFS: DisplayPrefs = {
   reduceMotion: false,
   largeText: false,
   highContrast: false,
   bigTouch: false,
+  locale: "en",
 };
 
-// Labels/help for the settings UI, in display order.
-export const PREF_META: { key: PrefKey; label: string; help: string }[] = [
-  { key: "largeText", label: "Larger text", help: "Bigger, easier-to-read story and menu text." },
-  { key: "highContrast", label: "High contrast", help: "Stronger colours for low light or low vision." },
-  { key: "bigTouch", label: "Large touch targets", help: "Taller buttons that are easier to tap." },
-  { key: "reduceMotion", label: "Reduce motion", help: "Minimise animations and screen transitions." },
-];
+// Accessibility toggles in display order. Their labels/help live in i18n
+// (keys "pref.<key>.label" / "pref.<key>.help") so they localize.
+export const PREF_KEYS: PrefKey[] = ["largeText", "highContrast", "bigTouch", "reduceMotion"];
 
 // Every body class this system may toggle (so the applier can clear them cleanly).
 export const ALL_PREF_CLASSES = ["reduce-motion", "text-large", "high-contrast", "big-touch"];

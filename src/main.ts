@@ -16,7 +16,8 @@ import { generateGear, instanceMods, instanceName, setBonuses, sellValue, buyVal
 import { modifier } from "./engine/dice.js";
 import { describeStatus } from "./engine/combat.js";
 import { audio, SfxName } from "./engine/audio.js";
-import { DisplayPrefs, PrefKey, PREF_META, ALL_PREF_CLASSES, prefsBodyClasses, loadPrefs, savePrefs } from "./engine/prefs.js";
+import { DisplayPrefs, PrefKey, PREF_KEYS, ALL_PREF_CLASSES, prefsBodyClasses, loadPrefs, savePrefs } from "./engine/prefs.js";
+import { Locale, LANGUAGES, t, setLocale } from "./engine/i18n.js";
 
 const app = document.getElementById("app")!;
 const diceLayer = document.getElementById("dice-layer")!;
@@ -117,39 +118,27 @@ function renderTitle() {
         <div class="sub">The Hollow Crown</div>
       </div>
       <div class="title-actions">
-        ${canContinue ? `<button class="btn primary" data-act="continue">Continue</button>` : ""}
-        <button class="btn ${canContinue ? "" : "primary"}" data-act="new-game">New Adventure</button>
-        <button class="btn ghost" data-act="load-game">Load Game</button>
-        <button class="btn ghost" data-act="settings">Settings</button>
-        <button class="btn ghost" data-act="how">How to Play</button>
+        ${canContinue ? `<button class="btn primary" data-act="continue">${t("title.continue")}</button>` : ""}
+        <button class="btn ${canContinue ? "" : "primary"}" data-act="new-game">${t("title.new")}</button>
+        <button class="btn ghost" data-act="load-game">${t("title.load")}</button>
+        <button class="btn ghost" data-act="settings">${t("title.settings")}</button>
+        <button class="btn ghost" data-act="how">${t("title.how")}</button>
       </div>
       <div class="spacer"></div>
       <div class="dim" style="text-align:center;font-size:12px;padding:10px">
-        v${VERSION} · an original turn-based dice RPG — roll d20 + a stat vs a target number.<br>No copyrighted content — all setting, classes & story are original.
+        ${t("title.tagline", { v: VERSION })}
       </div>
     </div>`);
 }
 
-const VERSION = "1.0.0";
+const VERSION = "1.1.0";
 
 function renderHowTo() {
-  openModal("How to Play", `
+  openModal(t("how.title"), `
     <div class="story-text">
-<b>The core roll.</b> Almost everything is a d20 plus an attribute modifier versus a target number. Beat it and you succeed; a natural 20 always hits (and crits for double dice), a natural 1 always misses.
-
-<b>Attributes.</b>
-• <b>Might</b> — melee attack & damage, brawn checks.
-• <b>Agility</b> — defense, finesse strikes, stealth & lockpicking.
-• <b>Wits</b> — arcane attack & damage, lore & perception.
-• <b>Spirit</b> — healing power, Focus pool, resolve.
-
-<b>Combat.</b> Initiative is rolled at the start. On a hero's turn, spend <b>Focus</b> on abilities or use a basic attack for free. Drop every enemy to win; if the whole party falls, it's over (Revive, Phoenix Tears, or the Warden can save a fallen ally).
-
-<b>Story.</b> Choices marked with a stat and DC are dice checks — your best-suited hero rolls. Win fights for XP, gold and loot; spend gold at the apothecary and rest to heal.
-
-<b>Saving.</b> The game autosaves as you travel; use Continue from the title.
+${t("how.body")}
     </div>
-    <div class="row center" style="margin-top:12px"><button class="btn primary small" data-act="close-modal">Got it</button></div>
+    <div class="row center" style="margin-top:12px"><button class="btn primary small" data-act="close-modal">${t("common.gotIt")}</button></div>
   `);
 }
 
@@ -995,6 +984,7 @@ function onClick(ev: Event) {
     case "audio-toggle": { const k = d.key as "muted"; audio.toggleMute(); openSettings(); break; }
     case "audio-test": sfx("ability"); break;
     case "pref-toggle": { togglePref(d.key as PrefKey); openSettings(); break; }
+    case "set-locale": { setAppLocale(d.lang as Locale); renderTitle(); openSettings(); break; }
   }
 }
 
@@ -1120,23 +1110,28 @@ function slider(label: string, key: "master" | "music" | "sfx", val: number): st
 }
 function openSettings() {
   const s = audio.settings;
-  openModal("Settings", `
-    <h3 style="color:var(--gold)">Audio</h3>
+  openModal(t("settings.title"), `
+    <h3 style="color:var(--gold)">${t("settings.language")}</h3>
     <div class="set-list">
-      <div class="set-row"><span>Mute all</span>
-        <button class="btn small ${s.muted ? "primary" : "ghost"}" data-act="audio-toggle" data-key="muted">${s.muted ? "Muted" : "On"}</button>
-        <button class="btn small ghost" data-act="audio-test">Test ♪</button></div>
-      ${slider("Master", "master", s.master)}
-      ${slider("Music", "music", s.music)}
-      ${slider("Effects", "sfx", s.sfx)}
+      <div class="set-row"><span>${t("settings.language")}</span>
+        <div class="row" style="gap:6px">${LANGUAGES.map((l) => `<button class="btn small ${prefs.locale === l.id ? "primary" : "ghost"}" data-act="set-locale" data-lang="${l.id}">${esc(l.label)}</button>`).join("")}</div></div>
     </div>
-    <div class="dim" style="font-size:12px;margin-top:10px">All music and sound effects are generated in real time — no audio files. If you hear nothing on iPhone, tap once anywhere first (Safari requires a tap before audio can start).</div>
-    <h3 style="color:var(--gold);margin-top:16px">Display &amp; Accessibility</h3>
+    <h3 style="color:var(--gold);margin-top:16px">${t("settings.audio")}</h3>
     <div class="set-list">
-      ${PREF_META.map((m) => `<div class="set-row"><span>${esc(m.label)}<div class="dim" style="font-size:11px">${esc(m.help)}</div></span>
-        <button class="btn small ${prefs[m.key] ? "primary" : "ghost"}" data-act="pref-toggle" data-key="${m.key}">${prefs[m.key] ? "On" : "Off"}</button></div>`).join("")}
+      <div class="set-row"><span>${t("settings.muteAll")}</span>
+        <button class="btn small ${s.muted ? "primary" : "ghost"}" data-act="audio-toggle" data-key="muted">${s.muted ? t("settings.muted") : t("settings.on")}</button>
+        <button class="btn small ghost" data-act="audio-test">${t("settings.test")}</button></div>
+      ${slider(t("settings.master"), "master", s.master)}
+      ${slider(t("settings.music"), "music", s.music)}
+      ${slider(t("settings.effects"), "sfx", s.sfx)}
     </div>
-    <div class="row center" style="margin-top:14px"><button class="btn primary small" data-act="close-modal">Done</button></div>
+    <div class="dim" style="font-size:12px;margin-top:10px">${t("settings.audioNote")}</div>
+    <h3 style="color:var(--gold);margin-top:16px">${t("settings.display")}</h3>
+    <div class="set-list">
+      ${PREF_KEYS.map((key) => `<div class="set-row"><span>${esc(t(`pref.${key}.label`))}<div class="dim" style="font-size:11px">${esc(t(`pref.${key}.help`))}</div></span>
+        <button class="btn small ${prefs[key] ? "primary" : "ghost"}" data-act="pref-toggle" data-key="${key}">${prefs[key] ? t("settings.on") : t("settings.off")}</button></div>`).join("")}
+    </div>
+    <div class="row center" style="margin-top:14px"><button class="btn primary small" data-act="close-modal">${t("common.done")}</button></div>
   `);
   app.ownerDocument.querySelectorAll<HTMLInputElement>(".vol-slider").forEach((sl) => {
     sl.addEventListener("input", () => {
@@ -1165,6 +1160,16 @@ function togglePref(key: PrefKey) {
   savePrefs(prefs);
   applyPrefs();
 }
+// Apply the stored language to the i18n layer and the document.
+function applyLocale() {
+  setLocale(prefs.locale);
+  document.documentElement.lang = prefs.locale;
+}
+function setAppLocale(loc: Locale) {
+  prefs = { ...prefs, locale: loc };
+  savePrefs(prefs);
+  applyLocale();
+}
 
 // ---- launch splash ----
 // The splash markup ships in the page so it shows instantly before the bundle
@@ -1186,5 +1191,6 @@ function dismissSplash() {
 
 // ---- boot ----
 applyPrefs();
+applyLocale();
 renderTitle();
 dismissSplash();

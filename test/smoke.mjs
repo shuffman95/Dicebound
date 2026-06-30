@@ -69,6 +69,23 @@ await page.locator('[data-act="close-modal"]').first().click();
 await settle(150);
 log("accessibility toggle applied & reverted");
 
+// language: switch to Russian, confirm the title localizes, then switch back.
+await page.locator('[data-act="settings"]').click();
+await settle(150);
+await page.locator('[data-act="set-locale"][data-lang="ru"]').click();
+await settle(150);
+await page.locator('[data-act="close-modal"]').first().click();
+await settle(150);
+const ruText = await page.locator('[data-act="new-game"]').innerText();
+if (!ruText.includes("Новое")) { console.error("\n❌ Russian locale did not apply:", ruText); process.exit(1); }
+await page.locator('[data-act="settings"]').click();
+await settle(150);
+await page.locator('[data-act="set-locale"][data-lang="en"]').click();
+await settle(150);
+await page.locator('[data-act="close-modal"]').first().click();
+await settle(150);
+log("language toggle (en↔ru) verified");
+
 await clickText("New Adventure");
 await settle(300);
 await page.screenshot({ path: path.join(shotDir, "02-setup.png") });
