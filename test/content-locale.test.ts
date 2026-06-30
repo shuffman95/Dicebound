@@ -8,6 +8,7 @@ import { getTrait } from "../src/data/traits.js";
 import { getItem, ITEMS } from "../src/data/items.js";
 import { getEnemy, ENEMIES } from "../src/data/enemies.js";
 import { getQuest, QUESTS } from "../src/data/quests.js";
+import { getAbility, ABILITIES } from "../src/data/abilities.js";
 import { localizeDef } from "../src/data/locale.js";
 
 test("English is unchanged (localization is identity for the default locale)", () => {
@@ -71,6 +72,25 @@ test("every item, enemy and quest is fully translated (no English leaks)", () =>
   for (const id of Object.keys(QUESTS)) {
     const q = getQuest(id)!;
     assert.ok(cyrillic.test(q.name) && cyrillic.test(q.summary) && cyrillic.test(q.objective), `quest ${id}`);
+  }
+  setLocale("en");
+});
+
+test("Russian localizes abilities (names and descriptions), English unchanged", () => {
+  setLocale("ru");
+  assert.equal(getAbility("strike").name, "Удар");
+  assert.ok(getAbility("emberblast").description.includes("Ожог"));
+  setLocale("en");
+  assert.equal(getAbility("strike").name, "Strike");
+});
+
+test("every ability is fully translated (no English leaks)", () => {
+  setLocale("ru");
+  const cyrillic = /[А-Яа-яЁё]/;
+  for (const id of Object.keys(ABILITIES)) {
+    const a = getAbility(id);
+    assert.ok(cyrillic.test(a.name), `ability name ${id}`);
+    assert.ok(cyrillic.test(a.description), `ability desc ${id}`);
   }
   setLocale("en");
 });

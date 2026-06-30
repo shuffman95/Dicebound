@@ -2,6 +2,24 @@
 
 All notable changes to Dicebound: The Hollow Crown.
 
+## [1.4.0] — Russian: abilities (language stage 3b)
+
+### Added
+- **Every ability is now translated** into Russian — all ~75 names and
+  descriptions across the eight classes, talent ultimates/granted actives, and
+  enemy moves. Ability cards in the combat action bar, the talent tree, and the
+  combat log's move names now read in Russian (terms follow the project glossary:
+  Сила/Ловкость/Разум/Дух, Фокус, and the status names).
+
+### In progress (staged)
+- Next: the combat / shop / journal / party **UI chrome** and the combat-log
+  templates; then the lore codex texts and the full story script.
+
+### Tests
+- Content-locale suite extended with a no-English-leaks sweep over every ability —
+  **101 tests total**, all passing; `tsc --noEmit` clean and the smoke run reports
+  zero runtime errors.
+
 ## [1.3.0] — Russian: items, enemies & quests (language stage 3a)
 
 ### Added

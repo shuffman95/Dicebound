@@ -58,8 +58,8 @@ roadmap item below, build it to completion as above, commit/push, and report.
 - `src/main.ts` — screen controller / all DOM UI and input.
 - `test/` — engine + content + smoke tests.
 
-## Status (as of v1.3.0)
-**Done & tested (99 tests):**
+## Status (as of v1.4.0)
+**Done & tested (101 tests):**
 - Foundation: character creation (race/class/background/point-buy/traits), save
   slots + import/export, procedural audio + settings, loot (rarity/affixes/sets/
   durability/repair), deep talent trees (9 nodes/class, ultimates + talent-granted
@@ -98,7 +98,7 @@ via `src/data/locale.ts` `localizeDef(ns, def)` applied inside the getters
 (getClass/getRace/getBackground/getTrait, with getItem/getAbility/getEnemy/
 getQuest/getLore to follow) — English fallback throughout; locale stored in
 `prefs`. **Done:** v1.1.0 title/menu, Settings, How-to-Play; v1.2.0 creation (UI +
-classes/races/backgrounds/traits); v1.3.0 items, enemies, quests (getItem/
+classes/races/backgrounds/traits); v1.3.0 items/enemies/quests; v1.4.0 abilities (getItem/
 getEnemy/getQuest localized). **Next, in order:** (1) ability names+descriptions
 (getAbility already localized — add `ability` entries to `locale.ts`) + combat/
 shop/journal/party UI chrome + combat-log templates in `combat.ts`; (2) lore codex

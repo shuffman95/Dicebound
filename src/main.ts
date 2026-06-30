@@ -131,7 +131,7 @@ function renderTitle() {
     </div>`);
 }
 
-const VERSION = "1.3.0";
+const VERSION = "1.4.0";
 
 function renderHowTo() {
   openModal(t("how.title"), `

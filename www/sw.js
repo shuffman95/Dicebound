@@ -6,7 +6,7 @@
 // Strategy: navigations are network-first (a deployed update is seen immediately
 // when online, with the cached shell as the offline fallback); other same-origin
 // assets are stale-while-revalidate (instant from cache, refreshed in background).
-const VERSION = "1.3.0";
+const VERSION = "1.4.0";
 const CACHE = `dicebound-${VERSION}`;
 const ASSETS = [
   "./",
