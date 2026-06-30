@@ -5,6 +5,12 @@ of four through the rotting kingdom of Aldermoor, resolve branching story choice
 with **d20 + attribute** skill checks, and fight tactical turn-based battles to put
 out the Hollow King's grey crown.
 
+### ▶ Play now: **https://shuffman95.github.io/Dicebound/**
+
+Open that link in **Safari** on an iPhone and tap **Share → Add to Home Screen** to
+install it as a full-screen, offline Progressive Web App. It also runs in any
+desktop or Android browser.
+
 Built to run on handhelds like the **Retroid Pocket 5** as a native Android APK,
 wrapped from an HTML5/TypeScript game with [Capacitor](https://capacitorjs.com/).
 
