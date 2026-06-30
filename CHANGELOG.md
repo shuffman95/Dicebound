@@ -2,6 +2,26 @@
 
 All notable changes to Dicebound: The Hollow Crown.
 
+## [0.18.0] — Accessibility pass (Productionize milestone 1)
+
+### Added
+- **A Display & Accessibility section in Settings**, with four toggles that persist
+  to local storage and apply instantly:
+  - **Larger text** — scales the main reading surfaces (story, choices, lists).
+  - **High contrast** — brighter ink, deeper ground and stronger lines, re-skinned
+    cleanly through the theme's CSS variables.
+  - **Large touch targets** — taller buttons and controls, easier to tap on a phone.
+  - **Reduce motion** — minimises animations/transitions and makes the dice roll
+    near-instant.
+- **Automatic OS respect**: the stylesheet honours `prefers-reduced-motion: reduce`
+  even before any toggle is touched.
+
+### Tests
+- New prefs unit suite (class mapping, settings-row integrity, storage round-trip,
+  graceful fallback) and the **smoke test now drives the High-Contrast toggle on
+  and off**, asserting the `<body>` class follows — **76 tests total**, all passing;
+  `tsc --noEmit` clean and the Playwright smoke run reports zero runtime errors.
+
 ## [0.17.0] — A reactive epilogue (World deepening milestone 3)
 
 ### Added

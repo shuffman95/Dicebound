@@ -1,6 +1,6 @@
 {
   "name": "dicebound",
-  "version": "0.17.0",
+  "version": "0.18.0",
   "private": true,
   "description": "Dicebound: The Hollow Crown - an original turn-based dice RPG",
   "type": "module",

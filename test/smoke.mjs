@@ -50,6 +50,21 @@ await settle(400);
 await page.screenshot({ path: path.join(shotDir, "01-title.png") });
 log("title loaded");
 
+// exercise the accessibility settings: toggle High Contrast on, then off,
+// asserting the <body> class follows each way.
+await clickText("Settings");
+await settle(200);
+await page.locator('[data-key="highContrast"]').click();
+await settle(150);
+const hcOn = await page.evaluate(() => document.body.classList.contains("high-contrast"));
+await page.locator('[data-key="highContrast"]').click();
+await settle(120);
+const hcOff = await page.evaluate(() => document.body.classList.contains("high-contrast"));
+if (!hcOn || hcOff) { console.error("\n❌ accessibility toggle failed:", { hcOn, hcOff }); process.exit(1); }
+await page.locator('[data-act="close-modal"]').first().click();
+await settle(150);
+log("accessibility toggle applied & reverted");
+
 await clickText("New Adventure");
 await settle(300);
 await page.screenshot({ path: path.join(shotDir, "02-setup.png") });

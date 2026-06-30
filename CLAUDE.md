@@ -54,8 +54,8 @@ roadmap item below, build it to completion as above, commit/push, and report.
 - `src/main.ts` — screen controller / all DOM UI and input.
 - `test/` — engine + content + smoke tests.
 
-## Status (as of v0.17.0)
-**Done & tested (70 tests):**
+## Status (as of v0.18.0)
+**Done & tested (76 tests):**
 - Foundation: character creation (race/class/background/point-buy/traits), save
   slots + import/export, procedural audio + settings, loot (rarity/affixes/sets/
   durability/repair), deep talent trees (9 nodes/class, ultimates + talent-granted
@@ -83,8 +83,9 @@ roadmap item below, build it to completion as above, commit/push, and report.
    storytelling, reputation-flavored choices.
 3. **Productionize to v1.0** — polished release build: splash screens, clean
    project structure, accessibility pass (font sizes, contrast, larger touch
-   targets, reduced-motion), perf/offline hardening, final QA sweep (verify
-   every quest, item, class, boss, save/load, install). No debug code.
+   targets, reduced-motion) — **done in v0.18.0 (Settings → Display & Accessibility)**;
+   still to do: perf/offline hardening, final QA sweep (verify every quest, item,
+   class, boss, save/load, install). No debug code.
 
 Treat this as heading toward a paid-quality indie RPG 1.0. Quality and stability
 over raw volume; depth and systems that interact.

@@ -16,6 +16,7 @@ import { generateGear, instanceMods, instanceName, setBonuses, sellValue, buyVal
 import { modifier } from "./engine/dice.js";
 import { describeStatus } from "./engine/combat.js";
 import { audio, SfxName } from "./engine/audio.js";
+import { DisplayPrefs, PrefKey, PREF_META, ALL_PREF_CLASSES, prefsBodyClasses, loadPrefs, savePrefs } from "./engine/prefs.js";
 
 const app = document.getElementById("app")!;
 const diceLayer = document.getElementById("dice-layer")!;
@@ -89,7 +90,7 @@ async function showDice(d: NonNullable<LogEntry["dice"]>) {
   const verdict = d.crit ? "CRITICAL!" : d.fumble ? "FUMBLE!" : d.hit ? "Hit!" : "Miss";
   diceCaption.textContent = `d20 ${d.d20} ${d.bonus >= 0 ? "+" : ""}${d.bonus} = ${d.total}  vs  ${d.target}  ·  ${verdict}`;
   diceLayer.classList.remove("hidden");
-  await raceTapOrDelay(d.crit || d.fumble ? 950 : 650);
+  await raceTapOrDelay(prefs.reduceMotion ? 200 : d.crit || d.fumble ? 950 : 650);
   diceLayer.classList.add("hidden");
 }
 function raceTapOrDelay(ms: number) {
@@ -129,7 +130,7 @@ function renderTitle() {
     </div>`);
 }
 
-const VERSION = "0.17.0";
+const VERSION = "0.18.0";
 
 function renderHowTo() {
   openModal("How to Play", `
@@ -993,6 +994,7 @@ function onClick(ev: Event) {
     case "import-save": importSavePrompt(); break;
     case "audio-toggle": { const k = d.key as "muted"; audio.toggleMute(); openSettings(); break; }
     case "audio-test": sfx("ability"); break;
+    case "pref-toggle": { togglePref(d.key as PrefKey); openSettings(); break; }
   }
 }
 
@@ -1129,6 +1131,11 @@ function openSettings() {
       ${slider("Effects", "sfx", s.sfx)}
     </div>
     <div class="dim" style="font-size:12px;margin-top:10px">All music and sound effects are generated in real time — no audio files. If you hear nothing on iPhone, tap once anywhere first (Safari requires a tap before audio can start).</div>
+    <h3 style="color:var(--gold);margin-top:16px">Display &amp; Accessibility</h3>
+    <div class="set-list">
+      ${PREF_META.map((m) => `<div class="set-row"><span>${esc(m.label)}<div class="dim" style="font-size:11px">${esc(m.help)}</div></span>
+        <button class="btn small ${prefs[m.key] ? "primary" : "ghost"}" data-act="pref-toggle" data-key="${m.key}">${prefs[m.key] ? "On" : "Off"}</button></div>`).join("")}
+    </div>
     <div class="row center" style="margin-top:14px"><button class="btn primary small" data-act="close-modal">Done</button></div>
   `);
   app.ownerDocument.querySelectorAll<HTMLInputElement>(".vol-slider").forEach((sl) => {
@@ -1146,5 +1153,19 @@ function openSettings() {
 function unlockAudio() { audio.unlock(); }
 document.body.addEventListener("pointerdown", unlockAudio, { once: false });
 
+// ---- display & accessibility preferences ----
+let prefs: DisplayPrefs = loadPrefs();
+function applyPrefs() {
+  const body = document.body;
+  body.classList.remove(...ALL_PREF_CLASSES);
+  body.classList.add(...prefsBodyClasses(prefs));
+}
+function togglePref(key: PrefKey) {
+  prefs = { ...prefs, [key]: !prefs[key] };
+  savePrefs(prefs);
+  applyPrefs();
+}
+
 // ---- boot ----
+applyPrefs();
 renderTitle();

@@ -235,3 +235,51 @@ h1, h2, h3 { font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif
 .center-col { display: flex; flex-direction: column; align-items: center; gap: 12px; }
 .big-emoji { font-size: 56px; }
 .lvlup { color: var(--gold); font-weight: 700; }
+
+/* =====================================================================
+   Accessibility / display preferences
+   Toggled from Settings; applied as <body> classes by main.ts. The
+   prefers-reduced-motion block also honours the OS setting automatically.
+   ===================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+}
+body.reduce-motion *, body.reduce-motion *::before, body.reduce-motion *::after {
+  animation-duration: .001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: .001ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* Larger text — scale the main reading surfaces (narrative, choices, lists). */
+body.text-large { font-size: 18px; }
+body.text-large .story-text { font-size: 1.07em; line-height: 1.7; }
+body.text-large .btn { font-size: 17px; }
+body.text-large .btn.small { font-size: 15px; }
+body.text-large .idesc, body.text-large .ability-btn .ad { font-size: 13px; line-height: 1.4; }
+body.text-large .ability-btn .an { font-size: 15px; }
+
+/* High contrast — brighten ink, deepen ground, strengthen lines (all themed
+   through CSS variables, so this re-skins the whole UI cleanly). */
+body.high-contrast {
+  --ink: #ffffff;
+  --ink-dim: #ded5e8;
+  --gold: #ffd479;
+  --gold-dim: #b48a3a;
+  --bg: #000000;
+  --bg2: #0b0810;
+  --panel: #15101e;
+  --panel2: #1f1731;
+  --line: #6b5b82;
+}
+body.high-contrast .story-text { color: #ffffff; }
+
+/* Large touch targets — taller controls for easier tapping. */
+body.big-touch .btn { min-height: 54px; }
+body.big-touch .btn.small { min-height: 44px; padding: 11px 14px; }
+body.big-touch .ability-btn { min-height: 50px; }
+body.big-touch .set-row .btn.small { min-height: 40px; }
