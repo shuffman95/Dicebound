@@ -2,6 +2,23 @@
 
 All notable changes to Dicebound: The Hollow Crown.
 
+## [1.10.0] — Russian: the optional regions (language stage 4d)
+
+### Added
+- **Both optional regions are now translated** — the **Rimewood** (Hesken, the
+  frozen trail and cache, the Pale Grove, and the Hoarfrost Knight) and the
+  **Blightfen** (Sedge, the sunken causeway and drowned stillroom, the spore
+  pools, and the Rotcrowned / Mother Wyste) — plus the Reed Mother find on the
+  Sunken Road.
+
+### In progress (staged)
+- Last story batch: the Greyhollow Commons cast (Maren/Pip/Garrow across the three
+  stages) and the epilogue/endings. Plus a short tail of transient combat toasts.
+
+### Tests
+- **108 tests**, all passing (the translated-node guard now covers the regions
+  too); `tsc --noEmit` clean and the smoke run reports zero runtime errors.
+
 ## [1.9.0] — Russian: Drowned Chapel & Ashen Keep (language stage 4c)
 
 ### Added
