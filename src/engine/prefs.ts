@@ -46,7 +46,12 @@ const KEY = "dicebound:prefs:v1";
 export function loadPrefs(): DisplayPrefs {
   try {
     const raw = (globalThis as { localStorage?: Storage }).localStorage?.getItem(KEY);
-    if (raw) return { ...DEFAULT_PREFS, ...(JSON.parse(raw) as Partial<DisplayPrefs>) };
+    if (raw) {
+      const merged = { ...DEFAULT_PREFS, ...(JSON.parse(raw) as Partial<DisplayPrefs>) };
+      // Guard against an unknown/corrupt stored locale — English is the default.
+      if (merged.locale !== "en" && merged.locale !== "ru") merged.locale = "en";
+      return merged;
+    }
   } catch { /* corrupt or unavailable storage — fall back to defaults */ }
   return { ...DEFAULT_PREFS };
 }

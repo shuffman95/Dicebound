@@ -2,6 +2,16 @@
 
 All notable changes to Dicebound: The Hollow Crown.
 
+## [1.2.1] — Ensure English is the default language
+
+### Fixed / hardened
+- Confirmed and locked that **a first-time visitor always loads in English** (the
+  smoke test now asserts the fresh, no-saved-prefs menu is English before any
+  interaction). The language only becomes Russian if you explicitly choose it,
+  which is then remembered.
+- `loadPrefs` now coerces an unknown/corrupt stored locale back to English, so a
+  bad saved value can never strand the UI in another language.
+
 ## [1.2.0] — Russian: character creation (language stage 2)
 
 ### Added

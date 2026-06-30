@@ -54,6 +54,11 @@ await settle(300);
 await page.screenshot({ path: path.join(shotDir, "01-title.png") });
 log("title loaded");
 
+// a brand-new visitor (no saved prefs) must see English by default.
+const freshMenu = await page.locator('[data-act="new-game"]').innerText();
+if (!/New Adventure/.test(freshMenu)) { console.error("\n❌ default language is not English on a fresh load:", freshMenu); process.exit(1); }
+log("fresh default is English");
+
 // exercise the accessibility settings: toggle High Contrast on, then off,
 // asserting the <body> class follows each way.
 await clickText("Settings");

@@ -46,3 +46,16 @@ test("preferences (including locale) round-trip through storage", () => {
 test("loadPrefs falls back to defaults when storage is unavailable", () => {
   assert.deepEqual(loadPrefs(), DEFAULT_PREFS);
 });
+
+test("a corrupt/unknown stored locale is coerced back to English", () => {
+  const store = new Map<string, string>([["dicebound:prefs:v1", JSON.stringify({ locale: "xx" })]]);
+  (globalThis as unknown as { localStorage: Storage }).localStorage = {
+    getItem: (k: string) => (store.has(k) ? store.get(k)! : null),
+    setItem: () => {}, removeItem: () => {}, clear: () => {}, key: () => null, length: 0,
+  };
+  try {
+    assert.equal(loadPrefs().locale, "en");
+  } finally {
+    delete (globalThis as unknown as { localStorage?: Storage }).localStorage;
+  }
+});
