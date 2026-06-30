@@ -46,6 +46,22 @@ export const LORE: Record<string, LoreDef> = {
     id: "the-candlewright", title: "Wick the Candlewright",
     text: "Wick lit Greyhollow's winters for thirty years; no hearth in the waystation was ever cold while she had wax and wick to spare. The Hollowing took her in the Ashen Keep, and left her there in a side cell, trying with grey and clumsy fingers to coax a flame from a candle long guttered out — chasing, even hollowed, the one thing she had always been. The Wardens gave her the only light left to give. They set the cold candle back in her hands when it was done.",
   },
+  "primer-of-aldermoor": {
+    id: "primer-of-aldermoor", title: "A Child's Primer of Aldermoor",
+    text: "A water-warped picture-book, taught to every child once. 'Aldermoor is a green kingdom of five holds: Greyhollow on the moor, Drowncross in the marsh, Ashreach under the keep, and Rimehold and Sablefen at the wild edges. Its rivers run to the Cold Sea; its barrows hold its kings. Be kind to the old roads, for they remember your feet.' Someone has crossed out 'green' in a child's heavy hand and written, simply, 'gray now.'",
+  },
+  "greyhollow-ledger": {
+    id: "greyhollow-ledger", title: "The Greyhollow Ledger",
+    text: "The waystation's account book, kept in a careful merchant's hand and then, abruptly, in Maren's. The early pages tally caravans: salt and wool north, ironwork and candles south, a tax of one night's lodging owed to the road. The later pages tally other things — sacks of seed-corn that came up ash, the date the last caravan failed to arrive, and a list of names with no ledger-column at all, only the word 'south' beside each.",
+  },
+  "the-last-almanac": {
+    id: "the-last-almanac", title: "The Last Almanac",
+    text: "A farmer's almanac, its weather-lore failing page by page. 'First frost on the old date,' reads an early entry, then: 'no thaw though the date is past,' then 'the wheat stood green and would not ripen,' and at the last, in a different and shakier hand, 'there is no season now but the grey one. I plant nothing. I am sorry. Whoever reads this — the seed is in the dry crock by the door. Try, if the rot ever lifts. Try.'",
+  },
+  "warden-field-notes": {
+    id: "warden-field-notes", title: "Field-Notes of a Warden",
+    text: "A slim, oilcloth-wrapped book of a Warden's working craft. 'The hollowed are not enemies; they are the bereaved, wearing the dead. Where you can, lay them down gently — name them, if you know the name. Salt and fire for the badly turned; a kind word and a steady hand for the rest. We do not win against the Hollowing. We refuse it, one body and one name at a time, and we teach the next Oath to refuse it after us.'",
+  },
   "the-grey-crown": {
     id: "the-grey-crown", title: "The Grey Crown",
     text: "Cold iron, beaten thin, set with no jewel — a pauper's crown for the proudest king. They say he forged it himself in his last madness, to 'hold the kingdom together when I am gone.' It holds, after a fashion. It holds everything it touches in grey, patient quiet.",

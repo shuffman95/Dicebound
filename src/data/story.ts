@@ -25,6 +25,7 @@ export const NODES: Record<string, StoryNode> = {
       { text: "Ask Maren about the folk who fled south", goto: "town1_missing", hideIfFlag: "q_unhollowed" },
       { text: "Forage the waystation for moonherb", gather: true, effects: { giveItems: ["mat-moonherb", "mat-moonherb"], setFlag: "gather_town1" }, hideIfFlag: "gather_town1" },
       { text: "Rest at the stable — heal the party (20 gold)", rest: true },
+      { text: "Sit with the survivors a while", goto: "commons1" },
       { text: "Take the Sunken Road south", goto: "road1" },
     ],
   },
@@ -149,6 +150,7 @@ export const NODES: Record<string, StoryNode> = {
       { text: "Rest at the stable — heal the party (20 gold)", rest: true },
       { text: "Brave the Rimewood (optional)", goto: "rime_enter" },
       { text: "Descend into the Blightfen (optional)", goto: "fen_enter" },
+      { text: "Sit with the survivors a while", goto: "commons2" },
       { text: "Travel to the Drowned Chapel", goto: "chapel1" },
     ],
   },
@@ -245,6 +247,7 @@ export const NODES: Record<string, StoryNode> = {
     choices: [
       { text: "Visit the apothecary (Shop)", shop: true },
       { text: "Rest at the stable — heal the party (20 gold)", rest: true },
+      { text: "Sit with the survivors a while", goto: "commons3" },
       { text: "March on the Ashen Keep", goto: "keep1" },
     ],
   },
@@ -495,6 +498,112 @@ export const NODES: Record<string, StoryNode> = {
       "The crown of mushrooms blackens and falls, and Mother Wyste with it — only an old woman again, at the last, and at rest. The Mirecrown Scepter she carried still hums with the half-thing she nearly made. The spore-light thins; somewhere a frog, the first living thing in a season, dares to call. Sedge will want to know.",
     onEnter: { xp: 45, completeQuest: "blighted-roots" },
     choices: [{ text: "Return to Greyhollow", goto: "town2" }],
+  },
+
+  // ===================== Greyhollow — survivors & books =====================
+  // A living hub: the same people, met across three stages of the campaign, whose
+  // talk evolves as the Hollowing is pushed back. Reading the salvaged shelf adds
+  // codex entries (read them in the Journal). Pure world-building — no gates block
+  // the road on; the one gift is optional and one-time.
+  commons1: {
+    id: "commons1",
+    title: "Greyhollow Commons",
+    art: "🔥",
+    text:
+      "Around the peat fire, what's left of Greyhollow makes room for you. There isn't much warmth to share, but they share it anyway. A soot-smudged child watches you with enormous eyes; a lamed man by the wall pointedly does not.",
+    choices: [
+      { text: "Talk with Maren the apothecary", goto: "maren_a" },
+      { text: "Crouch to talk with the child", goto: "pip_a" },
+      { text: "Sit by the lamed guardsman", goto: "garrow_a" },
+      { text: "Read: A Child's Primer of Aldermoor", effects: { unlockLore: "primer-of-aldermoor", setFlag: "read_primer" }, hideIfFlag: "read_primer" },
+      { text: "Read: The Greyhollow Ledger", effects: { unlockLore: "greyhollow-ledger", setFlag: "read_ledger" }, hideIfFlag: "read_ledger" },
+      { text: "Rejoin the fire later", goto: "town1" },
+    ],
+  },
+  maren_a: {
+    id: "maren_a", title: "Maren", art: "⚗️",
+    text:
+      "Maren works a pestle without looking up. 'You want to know if we'll hold till you've done your part. We won't — not all of us. But some will, and that's more than yesterday's arithmetic allowed.' She nods south. 'Don't carry us in your head out there. Carry the work. Come back if you can.'",
+    choices: [{ text: "Step away", goto: "commons1" }],
+  },
+  pip_a: {
+    id: "pip_a", title: "Pip", art: "🧒",
+    text:
+      "The child — Pip, someone calls her — sidles close. 'Are you really Wardens? Da said Wardens were just a story, to make us brave.' A beat. 'Is it working? The being brave?' She doesn't wait for an answer, only grips your hand a moment, then bolts back to the fire, satisfied.",
+    choices: [{ text: "Stand up", goto: "commons1" }],
+  },
+  garrow_a: {
+    id: "garrow_a", title: "Garrow", art: "🪨",
+    text:
+      "The lamed man is Garrow; he kept this gate before his leg gave out. He won't meet your eye. 'Marched, did you. Walked right in where the rest of us ran.' He spits into the coals. 'Don't mind me. I'd come, if the leg let me — and we'd both know I was lying.'",
+    choices: [{ text: "Leave him to the fire", goto: "commons1" }],
+  },
+
+  commons2: {
+    id: "commons2",
+    title: "Greyhollow Commons",
+    art: "🔥",
+    text:
+      "Word of the Warden's fall reached the fire ahead of you. The room is no warmer, but the silence in it has changed — it is listening now, instead of only waiting. Garrow's old patrol-charm hangs on the nail by the door.",
+    choices: [
+      { text: "Talk with Maren", goto: "maren_b" },
+      { text: "Talk with Pip", goto: "pip_b" },
+      { text: "Talk with Garrow", goto: "garrow_b" },
+      { text: "Take Garrow's patrol-charm from the nail", effects: { giveItems: ["trk-warding-eye"], setFlag: "garrow_charm" }, hideIfFlag: "garrow_charm" },
+      { text: "Read: The Last Almanac", effects: { unlockLore: "the-last-almanac", setFlag: "read_almanac" }, hideIfFlag: "read_almanac" },
+      { text: "Rejoin the fire later", goto: "town2" },
+    ],
+  },
+  maren_b: {
+    id: "maren_b", title: "Maren", art: "⚗️",
+    text:
+      "'You put down the thing on the road,' Maren says. 'Folk are saying the mist thinned for an hour. Maybe it did.' She tucks a fresh salve into your pack, unasked. 'Hope's a tool like any other. Don't let it go dull on you. But don't throw it out, either.'",
+    choices: [{ text: "Step away", goto: "commons2" }],
+  },
+  pip_b: {
+    id: "pip_b", title: "Pip", art: "🧒",
+    text:
+      "Pip has appointed herself your herald. 'I told everyone you'd win. I TOLD them.' Then, suddenly grave in the way only children manage: 'You're going further, though. To the bad chapel. Will you still come back?' You tell her you'll try. She decides, firmly, that this is a yes.",
+    choices: [{ text: "Stand up", goto: "commons2" }],
+  },
+  garrow_b: {
+    id: "garrow_b", title: "Garrow", art: "🪨",
+    text:
+      "Garrow very nearly looks at you. 'Heard what you did.' A long pause — the nearest thing he has to an apology. 'My patrol-charm's on the nail. Did me no good, but it's good iron. Take it when you go, and don't make a thing of it.' He turns back to the coals before you can.",
+    choices: [{ text: "Leave him to the fire", goto: "commons2" }],
+  },
+
+  commons3: {
+    id: "commons3",
+    title: "Greyhollow Commons — The Last Night",
+    art: "🔥",
+    text:
+      "Everyone knows what marching on the Keep means. The fire is banked high tonight, as though warmth could be stored against tomorrow. They have saved you the best places by the coals.",
+    choices: [
+      { text: "Talk with Maren", goto: "maren_c" },
+      { text: "Talk with Pip", goto: "pip_c" },
+      { text: "Talk with Garrow", goto: "garrow_c" },
+      { text: "Read: Field-Notes of a Warden", effects: { unlockLore: "warden-field-notes", setFlag: "read_fieldnotes" }, hideIfFlag: "read_fieldnotes" },
+      { text: "Rejoin the fire later", goto: "town3" },
+    ],
+  },
+  maren_c: {
+    id: "maren_c", title: "Maren", art: "⚗️",
+    text:
+      "Maren takes your hands in both of hers, which she has never done. 'Whatever's up there wearing the old king — it was a person once. Same as the things you've laid down on the way.' Her grip tightens. 'Remember that. Not to spare it. So that you don't lose yourself doing what's needful.' She lets go. 'Now go on. I've patients.'",
+    choices: [{ text: "Step away", goto: "commons3" }],
+  },
+  pip_c: {
+    id: "pip_c", title: "Pip", art: "🧒",
+    text:
+      "Pip presses something into your palm: a smooth pebble, painted with a lopsided yellow sun. 'It's a luck. I made it myself.' Her bravery wobbles, then holds. 'When you put out the bad crown, the green comes back. Da said. So you have to — so the green comes back.' You promise. It is the easiest and the hardest promise you have ever made.",
+    choices: [{ text: "Close your hand around it", goto: "commons3" }],
+  },
+  garrow_c: {
+    id: "garrow_c", title: "Garrow", art: "🪨",
+    text:
+      "Garrow is standing when you find him — upright on the bad leg by sheer stubbornness. 'Can't march. So I'll hold the door here till you're back — or till I'm not.' He clasps your forearm, a soldier's grip, fierce and brief. 'Put it out, Warden. For them as ran, and them as stayed.' Then he sits, hard, and watches the fire, and says nothing more.",
+    choices: [{ text: "Leave him the watch", goto: "commons3" }],
   },
 
   ending_victory: {

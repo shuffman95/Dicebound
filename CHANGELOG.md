@@ -2,6 +2,32 @@
 
 All notable changes to Dicebound: The Hollow Crown.
 
+## [0.15.0] — Greyhollow comes alive (World deepening milestone 1)
+
+### Added
+- **Greyhollow is now a living hub.** A new "Sit with the survivors" option at all
+  three town stages opens a **Commons** where you can talk with a recurring cast —
+  **Maren** the apothecary, **Pip** the child, and **Garrow** the lamed guardsman —
+  whose dialogue **evolves with the campaign**: fearful when you arrive, cautiously
+  hopeful after the Warden of Thorns falls, and steeled on the last night before
+  the Ashen Keep.
+- **Readable salvaged books** — a small shelf you can read at the fire, adding four
+  new codex entries that flesh out Aldermoor (*A Child's Primer of Aldermoor*, *The
+  Greyhollow Ledger*, *The Last Almanac*, *Field-Notes of a Warden*). Reading marks
+  each as read so the shelf stays tidy.
+- **One optional, one-time gift** — Garrow's patrol-charm (a Warding Eye trinket)
+  for those who stop to listen — gated by a flag so it can't be farmed.
+
+### Notes
+- Pure world-building: nothing here gates the main road, and all dialogue/reading
+  is flag-tracked so it persists correctly across save/load.
+
+### Tests
+- New Greyhollow suite: town↔commons wiring, the full cast present and routed at
+  every stage, book-reading codex unlocks, and the one-time charm gift — **63 tests
+  total**, all passing; `tsc --noEmit` clean and the Playwright smoke run reports
+  zero runtime errors.
+
 ## [0.14.0] — The Unhollowed (Content fill: secrets in the main campaign)
 
 ### Added
